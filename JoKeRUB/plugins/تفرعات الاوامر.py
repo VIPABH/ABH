@@ -714,5 +714,5 @@ async def _(event):
 async def _(event):
      if not event.text[0].isalpha() and event.text[0] not in ("/", "#", "@", "!"):
         await event.edit(
-		"[ مجموعتي](t.me/V2V5V) \n [حَـافـر](t.me/x04ou) \n [channel](t.me/sszxl) \n [مستفهم](t.me/EHIEX) \n [موؤل](t.me/iamMUAOL) \n ENJOY وردة"
+		"1-[ مجموعتي](t.me/V2V5V) \n 2-[حَـافـر](t.me/x04ou) \n 3-[channel](t.me/sszxl) \n 4-[مستفهم](t.me/EHIEX) \n 5-[موؤل](t.me/iamMUAOL) \n ENJOY وردة"
 	)
