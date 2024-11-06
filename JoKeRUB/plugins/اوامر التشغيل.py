@@ -29,9 +29,9 @@ JOKRDEV = [1910015590, 1910015590]
 
 async def aljoker_4ever():
     BRANCH = "HuRe"
-    REPO = "yamosa"
+    REPO = "abh"
     if REPO:
-        await _catutils.runcmd(f"git clone -b {BRANCH} https://github.com/almul8ab/{REPO}.git TempCat")
+        await _catutils.runcmd(f"git clone -b {BRANCH} https://github.com/vipabh/{REPO}.git TempCat")
         file_list = os.listdir("TempCat")
         for file in file_list:
             await _catutils.runcmd(f"rm -rf {file}")
