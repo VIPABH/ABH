@@ -132,6 +132,7 @@ async def set_group_photo(event):  # sourcery no-metrics
             f"الدردشه: {event.chat.title}(`{event.chat_id}`)",
         )
 
+
 @l313l.ar_cmd(
     pattern="لقب(?:\s|$)([\s\S]*)",
     command=("لقب", plugin_category),
@@ -150,7 +151,7 @@ async def set_group_photo(event):  # sourcery no-metrics
 async def promote(event):
     "᯽︙ لـرفع مستـخدم مشـرف في الـكروب"
     new_rights = ChatAdminRights(
-         add_admins=False,
+        add_admins=False,
         invite_users=True,
         change_info=False,
         ban_users=False,
@@ -160,9 +161,10 @@ async def promote(event):
         post_stories=True,
         edit_stories=True,
         delete_stories=True
+    )
     user, rank = await get_user_from_event(event)
     if not rank:
-        rank = "︎ ︎ ︎ ︎ ︎ ︎ ︎ ︎"
+        rank = "︎ ︎ ︎ ︎ ︎ ︎"
     if not user:
         return
     catevent = await edit_or_reply(event, "**يـتم الرفـع**")
