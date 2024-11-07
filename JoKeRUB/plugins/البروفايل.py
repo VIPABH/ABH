@@ -229,8 +229,8 @@ async def remove_profilepic(delpfp):
 
 
 @l313l.ar_cmd(
-    pattern="انشائي$",
-    command=("انشائي", plugin_category),
+    pattern="قنواتي$",
+    command=("قنواتي", plugin_category),
     info={
         "header": "To list public channels or groups created by this account.",
         "usage": "{tr}myusernames",
@@ -246,4 +246,3 @@ async def _(event):
     )
     await edit_or_reply(event, output_str)
 
-#ملف البروفايل خاص بقناة الجوكر
