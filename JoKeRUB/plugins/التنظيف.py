@@ -88,6 +88,52 @@ async def delete_it(event):
     elif not input_str:
         await event.delete()
 
+@l313l.ar_cmd(
+    pattern="م(\s*| \d+)$",
+    command=("م", plugin_category),
+    info={
+        "header": "To delete replied message.",
+        "description": "Deletes the message you replied to in x(count) seconds if count is not used then deletes immediately",
+        "usage": ["{tr}del <time in seconds>", "{tr}del"],
+        "examples": "{tr}del 2",
+    },
+)
+async def delete_it(event):
+    "To delete replied message."
+    input_str = event.pattern_match.group(1).strip()
+    msg_src = await event.get_reply_message()
+    if msg_src:
+        if input_str and input_str.isnumeric():
+            await event.delete()
+            await sleep(int(input_str))
+            try:
+                await msg_src.delete()
+                if BOTLOG:
+                    await event.client.send_message(
+                        BOTLOG_CHATID, "#الـمسـح \n ᯽︙ تـم حـذف الـرسالة بـنجاح"
+                    )
+            except rpcbaseerrors.BadRequestError:
+                if BOTLOG:
+                    await event.client.send_message(
+                        BOTLOG_CHATID,
+                        "᯽︙ لا يمـكنني الـحذف احـتاج صلاحيـات الادمـن",
+                    )
+        elif input_str:
+            if not input_str.startswith("var"):
+                await edit_or_reply(event, "᯽︙ عـذرا الـرسالة غيـر موجـودة")
+        else:
+            try:
+                await msg_src.delete()
+                await event.delete()
+                if BOTLOG:
+                    await event.client.send_message(
+                        BOTLOG_CHATID, "#الـمسـح \n ᯽︙ تـم حـذف الـرسالة بـنجاح"
+                    )
+            except rpcbaseerrors.BadRequestError:
+                await edit_or_reply(event, "᯽︙ عـذرا الـرسالة لا استـطيع حـذفها")
+    elif not input_str:
+        await event.delete()
+
 
 @l313l.ar_cmd(
     pattern="مسح رسائلي$",
