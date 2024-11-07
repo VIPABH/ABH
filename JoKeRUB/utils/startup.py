@@ -94,7 +94,7 @@ async def startupmessage():
         if BOTLOG:
             Config.CATUBLOGO = await l313l.tgbot.send_file(
                 BOTLOG_CHATID,
-                "https://t.me/VIPABH/1111",
+                "https://t.me/VIPABH/1187",
                 caption="**‏᯽︙ بــوت الجوكر يـعـمـل بـنـجـاح ✓ \n᯽︙ أرسل `.الاوامر`لرؤية اوامر السورس \n  ᯽︙ لأستعمال بوت الأختراق عبر كود التيرمكس أرسل`.هاك`**",
                 buttons=[(Button.url("ابـ،ـن،هـ.ـاشـ.ـم ✘", "https://t.me/k_4x1"),)],
             )
