@@ -1,3 +1,16 @@
+import asyncio
+import random
+import re
+import json
+import base64
+from telethon.tl.functions.messages import ImportChatInviteRequest as Get
+from asyncio.exceptions import TimeoutError
+from telethon import events
+from ..sql_helper.memes_sql import get_link, add_link, delete_link, BASE, SESSION, AljokerLink
+from telethon.errors.rpcerrorlist import YouBlockedUserError
+#ياقائم آل محمد
+from JoKeRUB import l313l
+from ..helpers.utils import reply_id
 
 @l313l.on(admin_cmd(outgoing=True, pattern=r"ميمز (\S+) (.+)"))
 async def Hussein(event):
