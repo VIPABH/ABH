@@ -83,9 +83,7 @@ async def startup_process():
     print("➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖")
     print("᯽︙بـوت الجوكر يعـمل بـنجاح ")
     print(
-        f"تم تشغيل الانلاين تلقائياً ارسل {cmdhr}الاوامر لـرؤيـة اوامر السورس\
-        \nللمسـاعدة تواصـل  https://t.me/JepthonSupport"
-    )
+        f"تم تشغيل الانلاين تلقائياً ارسل {cmdhr}الاوامر لـرؤيـة اوامر السورس\    )
     print("➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖")
     await verifyLoggerGroup()
     await saves()
