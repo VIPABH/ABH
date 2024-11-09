@@ -254,10 +254,13 @@ async def permalink(mention):
         return await edit_or_reply(mention, f"**- لكك دي هذا المطور **")
     tag = user.first_name.replace("\u2060", "") if user.first_name else user.username
     await edit_or_reply(mention, f"** ⣠⡶⠚⠛⠲⢄⡀\n⣼⠁      ⠀⠀⠀⠳⢤⣄\n⢿⠀⢧⡀⠀⠀⠀⠀⠀⢈⡇\n⠈⠳⣼⡙⠒⠶⠶⠖⠚⠉⠳⣄\n⠀⠀⠈⣇⠀⠀⠀⠀⠀⠀⠀⠈⠳⣄\n⠀⠀⠀⠘⣆       ⠀⠀⠀⠀⠀⠈⠓⢦⣀\n⠀⠀⠀⠀⠈⢳⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠲⢤\n⠀⠀⠀⠀⠀⠀⠙⢦⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢧\n⠀⠀⠀⠀⠀⠀⠀    ⠓⠦⠀⠀⠀⠀**\n**🚹 ¦ تعال مصه عزيزي ** [{tag}](tg://user?id={user.id})")
+from telethon import events
+import asyncio
+from module_name import admin_cmd, edit_or_reply
 
 @l313l.on(admin_cmd(pattern="عليكم(?:\s|$)([\s\S]*)"))
 async def permalink(mention):
-    await edit_or_reply(mention, "عليكم السلام , اهلا")
+    await edit_or_reply(mention, "عليكم السلام, اهلا")
 
 @l313l.on(admin_cmd(pattern="رفع ايجة(?:\s|$)([\s\S]*)"))
 async def permalink(mention):
