@@ -1,19 +1,28 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~# CatUserBot #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# Copyright (C) 2020-2023 by TgCatUB@Github.
+
+# This file is part of: https://github.com/TgCatUB/catuserbot
+# and is released under the "GNU v3.0 License Agreement".
+
+# Please see: https://github.com/TgCatUB/catuserbot/blob/master/LICENSE
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
 import threading
 
 from sqlalchemy import Boolean, Column, Integer, String, UnicodeText, distinct, func
 
-from . import BASE, SESSION, engine
+from . import BASE, SESSION
 
 
 class Warns(BASE):
     __tablename__ = "warns"
-    user_id = Column(String, primary_key=True)
+    user_id = Column(Integer, primary_key=True)
     chat_id = Column(String(14), primary_key=True)
     num_warns = Column(Integer, default=0)
     reasons = Column(UnicodeText)
 
     def __init__(self, user_id, chat_id):
-        self.user_id = str(user_id)
+        self.user_id = user_id
         self.chat_id = str(chat_id)
         self.num_warns = 0
         self.reasons = ""
@@ -37,8 +46,8 @@ class WarnSettings(BASE):
         return f"<{self.chat_id} has {self.warn_limit} possible warns.>"
 
 
-Warns.__table__.create(bind=engine, checkfirst=True)
-WarnSettings.__table__.create(bind=engine, checkfirst=True)
+Warns.__table__.create(checkfirst=True)
+WarnSettings.__table__.create(checkfirst=True)
 
 WARN_INSERTION_LOCK = threading.RLock()
 WARN_SETTINGS_LOCK = threading.RLock()
@@ -72,24 +81,20 @@ def remove_warn(user_id, chat_id):
         return removed
 
 
-def get_warn_setting(chat_id):
-    try:
-        setting = SESSION.query(WarnSettings).get(str(chat_id))
-        if setting:
-            return setting.warn_limit, setting.soft_warn
-        return 3, False
-    finally:
+def reset_warns(user_id, chat_id):
+    with WARN_INSERTION_LOCK:
+        if warned_user := SESSION.query(Warns).get((user_id, str(chat_id))):
+            warned_user.num_warns = 0
+            warned_user.reasons = ""
+            SESSION.add(warned_user)
+            SESSION.commit()
         SESSION.close()
 
 
 def get_warns(user_id, chat_id):
     try:
         user = SESSION.query(Warns).get((user_id, str(chat_id)))
-        if not user:
-            return None
-        reasons = user.reasons
-        num = user.num_warns
-        return num, reasons
+        return (user.num_warns, user.reasons) if user else None
     finally:
         SESSION.close()
 
@@ -112,6 +117,15 @@ def set_warn_strength(chat_id, soft_warn):
         curr_setting.soft_warn = soft_warn
         SESSION.add(curr_setting)
         SESSION.commit()
+
+
+def get_warn_setting(chat_id):
+    try:
+        if setting := SESSION.query(WarnSettings).get(str(chat_id)):
+            return setting.warn_limit, setting.soft_warn
+        return 3, False
+    finally:
+        SESSION.close()
 
 
 def num_warns():
