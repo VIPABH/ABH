@@ -114,15 +114,6 @@ def set_warn_strength(chat_id, soft_warn):
         SESSION.commit()
 
 
-def get_warn_setting(chat_id):
-    try:
-        if setting := SESSION.query(WarnSettings).get(str(chat_id)):
-            return setting.warn_limit, setting.soft_warn
-        return 3, False
-    finally:
-        SESSION.close()
-
-
 def num_warns():
     try:
         return SESSION.query(func.sum(Warns.num_warns)).scalar() or 0
