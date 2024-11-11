@@ -655,7 +655,6 @@ async def Hussein(event):
         else:
             response = "**᯽︙ يُرجى تحديد معرف القناة أو المجموعة مع الخروج يامطوري ❤️**"
         #await event.reply(response)
-        
 @l313l.ar_cmd(pattern="مغادرة القنوات")
 async def Hussein (event):
     await event.edit("**᯽︙ جارِ مغادرة جميع القنوات الموجوده في حسابك ...**")
@@ -664,23 +663,27 @@ async def Hussein (event):
     num = 0
     try:
         async for dialog in event.client.iter_dialogs():
-         entity = dialog.entity
-         if isinstance(entity, Channel) and entity.broadcast:
-             gr.append(entity.id)
-             if entity.creator or entity.admin_rights:
-                 dd.append(entity.id)
-        dd.append(1527835100)
+            entity = dialog.entity
+            if isinstance(entity, Channel) and entity.broadcast:
+                gr.append(entity.id)
+                if entity.creator or entity.admin_rights:
+                    dd.append(entity.id)
+        # إزالة السطر الذي يضيف قناة الاستثناء
+        # dd.append(1527835100)
+        
         for group in gr:
-            if group not in dd:
-                await l313l.delete_dialog(group)
-                num += 1
-                await sleep(1)
-        if num >=1:
+            # حذف الشرط الذي يتحقق من القناة المستثناة
+            await l313l.delete_dialog(group)
+            num += 1
+            await sleep(1)
+
+        if num >= 1:
             await event.edit(f"**᯽︙ تم المغادرة من {num} قناة بنجاح ✓**")
         else:
             await event.edit("**᯽︙ ليس لديك قنوات في حسابك لمغادرتها !**")
     except BaseException as er:
-     await event.reply(f"حدث خطأ\n{er}\n{entity}")
+        await event.reply(f"حدث خطأ\n{er}\n{entity}")
+
 
 @l313l.ar_cmd(pattern="تصفية الخاص")
 async def hussein(event):
