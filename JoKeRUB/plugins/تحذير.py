@@ -1,100 +1,101 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~# CatUserBot #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# Copyright (C) 2020-2023 by TgCatUB@Github.
+
+# This file is part of: https://github.com/TgCatUB/catuserbot
+# and is released under the "GNU v3.0 License Agreement".
+
+# Please see: https://github.com/TgCatUB/catuserbot/blob/master/LICENSE
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
 import html
 
-from JoKeRUB import l313l
-from ..core.managers import edit_or_reply
+from userbot import catub
+from userbot.core.logger import logging
+
+from ..core.managers import edit_delete, edit_or_reply
 from ..sql_helper import warns_sql as sql
-from telethon.tl.functions.channels import EditBannedRequest
-from telethon.tl.types import ChatBannedRights
+
+logger = logging.getLogger(__name__)
+
 plugin_category = "admin"
 
-#warn
-@l313l.ar_cmd(
-    pattern="تحذير(?:\s|$)([\s\S]*)",
-    command=("تحذير", plugin_category),
+
+@catub.cat_cmd(
+    pattern="warn(?:\s|$)([\s\S]*)",
+    command=("warn", plugin_category),
     info={
-        "header": "لتحذير المستخدم.",
-        "description": "سيحذر المستخدم الذي تم الرد عليه.",
-        "usage": "تحذير <السبب>",
+        "header": "To warn a user.",
+        "description": "will warn the replied user.",
+        "usage": "{tr}warn <reason>",
     },
 )
 async def _(event):
-    "لتحذير المستخدم"
+    "To warn a user"
     warn_reason = event.pattern_match.group(1)
     if not warn_reason:
-        warn_reason = "- لا يوجد سبب ، 🗒"
+        warn_reason = "No reason"
     reply_message = await event.get_reply_message()
     limit, soft_warn = sql.get_warn_setting(event.chat_id)
     num_warns, reasons = sql.warn_user(
-        str(reply_message.sender_id), event.chat_id, warn_reason
+        reply_message.sender_id, event.chat_id, warn_reason
     )
     if num_warns >= limit:
-        sql.reset_warns(str(reply_message.sender_id), event.chat_id)
+        sql.reset_warns(reply_message.sender_id, event.chat_id)
         if soft_warn:
             logger.info("TODO: kick user")
-            reply = "**▸┊بسبب تخطي التحذيرات الـ {} ، يجب طرد المستخدم! 🚷**".format(
-                limit, reply_message.sender_id
-            )
+            reply = f"{limit} warnings, [user](tg://user?id={reply_message.sender_id}) has to bee kicked!"
         else:
-            try:
-                await event.client(EditBannedRequest(event.chat_id, reply_message.sender_id, ChatBannedRights(until_date=None, view_messages=True)))
-                reply = "**▸┊بسبب تخطي التحذيرات الـ {} ، تم حظر المستخدم! ⛔️**".format(
-                    limit, reply_message.sender_id
-                )
-            except Exception as e:
-                reply = "**▸┊حدث خطأ أثناء محاولة طرد المستخدم! ⚠️**"
+            logger.info("TODO: ban user")
+            reply = f"{limit} warnings, [user](tg://user?id={reply_message.sender_id}) has to bee banned!"
     else:
-        reply = "**▸┊[ المستخدم 👤](tg://user?id={}) **لديه {}/{} تحذيرات، احذر!**".format(
-            reply_message.sender_id, num_warns, limit
-        )
+        reply = f"[user](tg://user?id={reply_message.sender_id}) has {num_warns}/{limit} warnings... watch out!"
         if warn_reason:
-            reply += "\n▸┊سبب التحذير الأخير \n{}".format(html.escape(warn_reason))
+            reply += f"\nReason for last warn:\n{html.escape(warn_reason)}"
     await edit_or_reply(event, reply)
 
 
-@l313l.ar_cmd(
-    pattern="التحذيرات",
-    command=("التحذيرات", plugin_category),
+@catub.cat_cmd(
+    pattern="warns",
+    command=("warns", plugin_category),
     info={
-        "header": "للحصول على قائمة تحذيرات المستخدمين.",
-        "usage": "التحذير <بالرد>",
+        "header": "To get users warns list.",
+        "usage": "{tr}warns <reply>",
     },
 )
 async def _(event):
-    "للحصول على قائمة تحذيرات المستخدمين."
+    "To get users warns list"
     reply_message = await event.get_reply_message()
     if not reply_message:
-        return await edit_delete(
-            event, "**▸┊قم بالرد ع المستخدم للحصول ع تحذيراته . ☻**"
-        )
-    result = sql.get_warns(str(reply_message.sender_id), event.chat_id)
+        return await edit_delete(event, "__Reply to user to get his warns.__")
+    result = sql.get_warns(reply_message.sender_id, event.chat_id)
     if not result or result[0] == 0:
-        return await edit_or_reply(event, "__▸┊هذا المستخدم ليس لديه أي تحذير! ツ__")
+        return await edit_or_reply(event, "this user hasn't got any warnings!")
     num_warns, reasons = result
     limit, soft_warn = sql.get_warn_setting(event.chat_id)
     if not reasons:
         return await edit_or_reply(
             event,
-            f"▸┊هذا المستخدم لديه {num_warns} / {limit} تحذيرات ، لكن لا توجد اسباب !",
+            f"this user has {num_warns} / {limit} warning, but no reasons for any of them.",
         )
-    text = f"▸┊هذا المستخدم لديه {num_warns} / {limit} تحذيرات ، للأسباب : ↶"
+    text = f"This user has {num_warns}/{limit} warnings, for the following reasons:"
     text += "\r\n"
     text += reasons
     await event.edit(text)
 
 
-@l313l.ar_cmd(
-    pattern="ح(ذف) ?التحذير$",
-    command=("حذف التحذير", plugin_category),
+@catub.cat_cmd(
+    pattern="r(eset)?warns$",
+    command=("resetwarns", plugin_category),
     info={
-        "header": "لحذف تحذيرات المستخدم الذي تم الرد عليه",
+        "header": "To reset warns of the replied user",
         "usage": [
-            "{tr}ح التحذير",
-            "{tr}حذف التحذير",
+            "{tr}rwarns",
+            "{tr}resetwarns",
         ],
     },
 )
 async def _(event):
-    "لحذف او اعادة تحذيرات المستخدم الذي تم الرد عليه"
+    "To reset warns"
     reply_message = await event.get_reply_message()
-    sql.reset_warns(str(reply_message.sender_id), event.chat_id)
-    await edit_or_reply(event, "**▸┊تم إعادة ضبط التحذيرات!**")
+    sql.reset_warns(reply_message.sender_id, event.chat_id)
+    await edit_or_reply(event, "__Warnings have been reset!__")
