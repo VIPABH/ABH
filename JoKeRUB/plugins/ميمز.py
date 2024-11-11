@@ -88,13 +88,13 @@ async def _(event):
         await event.edit(
             f"الايميل الخاص هو `{response.message.message}`\n[ اضغط هنا لرؤية من رسائل الايميل الواردة]({l313lmail})"
         )
-#السلام على الحسين وعلى الارواح التي حلت بفنائك ولعن الله قاتليك
+        
 @l313l.on(admin_cmd(outgoing=True, pattern="افتار$"))
-async def aljoker313(joker313):
+async def jepThe(theme):
   rl = random.randint(4,57)
   url = f"https://t.me/iamMUAOL/{rl}"
-  await joker313.client.send_photo(joker313.chat_id,url,caption="᯽︙  اذكر القائم",parse_mode="html")
-  await joker313.delete()
+  await theme.client.send_file(theme.chat_id,url,caption="᯽︙  اذكر القائم ",parse_mode="html")
+  await theme.delete() 
     
 @l313l.on(admin_cmd(outgoing=True, pattern="لطمية$"))
 async def jepThe(theme):
