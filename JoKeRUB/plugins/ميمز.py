@@ -97,18 +97,6 @@ async def aljoker313(joker313):
   await joker313.client.send_photo(joker313.chat_id,url,caption="᯽︙  اذكر القائم",parse_mode="html")
   await joker313.delete()
     
-@l313l.on(admin_cmd(outgoing=True, pattern="افتار$"))
-async def jepvois(vois):
-  rl = random.randint(4, 40)
-  url = f"https://t.me/themuaol/{rl}"
-  await vois.client.send_file(vois.chat_id,url,caption="᯽︙  اذكر القائم",parse_mode="html")
-  await vois.delete()
-@l313l.on(admin_cmd(outgoing=True, pattern="قران$"))
-async def jepvois(vois):
-  rl = random.randint(2,101)
-  url = f"https://t.me/QuraanJep/{rl}"
-  await vois.client.send_file(vois.chat_id,url,caption="᯽︙ اذكر القائم",parse_mode="html")
-  await vois.delete()
 @l313l.on(admin_cmd(outgoing=True, pattern="لطمية$"))
 async def jepThe(theme):
   rl = random.randint(19,149)
