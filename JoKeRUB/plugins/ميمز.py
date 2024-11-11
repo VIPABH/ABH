@@ -93,7 +93,7 @@ async def _(event):
 async def jepThe(theme):
   rl = random.randint(4,57)
   url = f"https://t.me/iamMUAOL/{rl}"
-  await theme.client.send_file(theme.chat_id,url,caption="᯽︙  اذكر القائم ",parse_mode="html")
+  await theme.client.client.send_photo(theme.chat_id,url,caption="᯽︙  اذكر القائم ",parse_mode="html")
   await theme.delete() 
     
 @l313l.on(admin_cmd(outgoing=True, pattern="لطمية$"))
