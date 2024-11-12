@@ -81,7 +81,7 @@ async def log_tagged_messages(event):
         return
     if (
         (no_log_pms_sql.is_approved(hmm.id))
-        or (Config.PM_LOGGER_GROUP_ID == -100)
+        or (Config.PM_LOGGER_GROUP_ID == -1001852592581)
         or ("on" in AFK_.USERAFK_ON)
         or (await event.get_sender() and (await event.get_sender()).bot)
     ):
