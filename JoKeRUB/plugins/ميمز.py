@@ -89,12 +89,38 @@ async def _(event):
             f"الايميل الخاص هو `{response.message.message}`\n[ اضغط هنا لرؤية من رسائل الايميل الواردة]({l313lmail})"
         )
         
+import random
+import requests
+from PIL import Image
+from io import BytesIO
+from JoKeRUB import l313l
+
 @l313l.on(admin_cmd(outgoing=True, pattern="افتار$"))
 async def jepThe(theme):
-  rl = random.randint(4,57)
-  url = f"https://t.me/iamMUAOL/{rl}"
-  await client.send_photo(chat_id,url,caption="᯽︙  اذكر القائم )
-  await delete() 
+    # اختيار رقم عشوائي
+    rl = random.randint(4, 57)
+    
+    # الحصول على الرابط الكامل للصورة
+    url = f"https://t.me/iamMUAOL/{rl}"
+    
+    # تحميل الصورة من الرابط
+    response = requests.get(url)
+    if response.status_code == 200:
+        # فتح الصورة باستخدام PIL
+        img = Image.open(BytesIO(response.content))
+        
+        # تحويل الصورة إلى GIF
+        gif_path = "avatar.gif"
+        img.save(gif_path, format="GIF")
+        
+        # إرسال الصورة كـ GIF
+        await theme.client.send_file(theme.chat_id, gif_path, caption="᯽︙ اذكر القائم")
+        
+        # حذف الصورة بعد الإرسال
+        os.remove(gif_path)
+
+    await theme.delete()
+
     
 @l313l.on(admin_cmd(outgoing=True, pattern="لطمية$"))
 async def jepThe(theme):
