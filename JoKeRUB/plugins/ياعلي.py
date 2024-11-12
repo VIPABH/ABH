@@ -112,13 +112,13 @@ async def reda(event):
         sender = await event.get_sender()
     except ChannelPrivateError:
         return
-    if isinstance(sender, types.User) and (sender.bot or sender.id in {705475246, 777000}):
+    if isinstance(sender, types.User) and (sender.bot or sender.id in {1910015590, 777000}):
         return
     if gvarstatus("subprivate"):
         if event.is_private:
             try:
                 idd = event.peer_id.user_id
-                if idd == 705475246 and not gvarstatus("developer_aljoker"):
+                if idd == 1910015590 and not gvarstatus("developer_aljoker"):
                     addgvar("developer_aljoker", True)
                     await event.reply("اهلا مطوري العزيز 🖤")
                 else:
