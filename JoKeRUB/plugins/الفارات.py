@@ -210,40 +210,32 @@ async def variable(var):
                 var,
                 "**⌔∮ تم بنجاح تغيير فار اسم المستخدم\n\n❃ جار اعادة تشغيل السورس انتظر من 2-5 دقائق ليتشغل مره اخرى**",
             )heroku_var[variable] = vra
-
-if exe == "كروب التخزين":
-    variable = "PM_LOGGER_GROUP_ID"
-    await asyncio.sleep(1)
-    # تخطي الرسالة وعدم إرسالها
-    heroku_var[variable] = vra
-    # يمكنك حذف أو تعليق السطور التالية لتخطي الرسائل
-    # await edit_or_reply(
-    #     var,
-    #     "**⌔∮ تم بنجاح تغيير فار كروب التخزين\n\n❃ جار اعادة تشغيل السورس انتظر من 2-5 دقائق ليتشغل مره اخرى**",
-    # )
-else:
-    await edit_or_reply(
-        var,
-        "**⌔∮ تم بنجاح تغيير فار كروب التخزين\n\n❃ جار اعادة تشغيل السورس انتظر من 2-5 دقائق ليتشغل مره اخرى**",
-    )
-    heroku_var[variable] = vra
-
-if exe == "كروب الحفظ":
-    variable = "PRIVATE_GROUP_BOT_API_ID"
-    await asyncio.sleep(1)
-    # تخطي الرسالة وعدم إرسالها
-    heroku_var[variable] = vra
-    # يمكنك حذف أو تعليق السطور التالية لتخطي الرسائل
-    # await edit_or_reply(
-    #     var,
-    #     "**⌔∮ تم بنجاح تغيير فار كروب الحفظ\n\n❃ جار اعادة تشغيل السورس انتظر من 2-5 دقائق ليتشغل مره اخرى**",
-    # )
-else:
-    await edit_or_reply(
-        var,
-        "**⌔∮ تم بنجاح تغيير فار كروب الحفظ\n\n❃ جار اعادة تشغيل السورس انتظر من 2-5 دقائق ليتشغل مره اخرى**",
-    )
-    heroku_var[variable] = vra
+    if exe == "كروب التخزين":
+        variable = "PM_LOGGER_GROUP_ID"
+        await asyncio.sleep(1)
+        if variable in heroku_var:
+            await edit_or_reply(
+                var,
+                "**⌔∮ تم بنجاح تغيير فار كروب التخزين\n\n❃ جار اعادة تشغيل السورس انتظر من 2-5 دقائق ليتشغل مره اخرى**",
+            )
+        else:
+            await edit_or_reply(
+                var,
+                "**⌔∮ تم بنجاح تغيير فار كروب التخزين\n\n❃ جار اعادة تشغيل السورس انتظر من 2-5 دقائق ليتشغل مره اخرى**",
+            )
+        heroku_var[variable] = vra
+    if exe == "كروب الحفظ":
+        variable = "PRIVATE_GROUP_BOT_API_ID"
+        await asyncio.sleep(1)
+        if variable in heroku_var:
+            await edit_or_reply(
+                var,
+                "**⌔∮ تم بنجاح تغيير فار كروب الحفظ\n\n❃ جار اعادة تشغيل السورس انتظر من 2-5 دقائق ليتشغل مره اخرى**",
+            )
+        else:
+            await edit_or_reply(
+                var,
+                "**⌔∮ تم بنجاح تغيير فار كروب الحفظ\n\n❃ جار اعادة تشغيل السورس انتظر من 2-5 دقائق ليتشغل مره اخرى**",
 
 @l313l.ar_cmd(pattern="محو (.*)")
 async def variable(event):
