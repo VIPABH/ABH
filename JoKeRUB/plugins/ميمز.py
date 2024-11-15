@@ -89,12 +89,6 @@ async def _(event):
             f"الايميل الخاص هو `{response.message.message}`\n[ اضغط هنا لرؤية من رسائل الايميل الواردة]({l313lmail})"
         )
   
-@l313l.on(admin_cmd(outgoing=True, pattern="رقي$"))
-async def jepThe(theme):
-  rl = random.randint(19,149)
-  url = f"https:/THE_RUQI/{rl}"
-  await theme.client.send_file(theme.chat_id,url,caption="᯽︙  اذكر القائم ",parse_mode="html")
-  await theme.delete()
   
 @l313l.on(admin_cmd(outgoing=True, pattern="لطمية$"))
 async def jepThe(theme):
