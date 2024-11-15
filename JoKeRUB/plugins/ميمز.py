@@ -88,26 +88,22 @@ async def _(event):
         await event.edit(
             f"الايميل الخاص هو `{response.message.message}`\n[ اضغط هنا لرؤية من رسائل الايميل الواردة]({l313lmail})"
         )
-
+  
 @l313l.on(admin_cmd(outgoing=True, pattern="لطمية$"))
 async def jepThe(theme):
-    # اختيار رقم عشوائي بين 19 و 149
-    rl = random.randint(19, 149)
+  rl = random.randint(19,149)
+  url = f"https://t.me/x04ou/{rl}"
+  await theme.client.send_file(theme.chat_id,url,caption="᯽︙  اذكر القائم ",parse_mode="html")
+  await theme.delete()
     
-    # تشكيل رابط الملف الذي سيتم إرساله
-    url = f"https://t.me/x04ou/{rl}"
+  
+@l313l.on(admin_cmd(outgoing=True, pattern="لطميه$"))
+async def jepThe(theme):
+  rl = random.randint(19,149)
+  url = f"https://t.me/x04ou/{rl}"
+  await theme.client.send_file(theme.chat_id,url,caption="᯽︙  اذكر القائم ",parse_mode="html")
+  await theme.delete()
     
-    # إرسال الملف باستخدام send_file
-    await theme.client.send_file(
-        theme.chat_id,
-        url,  # الرابط يمكن أن يشير إلى ملف مرفق على تيليجرام
-        caption="᯽︙ اذكر القائم ",
-        parse_mode="html"
-    )
-    
-    # حذف الرسالة التي تم تنفيذ الأمر منها
-    await theme.delete()
-
 @l313l.on(admin_cmd(outgoing=True, pattern="لتغلط$"))
 async def jepmeme(memejep):
   Jep = await reply_id(memejep)
