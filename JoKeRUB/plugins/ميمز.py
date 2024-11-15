@@ -8,22 +8,22 @@ from asyncio.exceptions import TimeoutError
 from telethon import events
 from ..sql_helper.memes_sql import get_link, add_link, delete_link, BASE, SESSION, AljokerLink
 from telethon.errors.rpcerrorlist import YouBlockedUserError
-#ياقائم آل محمد
+# ياقائم آل محمد
 from JoKeRUB import l313l
 from ..helpers.utils import reply_id
 plugin_category = "tools"
-    
+
 @l313l.on(admin_cmd(pattern="حالتي ?(.*)"))
 async def _(event):
     await event.edit("**- يتم التاكد من حالتك اذا كنت محظور او لا**")
-    async with bot.conversation("@SpamBot") as conv:
+    async with event.client.conversation("@SpamBot") as conv:
         try:
             response = conv.wait_event(
                 events.NewMessage(incoming=True, from_users=178220800)
             )
             await conv.send_message("/start")
             response = await response
-            await bot.send_read_acknowledge(conv.chat_id)
+            await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
             await event.edit("** اولا الغي حظر @SpamBot وحاول مجددا**")
             return
@@ -55,8 +55,7 @@ async def _(event):
             except YouBlockedUserError:
                 await event.edit("```Mohon buka blokir (@auddbot) dan coba lagi```")
                 return
-            namem = f"**الأغنية : **{result.text.splitlines()[0]}\
-        \n\n**التفاصيـل : **{result.text.splitlines()[2]}"
+            namem = f"**الأغنية : **{result.text.splitlines()[0]}\n\n**التفاصيـل : **{result.text.splitlines()[2]}"
             await event.edit(namem)
             await event.client.delete_messages(
                 conv.chat_id,
@@ -70,7 +69,7 @@ async def _(event):
 async def _(event):
     chat = "@TempMailBot"
     geez = await event.edit("**جاري انشاء بريد ...**")
-    async with bot.conversation(chat) as conv:
+    async with event.client.conversation(chat) as conv:
         try:
             response = conv.wait_event(
                 events.NewMessage(incoming=True, from_users=220112646)
@@ -79,7 +78,7 @@ async def _(event):
             await asyncio.sleep(1)
             await conv.send_message("/create")
             response = await response
-            l313lmail = (response).reply_markup.rows[2].buttons[0].url
+            l313lmail = response.reply_markup.rows[2].buttons[0].url
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
             await geez.edit("**الغي حظر @TempMailBot  و حاول مجددا**")
@@ -87,20 +86,23 @@ async def _(event):
         await event.edit(
             f"الايميل الخاص هو `{response.message.message}`\n[ اضغط هنا لرؤية من رسائل الايميل الواردة]({l313lmail})"
         )
-        
+
+
 @l313l.on(admin_cmd(outgoing=True, pattern="افتار$"))
 async def jepThe(theme):
-  rl = random.randint(4,57)
-  url = f"https://t.me/iamMUAOL/{rl}"
-  await client.send_file(chat_id, url, caption="᯽︙  اذكر القائم )
-  await delete() 
-    
+    rl = random.randint(4, 57)
+    url = f"https://t.me/iamMUAOL/{rl}"
+    await theme.client.send_file(theme.chat_id, url, caption="᯽︙  اذكر القائم")
+    await theme.delete()
+
+
 @l313l.on(admin_cmd(outgoing=True, pattern="لطمية$"))
 async def jepThe(theme):
-  rl = random.randint(19,170)
-  url = f"https://t.me/x04ou/{rl}"
-  await theme.client.send_file(theme.chat_id, url, caption="᯽︙  اذكر القائم ",parse_mode="html")
-  await theme.delete()
+    rl = random.randint(19, 170)
+    url = f"https://t.me/x04ou/{rl}"
+    await theme.client.send_file(theme.chat_id, url, caption="᯽︙  اذكر القائم ", parse_mode="html")
+    await theme.delete()
+
   
 @l313l.on(admin_cmd(outgoing=True, pattern="لتغلط$"))
 async def jepmeme(memejep):
