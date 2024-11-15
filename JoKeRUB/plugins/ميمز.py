@@ -88,22 +88,20 @@ async def _(event):
         await event.edit(
             f"الايميل الخاص هو `{response.message.message}`\n[ اضغط هنا لرؤية من رسائل الايميل الواردة]({l313lmail})"
         )
-  
+        
+@l313l.on(admin_cmd(outgoing=True, pattern="افتار$"))
+async def jepThe(theme):
+  rl = random.randint(4,57)
+  url = f"https://t.me/iamMUAOL/{rl}"
+  await client.send_photo(chat_id,url,caption="᯽︙  اذكر القائم )
+  await delete() 
+    
 @l313l.on(admin_cmd(outgoing=True, pattern="لطمية$"))
-async def jepThe(joker313):
-  rl = random.randint(19,149)
+async def jepThe(theme):
+  rl = random.randint(19,170)
   url = f"https://t.me/x04ou/{rl}"
-  await joker313.client.send_file(joker313.chat_id,url,caption="᯽︙  اذكر القائم ",parse_mode="html")
-  await joker313.delete()
-    
-  
-@l313l.on(admin_cmd(outgoing=True, pattern="لطميه$"))
-async def jepThe(joker313):
-  rl = random.randint(19,149)
-  url = f"https://t.me/x04ou/{rl}"
-  await joker313.client.send_file(joker313.chat_id,url,caption="᯽︙  اذكر القائم ",parse_mode="html")
-  await joker313.delete()
-    
+  await theme.client.send_file(theme.chat_id,url,caption="᯽︙  اذكر القائم ",parse_mode="html")
+  await theme.delete()
 @l313l.on(admin_cmd(outgoing=True, pattern="لتغلط$"))
 async def jepmeme(memejep):
   Jep = await reply_id(memejep)
