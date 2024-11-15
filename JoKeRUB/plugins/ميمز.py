@@ -90,19 +90,19 @@ async def _(event):
         )
   
 @l313l.on(admin_cmd(outgoing=True, pattern="لطمية$"))
-async def jepThe(theme):
+async def jepThe(joker313):
   rl = random.randint(19,149)
   url = f"https://t.me/x04ou/{rl}"
-  await theme.client.send_file(theme.chat_id,url,caption="᯽︙  اذكر القائم ",parse_mode="html")
-  await theme.delete()
+  await joker313.client.send_file(joker313.chat_id,url,caption="᯽︙  اذكر القائم ",parse_mode="html")
+  await joker313.delete()
     
   
 @l313l.on(admin_cmd(outgoing=True, pattern="لطميه$"))
-async def jepThe(theme):
+async def jepThe(joker313):
   rl = random.randint(19,149)
   url = f"https://t.me/x04ou/{rl}"
-  await theme.client.send_file(theme.chat_id,url,caption="᯽︙  اذكر القائم ",parse_mode="html")
-  await theme.delete()
+  await joker313.client.send_file(joker313.chat_id,url,caption="᯽︙  اذكر القائم ",parse_mode="html")
+  await joker313.delete()
     
 @l313l.on(admin_cmd(outgoing=True, pattern="لتغلط$"))
 async def jepmeme(memejep):
