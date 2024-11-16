@@ -1,8 +1,4 @@
 
-# WRITE  BY @lMl10l
-# PLUGIN FOR JoKeRUB
-# @jepthon
-
 import random
 from telethon import events
 import random, re
@@ -16,7 +12,6 @@ from ..core.managers import edit_or_reply
 
 plugin_category = "extra"
 
-# اوامر الادمن لسورس الجوكر
 
 @l313l.ar_cmd(
     pattern="اوامر الحظر$",
@@ -731,3 +726,12 @@ async def _(event):
         await event.edit(
 "الاوامر الحديثة او المستحدثه \n التاريخ 2024/11/7 \n 1- اوامر التقييد والحظر اصبحت ب صور مختلفة \n 2- اوامر التثبيت هي `.تثبيت` او `.ت` \n 3-ل الغاء التثبيت استخدم `.الغاء التثبيت` او `.تت` \n 4- ميزة مخفية وهي `.خاص` تقوم ب ارسال الرسالةالئ الخاص \n 5- اوامر الذاتية بعد ان تم حذفها في المجاني `.الذاتية تشغيل` \n 6- `.رسالة` بالرد او بوضع منشن مع كلام ل ارساله \n 7- اوامر الميمز , اكتب `.الميمز`  \n 8- امر ما مطروق يرسلك لطمية عشوائية , اكتب `.لطمية` \n استمتع ")
 
+	     	    
+@l313l.ar_cmd(
+    pattern="ع$",
+    command=("ع", plugin_category),
+)
+async def _(event):
+     if not event.text[0].isalpha() and event.text[0] not in ("/", "#", "@", "!"):
+        await event.edit(
+"عليكم السلام ورحمه الله"
