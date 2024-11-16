@@ -735,3 +735,14 @@ async def _(event):
      if not event.text[0].isalpha() and event.text[0] not in ("/", "#", "@", "!"):
         await event.edit(
 "عليكم السلام ورحمه الله"
+	)
+	     	    
+@l313l.ar_cmd(
+    pattern="بوتاتي$",
+    command=("بوتاتي", plugin_category),
+)
+async def _(event):
+     if not event.text[0].isalpha() and event.text[0] not in ("/", "#", "@", "!"):
+        await event.edit(
+"البوتات \n @TT_TABOT \n \n @GAMES_ABHBOT"
+	)
