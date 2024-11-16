@@ -13,19 +13,67 @@ from JoKeRUB import l313l
 from ..helpers.utils import reply_id
 plugin_category = "tools"
 
-@l313l.on(admin_cmd(pattern="حالتي ?(.*)"))
+@l313l.on(admin_cmd(pattern="رجب ?(.*)"))
 async def _(event):
-    await event.edit("**- يتم التاكد من حالتك اذا كنت محظور او لا**")
-    async with event.client.conversation("@SpamBot") as conv:
+    await event.edit("**- يتم جلب النتيجة**")
+    async with event.client.conversation("@tt_tabot") as conv:
         try:
             response = conv.wait_event(
                 events.NewMessage(incoming=True, from_users=178220800)
             )
-            await conv.send_message("/start")
+            await conv.send_message("رجب")
             response = await response
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
-            await event.edit("** اولا الغي حظر @SpamBot وحاول مجددا**")
+            await event.edit("** وحاول مجددا**")
+            return
+        await event.edit(f"- {response.message.message}\n @jepthon")
+
+@l313l.on(admin_cmd(pattern="شعبان ?(.*)"))
+async def _(event):
+    await event.edit("**- يتم جلب النتيجة**")
+    async with event.client.conversation("@tt_tabot") as conv:
+        try:
+            response = conv.wait_event(
+                events.NewMessage(incoming=True, from_users=178220800)
+            )
+            await conv.send_message("شعبان")
+            response = await response
+            await event.client.send_read_acknowledge(conv.chat_id)
+        except YouBlockedUserError:
+            await event.edit("** وحاول مجددا**")
+            return
+        await event.edit(f"- {response.message.message}\n @jepthon")
+
+@l313l.on(admin_cmd(pattern="رمضان ?(.*)"))
+async def _(event):
+    await event.edit("**- يتم جلب النتيجة**")
+    async with event.client.conversation("@tt_tabot") as conv:
+        try:
+            response = conv.wait_event(
+                events.NewMessage(incoming=True, from_users=178220800)
+            )
+            await conv.send_message("رمضان")
+            response = await response
+            await event.client.send_read_acknowledge(conv.chat_id)
+        except YouBlockedUserError:
+            await event.edit("** وحاول مجددا**")
+            return
+        await event.edit(f"- {response.message.message}\n @jepthon")
+
+@l313l.on(admin_cmd(pattern="محرم ?(.*)"))
+async def _(event):
+    await event.edit("**- يتم جلب النتيجة**")
+    async with event.client.conversation("@tt_tabot") as conv:
+        try:
+            response = conv.wait_event(
+                events.NewMessage(incoming=True, from_users=178220800)
+            )
+            await conv.send_message("محرم")
+            response = await response
+            await event.client.send_read_acknowledge(conv.chat_id)
+        except YouBlockedUserError:
+            await event.edit("** وحاول مجددا**")
             return
         await event.edit(f"- {response.message.message}\n @jepthon")
 
