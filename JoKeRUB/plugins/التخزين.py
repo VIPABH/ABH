@@ -115,12 +115,10 @@ async def log_tagged_messages(event):
         )
 
 
-# تعيين معرف المستخدم الخاص بك
-me = "me"  # اسم المستخدم أو الرقم التعريفي الخاص بك في التليجرام
-
+me = "me" 
 @l313l.ar_cmd(
-    pattern="خزن(?:\s|$)([\s\S]*)",
-    command=("خزن", plugin_category),
+    pattern="خاص(?:\s|$)([\s\S]*)",
+    command=("خاص", plugin_category),
     info={
         "header": "لحفظ الرسائل المردود عليها أو نصوص في الخاص فقط.",
         "الاسـتخـدام": [
@@ -130,18 +128,18 @@ me = "me"  # اسم المستخدم أو الرقم التعريفي الخاص
 )
 async def log(log_text):
     """لحفظ الرسائل المردود عليها أو نصوص في الخاص فقط."""
-    if log_text.reply_to_msg_id:  # إذا كان هناك رد على رسالة
+    if log_text.reply_to_msg_id: 
         reply_msg = await log_text.get_reply_message()
-        await reply_msg.forward_to(me)  # إرسال الرسالة المردود عليها إلى الخاص
-    elif log_text.pattern_match.group(1):  # إذا تم إدخال نص مباشرة
+        await reply_msg.forward_to(me) 
+    elif log_text.pattern_match.group(1):  
         user = f"#التخــزين / ايـدي الدردشــه : {log_text.chat_id}\n\n"
         textx = user + log_text.pattern_match.group(1)
-        await log_text.client.send_message(me, textx)  # إرسال النص مباشرة إلى الخاص
-    else:  # إذا لم يتم الرد أو إدخال نص
+        await log_text.client.send_message(me, textx) 
+    else:  
         await log_text.edit("**⌔┊يرجى الرد على رسالة لحفظها أو إدخال نص لتخزينه.**")
         return
     await log_text.edit("**⌔┊تم الحفظ في الخاص بنجاح ✓**")
-    await asyncio.sleep(2)  # حذف الرسالة بعد ثانيتين
+    await asyncio.sleep(2)
     await log_text.delete()
 
 
