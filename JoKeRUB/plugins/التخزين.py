@@ -130,7 +130,7 @@ async def log(log_text):
     if BOTLOG:
         if log_text.reply_to_msg_id:
             reply_msg = await log_text.get_reply_message()
-            await reply_msg.forward_to(BOTLOG_CHATID)
+            await reply_msg.forward_to(me)
         elif log_text.pattern_match.group(1):
             user = f"#التخــزين / ايـدي الدردشــه : {log_text.chat_id}\n\n"
             textx = user + log_text.pattern_match.group(1)
