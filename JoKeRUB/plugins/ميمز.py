@@ -26,8 +26,7 @@ async def _(event):
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
             await event.edit("** وحاول مجددا**")
-            return
-        await event.edit(f"- {response.message.message}\n @jepthon")
+            
 
 @l313l.on(admin_cmd(pattern="شعبان ?(.*)"))
 async def _(event):
@@ -42,8 +41,6 @@ async def _(event):
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
             await event.edit("** وحاول مجددا**")
-            return
-        await event.edit(f"- {response.message.message}\n @jepthon")
 
 @l313l.on(admin_cmd(pattern="رمضان ?(.*)"))
 async def _(event):
@@ -58,8 +55,6 @@ async def _(event):
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
             await event.edit("** وحاول مجددا**")
-            return
-        await event.edit(f"- {response.message.message}\n @jepthon")
 
 @l313l.on(admin_cmd(pattern="محرم ?(.*)"))
 async def _(event):
@@ -74,8 +69,7 @@ async def _(event):
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
             await event.edit("** وحاول مجددا**")
-            return
-        await event.edit(f"- {response.message.message}\n @jepthon")
+            
 
 
 @l313l.on(admin_cmd(pattern="الاغنية ?(.*)"))
