@@ -19,7 +19,7 @@ async def _(event):
     async with event.client.conversation("@tt_tabot") as conv:
         try:
             response = conv.wait_event(
-                events.NewMessage(incoming=True, from_users=178220800)
+                events.NewMessage(incoming=True, from_users=7308514832)
             )
             await conv.send_message("رجب")
             response = await response
@@ -35,7 +35,7 @@ async def _(event):
     async with event.client.conversation("@tt_tabot") as conv:
         try:
             response = conv.wait_event(
-                events.NewMessage(incoming=True, from_users=178220800)
+                events.NewMessage(incoming=True, from_users=7308514832)
             )
             await conv.send_message("شعبان")
             response = await response
@@ -51,7 +51,7 @@ async def _(event):
     async with event.client.conversation("@tt_tabot") as conv:
         try:
             response = conv.wait_event(
-                events.NewMessage(incoming=True, from_users=178220800)
+                events.NewMessage(incoming=True, from_users=7308514832)
             )
             await conv.send_message("رمضان")
             response = await response
@@ -67,7 +67,7 @@ async def _(event):
     async with event.client.conversation("@tt_tabot") as conv:
         try:
             response = conv.wait_event(
-                events.NewMessage(incoming=True, from_users=178220800)
+                events.NewMessage(incoming=True, from_users=7308514832)
             )
             await conv.send_message("محرم")
             response = await response
