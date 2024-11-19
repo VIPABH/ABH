@@ -66,5 +66,10 @@ async def reda(event):
            elif event.message.message == "الغاء الحظر من السورس":
                await event.reply("**حاظر مطوري، لقد الغيت الحظر**")
                delgvar("blockedfrom")
-                
+              
+               image_url = "https://t.me/ABH_DEV/2"
 
+@l313l.on(events.NewMessage(incoming=True))
+async def reda(event):
+    if "قرد" in event.message.message:
+        await event.reply(file=image_url)
