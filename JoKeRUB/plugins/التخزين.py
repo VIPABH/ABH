@@ -16,103 +16,34 @@ LOGS = logging.getLogger(__name__)
 plugin_category = "البوت"
 
 
-
-class LOG_CHATS:
-    def __init__(self):
-        self.RECENT_USER = None
-        self.NEWPM = None
-        self.COUNT = 0
-
-LOG_CHATS_ = LOG_CHATS()
-
-@l313l.ar_cmd(incoming=True, func=lambda e: e.is_private, edited=True, forword=None)
-async def monito_p_m_s(event):  # sourcery no-metrics
+@l313l.ar_cmd(incoming=True, func=lambda e: e.is_private, edited=True)
+async def handle_edited_messages(event):
     if Config.PM_LOGGER_GROUP_ID == -100:
         return
     if gvarstatus("PMLOG") and gvarstatus("PMLOG") == "false":
         return
-    
+
     sender = await event.get_sender()
     if not sender.bot:
         chat = await event.get_chat()
         if not no_log_pms_sql.is_approved(chat.id) and chat.id != 777000:
-            if LOG_CHATS_.RECENT_USER != chat.id:
-                LOG_CHATS_.RECENT_USER = chat.id
-                
-                if LOG_CHATS_.NEWPM:
-                    new_text = LOG_CHATS_.NEWPM.text.replace(
-                        " **📮┊رسـاله جـديده**", f"{LOG_CHATS_.COUNT} **رسـائل**"
+            if LOG_CHATS_.NEWPM:
+                try:
+                    # تحديث النص المعدل في الرسالة المسجلة
+                    new_text = f"**🛂┊المستخدم :** {_format.mentionuser(sender.first_name, sender.id)}\n"
+                    new_text += f"**🎟┊الايـدي :** `{chat.id}`\n\n"
+                    new_text += f"**الرسالة المعدلة:** {event.message.text}"
+                    await LOG_CHATS_.NEWPM.edit(new_text)
+                except Exception as e:
+                    # إذا لم يكن بالإمكان تعديل الرسالة المسجلة، سجل الرسالة المعدلة من جديد
+                    LOGS.warn(f"لم يتم تعديل الرسالة: {str(e)}")
+                    LOG_CHATS_.NEWPM = await event.client.send_message(
+                        Config.PM_LOGGER_GROUP_ID,
+                        f"**🛂┊المستخدم :** {_format.mentionuser(sender.first_name, sender.id)}\n"
+                        f"**🎟┊الايـدي :** `{chat.id}`\n\n"
+                        f"**الرسالة المعدلة:** {event.message.text}",
                     )
-                    if LOG_CHATS_.COUNT > 1 and LOG_CHATS_.NEWPM.text != new_text:
-                        try:
-                            await LOG_CHATS_.NEWPM.edit(new_text)
-                        except MessageNotModifiedError:
-                            pass
-                    else:
-                        await event.client.send_message(
-                            Config.PM_LOGGER_GROUP_ID,
-                            new_text
-                        )
-                    LOG_CHATS_.COUNT = 0
-                
-                original_message = f"الرسالة الاصلية: {event.message.text}" if isinstance(event.message, Message) else "الرسالة الاصلية: N/A"
-                edited_message = f"الرسالة المعدلة: {event.message.text}"
-                
-                LOG_CHATS_.NEWPM = await event.client.send_message(
-                    Config.PM_LOGGER_GROUP_ID,
-                    f"**🛂┊المسـتخـدم :** {_format.mentionuser(sender.first_name , sender.id)} **- قام بـ إرسـال رسـالة جـديـده** \n**🎟┊الايـدي :** `{chat.id}`\n\n{original_message}\n\n{edited_message}",
-                )
-                
-            try:
-                if event.message:
-                    await event.client.forward_messages(
-                        Config.PM_LOGGER_GROUP_ID, event.message, silent=True
-                    )
-                LOG_CHATS_.COUNT += 1
-            except Exception as e:
-                LOGS.warn(str(e))
 
-@l313l.ar_cmd(incoming=True, func=lambda e: e.mentioned, edited=False, forword=None)
-async def log_tagged_messages(event):
-    hmm = await event.get_chat()
-    from .afk import AFK_
-
-    if gvarstatus("GRPLOG") and gvarstatus("GRPLOG") == "false":
-        return
-    if (
-        (no_log_pms_sql.is_approved(hmm.id))
-        or (Config.PM_LOGGER_GROUP_ID == -100)
-        or ("on" in AFK_.USERAFK_ON)
-        or (await event.get_sender() and (await event.get_sender()).bot)
-    ):
-        return
-    full = None
-    try:
-        full = await event.client.get_entity(event.message.from_id)
-    except Exception as e:
-        LOGS.info(str(e))
-    messaget = None
-    try:
-        messaget = await media_type(event)
-    except BaseException:
-        messaget = None
-    resalt = f"#التــاكــات\n\n<b>⌔┊الكــروب : </b><code>{hmm.title}</code>"
-    if full is not None:
-        resalt += (
-            f"\n\n<b>⌔┊المـرسـل : </b> {_format.htmlmentionuser(full.first_name , full.id)}"
-        )
-    if messaget is not None:
-        resalt += f"\n\n<b>⌔┊رسـالـة ميـديـا : </b><code>{messaget}</code>"
-    else:
-        resalt += f"\n\n<b>⌔┊الرســالـه : </b>{event.message.message}"
-    resalt += f"\n\n<b>⌔┊رابـط الرسـاله : </b><a href = 'https://t.me/c/{hmm.id}/{event.message.id}'> link</a>"
-    if not event.is_private:
-        await event.client.send_message(
-            Config.PM_LOGGER_GROUP_ID,
-            resalt,
-            parse_mode="html",
-            link_preview=False,
-        )
 
 
 me = "me" 
