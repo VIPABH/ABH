@@ -34,7 +34,6 @@ async def _(event):
             await event.delete()
             await event.client.send_message(event.chat_id, response.message)
 
-# الرد التلقائي على "السلام عليكم"
-@borg.on(events.NewMessage(pattern=r"السلام عليكم"))
+@client.on(events.NewMessage(pattern=r"السلام عليكم"))
 async def salam_reply(event):
     await event.reply("وعليكم السلام")
