@@ -58,10 +58,14 @@ async def monito_p_m_s(event):
                 original_message = f"الرسالة الاصلية: {event.message.text}" if isinstance(event.message, Message) else "الرسالة الاصلية: N/A"
                 edited_message = f"الرسالة المعدلة: {event.message.text}"
 
-                # تسجيل الرسالة المعدلة
+                # إضافة اسم المستخدم ورابط حسابه
+                sender_name = _format.mentionuser(sender.first_name, sender.id)
+                sender_link = f"[رابط الحساب](https://t.me/{sender.username})" if sender.username else "لا يوجد رابط حساب"
+
+                # تسجيل الرسالة المعدلة مع اسم المستخدم ورابط حسابه
                 LOG_CHATS_.NEWPM = await event.client.send_message(
                     Config.PM_LOGGER_GROUP_ID,
-                    f"**🛂┊المسـتخـدم :** {_format.mentionuser(sender.first_name , sender.id)} **- قام بـ إرسـال رسـالة جـديـده** \n**🎟┊الايـدي :** `{chat.id}`\n\n{original_message}\n\n{edited_message}",
+                    f"**🛂┊المسـتخـدم :** {sender_name} **- قام بـ إرسـال رسـالة جـديـده**\n**🎟┊الايـدي :** `{chat.id}`\n\n{original_message}\n\n{edited_message}\n\n**رابط الحساب:** {sender_link}",
                 )
                 
             try:
@@ -112,6 +116,7 @@ async def log_tagged_messages(event):
             parse_mode="html",
             link_preview=False,
         )
+
 
 me = "me" 
 @l313l.ar_cmd(
