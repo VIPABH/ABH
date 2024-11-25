@@ -20,7 +20,7 @@ plugin_category = "البوت"
 async def handle_edited_messages(event):
     if Config.PM_LOGGER_GROUP_ID == -100:
         return
-    if gvarstatus("PMLOG") and gvarstatus("PMLOG") == "false":
+    if gvarstatus("PMLOG") == "false":
         return
 
     sender = await event.get_sender()
@@ -34,16 +34,17 @@ async def handle_edited_messages(event):
                     new_text += f"**🎟┊الايـدي :** `{chat.id}`\n\n"
                     new_text += f"**الرسالة المعدلة:** {event.message.text}"
                     await LOG_CHATS_.NEWPM.edit(new_text)
+                except MessageNotModifiedError:
+                    LOGS.warning("لم يتم تعديل الرسالة بسبب عدم تعديل محتوى الرسالة.")
                 except Exception as e:
                     # إذا لم يكن بالإمكان تعديل الرسالة المسجلة، سجل الرسالة المعدلة من جديد
-                    LOGS.warn(f"لم يتم تعديل الرسالة: {str(e)}")
+                    LOGS.warning(f"لم يتم تعديل الرسالة: {str(e)}")
                     LOG_CHATS_.NEWPM = await event.client.send_message(
                         Config.PM_LOGGER_GROUP_ID,
                         f"**🛂┊المستخدم :** {_format.mentionuser(sender.first_name, sender.id)}\n"
                         f"**🎟┊الايـدي :** `{chat.id}`\n\n"
                         f"**الرسالة المعدلة:** {event.message.text}",
                     )
-
 
 
 me = "me" 
