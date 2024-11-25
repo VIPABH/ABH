@@ -1,7 +1,6 @@
 import logging
 import random
 
-from moviepy.editor import VideoFileClip
 from PIL import Image, ImageOps
 
 from ...core.logger import logging
