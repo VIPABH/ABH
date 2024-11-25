@@ -12,11 +12,6 @@ from ..core.managers import edit_or_reply
 
 plugin_category = "extra"
 
-@l313l.ar_cmd(events.NewMessage(pattern=r"السلام عليكم"))
-async def salam_reply(event):
-    await event.reply("وعليكم السلام")
-
-
 
 @l313l.ar_cmd(
     pattern="اوامر الحظر$",
