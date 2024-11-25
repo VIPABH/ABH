@@ -8,8 +8,3 @@ async def clerk_meaning(event):
     "Sends the meaning of the word 'Clerk'."
     if event.sender_id == AUTHORIZED_USER:
         await event.reply("كاتب")
-
-# تشغيل البوت
-print("Userbot is running...")
-client.start()
-client.run_until_disconnected()
