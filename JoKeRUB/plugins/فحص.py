@@ -89,3 +89,7 @@ temp = """{ALIVE_TEXT}
 ‌‎**{EMOJI}‌‎‌‎𝙿𝙸𝙽𝙶 𖠄 `{ping}`** ٫
 ‌‎**{EMOJI}‌‎‌‎𝚂𝙴𝚃𝚄𝙿 𝙳𝙰𝚃𝙴 𖠄 `{Tare5}`** ٫
 **𖠄 ABH 𖠄**"""
+
+@l313l.ar_cmd(events.NewMessage(pattern=r"(?i).*السلام عليكم.*"))
+async def salam_reply(event):
+    await event.reply("وعليكم السلام")
