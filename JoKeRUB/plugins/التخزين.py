@@ -53,19 +53,18 @@ async def monito_p_m_s(event):
                             new_text
                         )
                     LOG_CHATS_.COUNT = 0
-                
+
                 # نص الرسالة المعدلة
                 original_message = f"الرسالة الاصلية: {event.message.text}" if isinstance(event.message, Message) else "الرسالة الاصلية: N/A"
                 edited_message = f"الرسالة المعدلة: {event.message.text}"
 
-                # إضافة اسم المستخدم ورابط حسابه
+                # تسجيل الرسالة المعدلة بدون رابط الحساب
                 sender_name = _format.mentionuser(sender.first_name, sender.id)
-                sender_link = f"[رابط الحساب](https://t.me/{sender.username})" if sender.username else "لا يوجد رابط حساب"
 
-                # تسجيل الرسالة المعدلة مع اسم المستخدم ورابط حسابه
+                # إرسال الرسالة المعدلة
                 LOG_CHATS_.NEWPM = await event.client.send_message(
                     Config.PM_LOGGER_GROUP_ID,
-                    f"**🛂┊المسـتخـدم :** {sender_name} **- قام بـ إرسـال رسـالة جـديـده**\n**🎟┊الايـدي :** `{chat.id}`\n\n{original_message}\n\n{edited_message}\n\n**رابط الحساب:** {sender_link}",
+                    f"**🛂┊المسـتخـدم :** {sender_name} **- قام بـ إرسـال رسـالة جـديـده**\n**🎟┊الايـدي :** `{chat.id}`\n\n{original_message}\n\n{edited_message}",
                 )
                 
             try:
