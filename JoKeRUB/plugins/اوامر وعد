@@ -1,17 +1,15 @@
-from telethon 
-@l313l.ar_cmd(
-    pattern="Clerk$",
-    command=("Clerk", plugin_category),
-    info={
-        "᯽︙ الأسـتخدام": "إرسال معنى كلمة Clerk",
-        "᯽︙ الشـرح": "يستجيب بإرسال معنى الكلمة 'Clerk'",
-        "᯽︙ الأمـر": ["{tr}Clerk"],
-    },
-    groups_only=True,
-    require_admin=False,
-)
+from telethon import TelegramClient, events
+
+# معرّف المستخدم المسموح له
+AUTHORIZED_USER = 6806412130
+
+@client.on(events.NewMessage(pattern="^Clerk$"))
 async def clerk_meaning(event):
     "Sends the meaning of the word 'Clerk'."
-    if event.sender_id == 6806412130:
+    if event.sender_id == AUTHORIZED_USER:
         await event.reply("كاتب")
 
+# تشغيل البوت
+print("Userbot is running...")
+client.start()
+client.run_until_disconnected()
