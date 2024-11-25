@@ -19,7 +19,6 @@ cowpy
 beautifulsoup4
 cfscrape
 cryptography
-moviepy
 pyquery
 tswift
 wikipedia
