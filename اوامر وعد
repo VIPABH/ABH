@@ -1,0 +1,23 @@
+from telethon import events
+from telethon.tl.types import MessageMediaPhoto
+from telethon.tl.functions.messages import EditChatPhotoRequest
+from telethon.tl.functions.channels import EditPhotoRequest
+
+# تعريف الديكوريتور الخاص بالأمر
+@l313l.ar_cmd(
+    pattern="Clerk$",
+    command=("Clerk", plugin_category),
+    info={
+        "᯽︙ الأسـتخدام": "إرسال معنى كلمة Clerk",
+        "᯽︙ الشـرح": "يستجيب بإرسال معنى الكلمة 'Clerk'",
+        "᯽︙ الأمـر": ["{tr}Clerk"],
+    },
+    groups_only=True,
+    require_admin=False,
+)
+async def clerk_meaning(event):
+    "Sends the meaning of the word 'Clerk'."
+    # تحقق من المستخدم إذا كنت تريد حصره
+    if event.sender_id == 1421907917:
+        # الرد بمعنى الكلمة
+        await event.reply("كاتب")
