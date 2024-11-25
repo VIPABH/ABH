@@ -1,6 +1,7 @@
 import os
 from typing import Optional
 
+from moviepy.editor import VideoFileClip
 from PIL import Image
 
 from ...core.logger import logging
