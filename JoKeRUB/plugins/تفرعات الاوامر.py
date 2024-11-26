@@ -1,22 +1,18 @@
-
 import random
 from telethon import events
-import random, re
-
-from JoKeRUB.utils import admin_cmd
-
 import asyncio
 from JoKeRUB import l313l
-
 from ..core.managers import edit_or_reply
 
 plugin_category = "extra"
-username = message.from_user.username if message.from_user.username else "لا يوجد اسم مستخدم"
 
 @l313l.ar_cmd(incoming=True, func=lambda e: "السلام عليكم" in e.text.lower(), edited=False)
 async def reply_salam(event):
-    # الرد بـ "عليكم السلام"
-    await event.reply(f"عليكم السلام اهلا [{message.from_user.first_name}](https://t.me/{username})")
+    # الحصول على اسم المستخدم (إذا كان موجودًا)
+    username = event.sender.username if event.sender.username else "لا يوجد اسم مستخدم"
+    
+    # الرد بـ "عليكم السلام" مع اسم المستخدم إذا كان موجودًا
+    await event.reply(f"عليكم السلام اهلا [{event.sender.first_name}](https://t.me/{username})")
 
 
 @l313l.ar_cmd(
