@@ -12,6 +12,11 @@ from ..core.managers import edit_or_reply
 
 plugin_category = "extra"
 
+@l313l.ar_cmd(incoming=True, func=lambda e: "السلام عليكم" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    # الرد بـ "عليكم السلام"
+    await event.reply("عليكم السلام")
+
 
 @l313l.ar_cmd(
     pattern="اوامر الحظر$",
