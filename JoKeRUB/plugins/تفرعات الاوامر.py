@@ -12,7 +12,7 @@ async def reply_salam(event):
     username = event.sender.username if event.sender.username else "لا يوجد اسم مستخدم"
     
     # الرد بـ "عليكم السلام" مع اسم المستخدم إذا كان موجودًا
-    await event.reply(f"عليكم السلام اهلا [{event.sender.first_name}](https://t.me/{username})")
+    await event.reply(f"عليكم السلام اهلا [{event.sender.first_name}](https://t.me/@{username})")
 
 
 @l313l.ar_cmd(
