@@ -117,6 +117,7 @@ async def log_tagged_messages(event):
         )
 
 
+
 me = "me" 
 @l313l.ar_cmd(
     pattern="خاص(?:\s|$)([\s\S]*)",
