@@ -18,3 +18,11 @@ async def reply_salam(event):
         await event.reply("حذاء")
     else:
         pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( Lazy )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("كسول")
+    else:
+        pass
