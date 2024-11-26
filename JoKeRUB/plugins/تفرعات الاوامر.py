@@ -6,14 +6,13 @@ from ..core.managers import edit_or_reply
 
 plugin_category = "extra"
 
-@l313l.ar_cmd(incoming=True, func=lambda e: "السلام عليكم" in e.text.lower() or "سلام عليكم" in e.text.lower(), edited=False), edited=False)
+@l313l.ar_cmd(incoming=True, func=lambda e: "السلام عليكم" in e.text.lower() or "سلام عليكم" in e.text.lower(), edited=False)
 async def reply_salam(event):
     # الحصول على اسم المستخدم (إذا كان موجودًا)
     username = event.sender.username if event.sender.username else "لا يوجد اسم مستخدم"
     
     # الرد بـ "عليكم السلام" مع اسم المستخدم إذا كان موجودًا
     await event.reply(f"عليكم السلام اهلا [{event.sender.first_name}](https://t.me/@{username})")
-
 
 @l313l.ar_cmd(
     pattern="اوامر الحظر$",
