@@ -64,7 +64,7 @@ async def monito_p_m_s(event):
                 # إرسال الرسالة المعدلة فقط إذا كانت قد تم تعديلها
                 LOG_CHATS_.NEWPM = await event.client.send_message(
                     Config.PM_LOGGER_GROUP_ID,
-                    f"**🛂┊المسـتخـدم :** {sender_name} **- قام بـ إرسـال رسـالة جـديـده**\n**🎟┊الايـدي :** `{chat.id}`\n\n{original_message}\n\n{edited_message}",
+                    f"**🛂┊المسـتخـدم :** {sender_name} **- قام بـ تعديل رسـالة **\n**🎟┊الايـدي :** `{chat.id}`\n\n{original_message}\n\n{edited_message}",
                 )
                 
             try:
