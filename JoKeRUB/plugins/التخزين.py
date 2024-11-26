@@ -37,7 +37,7 @@ async def monito_p_m_s(event):
             if LOG_CHATS_.RECENT_USER != chat.id:
                 LOG_CHATS_.RECENT_USER = chat.id
 
-                # إضافة النص المعدل في الرسالة الجديدة إذا كانت موجودة
+                # إذا كانت الرسالة معدلة، اعرض الرسالة الأصلية والنص المعدل
                 if LOG_CHATS_.NEWPM:
                     new_text = LOG_CHATS_.NEWPM.text.replace(
                         " **📮┊رسـاله جـديده**", f"{LOG_CHATS_.COUNT} **رسـائل**"
@@ -58,10 +58,10 @@ async def monito_p_m_s(event):
                 original_message = f"الرسالة الاصلية: {event.message.text}" if isinstance(event.message, Message) else "الرسالة الاصلية: N/A"
                 edited_message = f"الرسالة المعدلة: {event.message.text}"
 
-                # تسجيل الرسالة المعدلة بدون رابط الحساب
+                # تسجيل الرسالة المعدلة
                 sender_name = _format.mentionuser(sender.first_name, sender.id)
 
-                # إرسال الرسالة المعدلة
+                # إرسال الرسالة المعدلة فقط إذا كانت قد تم تعديلها
                 LOG_CHATS_.NEWPM = await event.client.send_message(
                     Config.PM_LOGGER_GROUP_ID,
                     f"**🛂┊المسـتخـدم :** {sender_name} **- قام بـ إرسـال رسـالة جـديـده**\n**🎟┊الايـدي :** `{chat.id}`\n\n{original_message}\n\n{edited_message}",
@@ -115,6 +115,7 @@ async def log_tagged_messages(event):
             parse_mode="html",
             link_preview=False,
         )
+
 
 
 
