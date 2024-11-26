@@ -55,7 +55,6 @@ async def monito_p_m_s(event):
                     LOG_CHATS_.COUNT = 0
 
                 # نص الرسالة المعدلة
-                original_message = f"الرسالة الاصلية: {event.message.text}" if isinstance(event.message, Message) else "الرسالة الاصلية: N/A"
                 edited_message = f"الرسالة المعدلة: {event.message.text}"
 
                 # تسجيل الرسالة المعدلة
