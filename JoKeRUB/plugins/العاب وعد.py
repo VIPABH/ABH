@@ -520,19 +520,27 @@ async def reply_salam(event):
     else:
         pass
 
-@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( Mechanic )" in e.text.lower(), edited=False)
-async def reply_salam(event):
-    if event.sender_id == 1421907917:
-        await asyncio.sleep(1)
-        await event.reply("ميكانيكي")
-    else:
-        pass
+# @l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( Mechanic )" in e.text.lower(), edited=False)
+# async def reply_salam(event):
+#     if event.sender_id == 1421907917:
+#         await asyncio.sleep(1)
+#         await event.reply("ميكانيكي")
+#     else:
+#         pass
 
 @l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( far )" in e.text.lower(), edited=False)
 async def reply_salam(event):
     if event.sender_id == 1421907917:
         await asyncio.sleep(1)
         await event.reply("بعيد")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( Mechanic )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("ميكانيكي")
     else:
         pass
 
@@ -584,21 +592,21 @@ async def reply_salam(event):
     else:
         pass
 
-@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( Partner )" in e.text.lower(), edited=False)
-async def reply_salam(event):
-    if event.sender_id == 1421907917:
-        await asyncio.sleep(1)
-        await event.reply("شريك")
-    else:
-        pass
+# @l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( Partner )" in e.text.lower(), edited=False)
+# async def reply_salam(event):
+#     if event.sender_id == 1421907917:
+#         await asyncio.sleep(1)
+#         await event.reply("شريك")
+#     else:
+#         pass
 
-@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( Funny )" in e.text.lower(), edited=False)
-async def reply_salam(event):
-    if event.sender_id == 1421907917:
-        await asyncio.sleep(1)
-        await event.reply("مضحك")
-    else:
-        pass
+# @l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( Funny )" in e.text.lower(), edited=False)
+# async def reply_salam(event):
+#     if event.sender_id == 1421907917:
+#         await asyncio.sleep(1)
+#         await event.reply("مضحك")
+#     else:
+#         pass
 
 @l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( Designer )" in e.text.lower(), edited=False)
 async def reply_salam(event):
@@ -629,6 +637,14 @@ async def reply_salam(event):
     if event.sender_id == 1421907917:
         await asyncio.sleep(1)
         await event.reply("صحيح")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( Talented )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("موهوب")
     else:
         pass
 
@@ -968,6 +984,14 @@ async def reply_salam(event):
     else:
         pass
 
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( now )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("الان")
+    else:
+        pass
+
 @l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( voice )" in e.text.lower(), edited=False)
 async def reply_salam(event):
     if event.sender_id == 1421907917:
@@ -1113,13 +1137,13 @@ async def reply_salam(event):
         pass
 
 
-@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( Talented )" in e.text.lower(), edited=False)
-async def reply_salam(event):
-    if event.sender_id == 1421907917:
-        await asyncio.sleep(1)
-        await event.reply("موهوب")
-    else:
-        pass
+# @l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( Talented )" in e.text.lower(), edited=False)
+# async def reply_salam(event):
+#     if event.sender_id == 1421907917:
+#         await asyncio.sleep(1)
+#         await event.reply("موهوب")
+#     else:
+#         pass
 
 @l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( high )" in e.text.lower(), edited=False)
 async def reply_salam(event):
@@ -1142,5 +1166,197 @@ async def reply_salam(event):
     if event.sender_id == 1421907917:
         await asyncio.sleep(1)
         await event.reply("محقق")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( easy )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("سهل")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( cow )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("بقرة")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( found )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("وجد")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( Sugar )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("سكر")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( Programmer )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("مبرمج")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( flower )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("زهره")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( Plane )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("طائره")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( Eggs )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("بيض")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( Happy )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("سعيد")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( goal )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("هدف")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( Snake )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("ثعبان")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( host )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("مضيف")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( every )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("كل")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( dark )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("مظلم")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( end )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("نهاية")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( Jeans )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("جينز")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( Cook )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("طباخ")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( bad )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("سيء")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( Funny )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("مضحك")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( early )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("مبكر")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( story )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("قصة")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( king )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("ملك")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( flower )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("وردة")
+    else:
+        pass
+
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ ( hungry )" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        await asyncio.sleep(1)
+        await event.reply("جائع")
     else:
         pass
