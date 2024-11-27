@@ -35,7 +35,6 @@ purgetype = {
     "l": InputMessagesFilterGeo,
     "غ": InputMessagesFilterMusic,
     "r": InputMessagesFilterRoundVideo,
-    "ق": InputMessagesFilterEmpty,
     "ر": InputMessagesFilterUrl,
     "ف": InputMessagesFilterVideo,
     # "ك": search
