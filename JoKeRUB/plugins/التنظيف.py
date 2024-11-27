@@ -419,6 +419,7 @@ from telethon.tl.types import (
     InputMessagesFilterRoundVideo,
     InputMessagesFilterDocument,
     InputMessagesFilterPhotos,
+    InputMessagesFilterSticker,
     InputMessagesFilterVideo,
     InputMessagesFilterGif,
     InputMessagesFilterUrl
