@@ -40,8 +40,13 @@ async def delete_filtered_messages(event):
         # تطبيق الفلاتر وحذف الرسائل
         for msg_filter in filters:
             async for message in event.client.iter_messages(event.chat_id, filter=msg_filter):
-                await message.delete()  # حذف الرسالة
-                total_deleted += 1  # زيادة عدد الرسائل المحذوفة
+                if msg_filter == InputMessagesFilterSticker:
+                    if message.sticker:  # التحقق من وجود ملصق في الرسالة
+                        await message.delete()  # حذف الرسالة
+                        total_deleted += 1  # زيادة عدد الرسائل المحذوفة
+                else:
+                    await message.delete()  # حذف الرسالة
+                    total_deleted += 1  # زيادة عدد الرسائل المحذوفة
 
         # إرسال رسالة تأكيد بعد الانتهاء من الحذف
         if total_deleted > 0:
