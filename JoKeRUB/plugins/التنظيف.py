@@ -414,7 +414,6 @@ async def fastpurger(event):  # sourcery no-metrics
     await sleep(5)
     await hi.delete()
 
-
 from telethon.tl.types import (
     InputMessagesFilterRoundVideo,
     InputMessagesFilterDocument,
@@ -442,29 +441,35 @@ async def delete_filtered_messages(event):
     try:
         # أنواع الفلاتر التي سيتم تطبيقها
         filters = [
-            InputMessagesFilterRoundVideo,  
-            InputMessagesFilterDocument,   
-            InputMessagesFilterSticker,
-            InputMessagesFilterPhotos,     
-            InputMessagesFilterVideo,  
-            InputMessagesFilterGif,    
-            InputMessagesFilterUrl,    
+            InputMessagesFilterRoundVideo,  # فيديوهات دائرية
+            InputMessagesFilterDocument,    # مستندات
+            InputMessagesFilterSticker,     # ملصقات
+            InputMessagesFilterPhotos,      # صور
+            InputMessagesFilterVideo,       # فيديوهات عادية
+            InputMessagesFilterGif,         # صور متحركة (GIFs)
+            InputMessagesFilterUrl          # رسائل تحتوي على روابط
         ]
         
         # عدد الرسائل المحذوفة
         total_deleted = 0
+        limit = 1000  # تحديد حد أقصى لعدد الرسائل المحذوفة في كل مرة
 
         # تطبيق الفلاتر وحذف الرسائل
         for msg_filter in filters:
-            async for message in event.client.iter_messages(event.chat_id, filter=msg_filter):
+            async for message in event.client.iter_messages(event.chat_id, filter=msg_filter, limit=limit):
                 await message.delete()  # حذف الرسالة
                 total_deleted += 1  # زيادة عدد الرسائل المحذوفة
 
         # إرسال رسالة تأكيد بعد الانتهاء من الحذف
         if total_deleted > 0:
-            await event.reply(f"تم حذف {total_deleted} رسالة تحتوي على روابط، صور، فيديوهات او ملصقات او مستندات!")
+            await event.reply(f"تم حذف {total_deleted} رسالة تحتوي على روابط، صور، فيديوهات، ملصقات أو مستندات!")
         else:
             await event.reply("لا توجد رسائل تطابق الفلاتر المحددة!")
 
     except Exception as e:
-        await event.reply(f"حدث خطأ أثناء الحذف: {str(e)}")
+        # في حالة حدوث خطأ أثناء الحذف
+        error_message = f"حدث خطأ أثناء الحذف: {str(e)}"
+        # تسجيل الخطأ (اختياري) في وحدة التحكم أو سجلات البوت
+        print(f"Error occurred: {error_message}")
+        # إرسال رسالة للمستخدم
+        await event.reply(error_message)
