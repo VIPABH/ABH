@@ -4,9 +4,8 @@ from telethon.tl.types import (
     InputMessagesFilterDocument,
     InputMessagesFilterPhotos,
     InputMessagesFilterVideo,
-    InputMessagesFilterGif,
-    InputMessagesFilterUrl
-)
+    InputMessagesFilterGif
+    )
 from JoKeRUB import l313l
 
 plugin_category = "extra"
@@ -30,8 +29,8 @@ async def delete_filtered_messages(event):
             InputMessagesFilterDocument,  
             InputMessagesFilterPhotos, 
             InputMessagesFilterVideo,  
-            InputMessagesFilterGif,     
-            InputMessagesFilterUrl      
+            InputMessagesFilterGif     
+                  
         ]
         
         # عدد الرسائل المحذوفة
