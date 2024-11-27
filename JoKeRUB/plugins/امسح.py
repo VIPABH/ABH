@@ -4,8 +4,7 @@ from telethon.tl.types import (
     InputMessagesFilterPhotos,
     InputMessagesFilterVideo,
     InputMessagesFilterGif,
-    InputMessagesFilterUrl,
-    InputMessagesFilterSticker  # إضافة فلتر الملصقات
+    InputMessagesFilterUrl
 )
 from JoKeRUB import l313l
 
@@ -27,7 +26,6 @@ async def delete_filtered_messages(event):
         filters = [
             InputMessagesFilterRoundVideo,  # فيديوهات دائرية
             InputMessagesFilterDocument,   # مستندات
-            InputMessagesFilterSticker,    # ملصقات
             InputMessagesFilterPhotos,     # صور
             InputMessagesFilterVideo,      # فيديوهات عادية
             InputMessagesFilterGif,        # صور متحركة (GIFs)
@@ -45,7 +43,7 @@ async def delete_filtered_messages(event):
 
         # إرسال رسالة تأكيد بعد الانتهاء من الحذف
         if total_deleted > 0:
-            await event.reply(f"تم حذف {total_deleted} رسالة تحتوي على روابط، صور، فيديوهات، ملصقات أو مستندات!")
+            await event.reply(f"تم حذف {total_deleted} رسالة تحتوي على روابط، صور، فيديوهات أو مستندات!")
         else:
             await event.reply("لا توجد رسائل تطابق الفلاتر المحددة!")
 
