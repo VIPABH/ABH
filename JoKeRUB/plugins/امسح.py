@@ -1,10 +1,6 @@
 from telethon.tl.types import (
-    InputMessagesFilterRoundVideo,
-    InputMessagesFilterSticker,
     InputMessagesFilterDocument,
-    InputMessagesFilterPhotos,
-    InputMessagesFilterVideo,
-    InputMessagesFilterGif
+    InputMessagesFilterUrl
     )
 from JoKeRUB import l313l
 
@@ -24,12 +20,8 @@ async def delete_filtered_messages(event):
     try:
         # أنواع الفلاتر التي سيتم تطبيقها
         filters = [
-            InputMessagesFilterRoundVideo,
-            InputMessagesFilterSticker,
             InputMessagesFilterDocument,  
-            InputMessagesFilterPhotos, 
-            InputMessagesFilterVideo,  
-            InputMessagesFilterGif     
+            InputMessagesFilterUrl
                   
         ]
         
