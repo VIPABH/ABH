@@ -443,7 +443,7 @@ async def delete_filtered_messages(event):
         filters = [
             InputMessagesFilterRoundVideo,  
             InputMessagesFilterDocument,   
-            InputMessagesFilterSticker 
+            InputMessagesFilterSticker,
             InputMessagesFilterPhotos,     
             InputMessagesFilterVideo,  
             InputMessagesFilterGif,    
