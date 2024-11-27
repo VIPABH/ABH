@@ -1,7 +1,7 @@
 from telethon.tl.types import (
     InputMessagesFilterDocument,
     InputMessagesFilterUrl
-    )
+)
 from JoKeRUB import l313l
 
 plugin_category = "extra"
@@ -22,7 +22,6 @@ async def delete_filtered_messages(event):
         filters = [
             InputMessagesFilterDocument,  
             InputMessagesFilterUrl
-                  
         ]
         
         # عدد الرسائل المحذوفة
@@ -31,17 +30,13 @@ async def delete_filtered_messages(event):
         # تطبيق الفلاتر وحذف الرسائل
         for msg_filter in filters:
             async for message in event.client.iter_messages(event.chat_id, filter=msg_filter):
-                if msg_filter == InputMessagesFilterSticker:
-                    if message.sticker:  # التحقق من وجود ملصق في الرسالة
-                        await message.delete()  # حذف الرسالة
-                        total_deleted += 1  # زيادة عدد الرسائل المحذوفة
-                else:
+                if message:
                     await message.delete()  # حذف الرسالة
                     total_deleted += 1  # زيادة عدد الرسائل المحذوفة
 
         # إرسال رسالة تأكيد بعد الانتهاء من الحذف
         if total_deleted > 0:
-            await event.reply(f"تم حذف {total_deleted} رسالة تحتوي على روابط، صور، فيديوهات أو مستندات!")
+            await event.reply(f"تم حذف {total_deleted} رسالة تحتوي على روابط أو مستندات!")
         else:
             await event.reply("لا توجد رسائل تطابق الفلاتر المحددة!")
 
