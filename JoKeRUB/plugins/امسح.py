@@ -1,5 +1,6 @@
 from telethon.tl.types import (
     InputMessagesFilterRoundVideo,
+    InputMessagesFilterSticker,
     InputMessagesFilterDocument,
     InputMessagesFilterPhotos,
     InputMessagesFilterVideo,
@@ -24,12 +25,13 @@ async def delete_filtered_messages(event):
     try:
         # أنواع الفلاتر التي سيتم تطبيقها
         filters = [
-            InputMessagesFilterRoundVideo,  # فيديوهات دائرية
-            InputMessagesFilterDocument,   # مستندات
-            InputMessagesFilterPhotos,     # صور
-            InputMessagesFilterVideo,      # فيديوهات عادية
-            InputMessagesFilterGif,        # صور متحركة (GIFs)
-            InputMessagesFilterUrl         # رسائل تحتوي على روابط
+            InputMessagesFilterRoundVideo,
+            InputMessagesFilterSticker,
+            InputMessagesFilterDocument,  
+            InputMessagesFilterPhotos, 
+            InputMessagesFilterVideo,  
+            InputMessagesFilterGif,     
+            InputMessagesFilterUrl      
         ]
         
         # عدد الرسائل المحذوفة
