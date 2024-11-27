@@ -441,12 +441,13 @@ async def delete_filtered_messages(event):
     try:
         # أنواع الفلاتر التي سيتم تطبيقها
         filters = [
-            InputMessagesFilterRoundVideo,  # فيديوهات دائرية
-            InputMessagesFilterDocument,   # مستندات
-            InputMessagesFilterPhotos,     # صور
-            InputMessagesFilterVideo,      # فيديوهات عادية
-            InputMessagesFilterGif,        # صور متحركة (GIFs)
-            InputMessagesFilterUrl         # رسائل تحتوي على روابط
+            InputMessagesFilterRoundVideo,  
+            InputMessagesFilterDocument,   
+            InputMessagesFilterSticker 
+            InputMessagesFilterPhotos,     
+            InputMessagesFilterVideo,  
+            InputMessagesFilterGif,    
+            InputMessagesFilterUrl,    
         ]
         
         # عدد الرسائل المحذوفة
@@ -460,7 +461,7 @@ async def delete_filtered_messages(event):
 
         # إرسال رسالة تأكيد بعد الانتهاء من الحذف
         if total_deleted > 0:
-            await event.reply(f"تم حذف {total_deleted} رسالة تحتوي على روابط، صور، فيديوهات أو مستندات!")
+            await event.reply(f"تم حذف {total_deleted} رسالة تحتوي على روابط، صور، فيديوهات او ملصقات او مستندات!")
         else:
             await event.reply("لا توجد رسائل تطابق الفلاتر المحددة!")
 
