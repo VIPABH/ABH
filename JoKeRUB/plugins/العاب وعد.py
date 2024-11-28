@@ -247,7 +247,7 @@ word_meanings = {
     "queen": "ملكة"    
     
     
-    }
+    }import re
 
 @l313l.ar_cmd(pattern="العب")
 async def w3d_joker(event):
@@ -265,19 +265,17 @@ async def w3d_joker(event):
             aljoker = aljoker[0].message
 
             try:
-                # استخراج الرقم من النص بعد تقسيم الرسالة
-                aljoker_parts = ("".join(aljoker.split(maxsplit=2)[2:])).split(" ", 2)
-                l313l = aljoker_parts[0]
+                # استخدام تعبير نمطي لاستخراج الكلمة بين الأقواس
+                match = re.search(r"\((.*?)\)", aljoker)  # البحث عن الكلمة بين الأقواس
+                if match:
+                    word = match.group(1)  # الكلمة المستخرجة بين الأقواس
 
-                # التحقق من أن الرقم صالح
-                if l313l.isdigit() and int(l313l) > 500000000:
-                    await event.client.send_message(event.chat_id, f"استثمار {l313l}")
+                    # إرسال الكلمة كاستثمار
+                    await event.client.send_message(event.chat_id, f"استثمار {word}")
                     await asyncio.sleep(1)
                 else:
-                    await event.client.send_message(event.chat_id, "⌔∮ الرقم غير صالح للاستثمار ⚠️")
-            except IndexError:
-                # التعامل مع الرسائل التي لا تحتوي على أجزاء كافية
-                await event.client.send_message(event.chat_id, "⌔∮ لم أتمكن من استخراج الرقم ⚠️")
+                    await event.client.send_message(event.chat_id, "⌔∮ لم أتمكن من استخراج الكلمة بين الأقواس ⚠️")
+            
             except Exception as e:
                 # التعامل مع الأخطاء غير المتوقعة
                 await event.client.send_message(event.chat_id, f"⌔∮ حدث خطأ: {str(e)} ⚠️")
