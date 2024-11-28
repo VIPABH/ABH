@@ -248,34 +248,3 @@ word_meanings = {
     
     
     }
-
-@l313l.ar_cmd(pattern="العب")
-async def w3d_joker(event):
-    await event.delete()
-    global its_Reham
-    its_Reham = True
-    while its_Reham:
-        if event.is_group:
-            # إرسال "كلمات" للمجموعة
-            await event.client.send_message(event.chat_id, "كلمات")
-            await asyncio.sleep(1)
-
-            # الحصول على آخر رسالة من المجموعة
-            aljoker = await event.client.get_messages(event.chat_id, limit=1)
-            aljoker = aljoker[0].message  # الرسالة الأولى (الأخيرة)
-
-            try:
-                # استخدام تعبير نمطي لاستخراج الكلمة بين الأقواس
-                match = re.search(r"\((.*?)\)", aljoker)  # البحث عن الكلمة بين الأقواس
-                if match:
-                    word = match.group(1).strip()  # الكلمة المستخرجة بين الأقواس (تجاهل المسافات)
-                    
-                    # إرسال الكلمة كاستثمار
-                    await event.client.send_message(event.chat_id, f"{word}")
-                    await asyncio.sleep(1)
-                else:
-                    await event.client.send_message(event.chat_id, "⌔∮ لم أتمكن من استخراج الكلمة بين الأقواس ⚠️")
-            
-            except Exception as e:
-                # التعامل مع الأخطاء غير المتوقعة
-                await event.client.send_message(event.chat_id, f"⌔∮ حدث خطأ: {str(e)} ⚠️")
