@@ -246,11 +246,10 @@ word_meanings = {
     
     
     }
-
 # الزخرفة لإعداد الأمر .العب
 @l313l.ar_cmd(pattern="العب")
 async def play_command(event):
-    # أرسل الكلمة "انقليزي"
+    # أرسل الكلمة "كلمات"
     await event.respond("كلمات")
     
     # انتظر رسالة من المستخدم الذي رقمه هو 1421907917
@@ -266,5 +265,4 @@ async def play_command(event):
             await event.respond("⌔∮ لم أتمكن من استخراج الكلمة بين الأقواس ⚠️")
         
         # إزالة المعالج بعد الرد على الرسالة
-        client.remove_event_handler(extract_word_from_message)
-
+        await event.client.remove_event_handler(extract_word_from_message)
