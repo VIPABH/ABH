@@ -265,13 +265,15 @@ async def reply_salam(event):
     else:
         pass
         
-@l313l.ar_cmd(incoming=True, func=lambda e: "العب " in e.text.lower(), edited=False)
+        @l313l.ar_cmd(incoming=True, func=lambda e: "العب " in e.text.lower(), edited=False)
 async def reply_salam(event):
     if event.sender_id == 1421907917:
         # استخراج الرقم من النص بعد "العب"
         try:
-            count = int(event.text.split()[1])  # الرقم سيكون بعد "العب"
-        except ValueError:
+            # استخراج الرقم الذي يتبع "العب"
+            parts = event.text.split()
+            count = int(parts[1])  # الرقم سيكون في المكان الثاني
+        except (ValueError, IndexError):
             count = 1  # إذا لم يكن هناك رقم، سيتم التكرار مرة واحدة
 
         # إرسال الكلمة "كلمات" أولاً
