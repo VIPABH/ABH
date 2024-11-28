@@ -251,7 +251,7 @@ word_meanings = {
 @l313l.ar_cmd(pattern="العب")
 async def play_command(event):
     # أرسل الكلمة "انقليزي"
-    await event.respond("انقليزي")
+    await event.respond("كلمات")
     
     # انتظر رسالة من المستخدم الذي رقمه هو 1421907917
     @client.on(events.NewMessage(from_users=1421907917))
