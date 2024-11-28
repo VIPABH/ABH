@@ -246,33 +246,42 @@ word_meanings = {
     
     
     }
-# الزخرفة لإعداد الأمر .العب
-@l313l.ar_cmd(pattern="العب")
+
+import re
+from telethon import events
+
+@l313l.on(events.NewMessage(pattern=r"^\.العب (\d+)$"))
 async def play_command(event):
     # الحصول على الرقم المدخل بعد الأمر .العب
-    number = int(event.text.split()[1])  # نأخذ الرقم بعد الأمر
+    try:
+        number = int(event.pattern_match.group(1))  # الرقم المدخل بعد .العب
+    except ValueError:
+        await event.respond("⌔∮ تأكد من إدخال رقم صحيح بعد الأمر ⚠️")
+        return
 
-    # أرسل الكلمة "كلمات"
+    # أرسل الكلمة "كلمات" كإشارة للبداية
     await event.respond("كلمات")
-    
-    # تابع الكود بناءً على الرقم المدخل
-    async def extract_word_from_message(event):
-        # استخراج الكلمة بين الأقواس بعد الرمز ↢
-        word_match = re.search(r"↢ \((.*?)\)", event.text)  # البحث عن النص بين الأقواس بعد ↢
 
-        if word_match:
-            word = word_match.group(1)  # استخراج الكلمة بين الأقواس
-            await event.respond(f"{word}")
-        else:
-            await event.respond("⌔∮ لم أتمكن من استخراج الكلمة بين الأقواس ⚠️")
+    # عداد لاستقبال الرسائل
+    counter = 0
 
-    # تكرار العملية بناءً على الرقم المدخل
-    for _ in range(number):
-        # انتظر رسالة من المستخدم الذي رقمه هو 1421907917
-        @l313l.on(events.NewMessage(from_users=1421907917))
-        async def handler(event):
-            # استخرج الكلمة من الرسالة
-            await extract_word_from_message(event)
-
-            # إزالة المعالج بعد الرد على الرسالة
+    # تعريف المعالج لاستقبال الرسائل من المستخدم المحدد
+    @l313l.on(events.NewMessage(from_users=1421907917))
+    async def handler(new_event):
+        nonlocal counter
+        if counter >= number:
+            # إزالة المعالج بعد استقبال العدد المطلوب
             l313l.remove_event_handler(handler)
+            return
+
+        # استخراج الكلمة بين الأقواس بعد ↢
+        word_match = re.search(r"↢ \((.*?)\)", new_event.text)
+        if word_match:
+            word = word_match.group(1)
+            await new_event.respond(f"{word}")
+        else:
+            await new_event.respond("⌔∮ لم أتمكن من استخراج الكلمة بين الأقواس ⚠️")
+
+        # زيادة العداد
+        counter += 1
+
