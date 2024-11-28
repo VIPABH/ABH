@@ -248,32 +248,21 @@ word_meanings = {
     
     
     }
-@l313l.on(events.NewMessage(pattern=r"^\.العب(?: (\d+))?$"))
-async def play_command(event):
-    # الحصول على الرقم المدخل بعد الأمر .العب أو ضبط القيمة الافتراضية على 1
-    number = int(event.pattern_match.group(1)) if event.pattern_match.group(1) else 1
 
-    # أرسل الكلمة "كلمات" كإشارة للبداية
-    await event.respond("كلمات")
 
-    # عداد لاستقبال الرسائل
-    counter = 0
-
-    # بدء مراقبة الرسائل داخل حلقة
-    async for new_event in l313l.iter_messages(event.chat_id, from_user=1421907917):
-        if counter >= number:
-            break  # التوقف عند استكمال العدد المطلوب من الرسائل
-
-        # محاولة استخراج الكلمة بين الأقواس بعد ↢
-        try:
-            word_match = re.search(r"↢ \((.*?)\)", new_event.text)
-            if word_match:
-                word = word_match.group(1)
-                await event.respond(f"الكلمة ↢ « {word} »")
-            else:
-                await event.respond("⌔∮ لم أتمكن من استخراج الكلمة بين الأقواس ⚠️")
-        except Exception as e:
-            await event.respond(f"⌔∮ حدث خطأ أثناء معالجة الرسالة: {str(e)} ⚠️")
-
-        # زيادة العداد
-        counter += 1
+@l313l.ar_cmd(pattern="العب")
+async def w3d_joker(event):
+    await event.delete()
+    global its_Reham
+    its_Reham = True
+    while its_Reham:
+        if event.is_group:
+            await event.client.send_message(event.chat_id, "كلمات")
+            await asyncio.sleep(1)
+            aljoker = await event.client.get_messages(event.chat_id, limit=1)
+            aljoker = aljoker[0].message
+            aljoker = ("".join(aljoker.split(maxsplit=2)[2:])).split(" ", 2)
+            l313l = aljoker[0]
+                await event.client.send_message(event.chat_id,f"استثمار {l313l}")
+                await asyncio.sleep(1)
+                joker = await event.client.get_messages(event.chat_id, limit=1)
