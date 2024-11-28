@@ -1,0 +1,46 @@
+from JoKeRUB import l313l
+import asyncio
+
+from telethon import events
+import random, re
+
+from JoKeRUB.utils import admin_cmd
+
+import asyncio
+from JoKeRUB import l313l
+
+from ..core.managers import edit_or_reply
+
+plugin_category = "extra"
+
+# قاموس يحتوي على الكلمات ومعانيها
+word_meanings = {
+    "teacher": "مدرس",
+    "live": "حياة",
+    "book": "كتاب",
+    "school": "مدرسة",
+    "car": "سيارة",
+    "computer": "كمبيوتر",
+    "love": "حب",
+    "friend": "صديق",
+    # يمكنك إضافة المزيد من الكلمات هنا...
+}
+
+@l313l.ar_cmd(pattern="العب")
+async def start_game(event):
+    # الرد بكلمة "انقليزي" عندما يكتب المستخدم "العب"
+    await event.reply("انقليزي")
+
+    # انتظار كلمة من المستخدم بعد الرد
+    @l313l.ar_cmd(pattern="معنى ↢ \((.*)\)")
+    async def handle_meaning(event):
+        # الحصول على الكلمة المدخلة بعد "معنى ↢ (الكلمة)"
+        word = event.pattern_match.group(1).strip().lower()
+
+        # إذا كانت الكلمة موجودة في القاموس، الرد بالمعنى
+        meaning = word_meanings.get(word)
+        
+        if meaning:
+            await event.reply(meaning)  # الرد بالمعنى إذا كان موجود
+        else:
+            await event.reply("لا يوجد معنى لهذا الكلمة.")  # إذا كانت الكلمة غير موجودة في القاموس
