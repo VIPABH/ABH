@@ -271,7 +271,7 @@ async def w3d_joker(event):
                     word = match.group(1).strip()  # الكلمة المستخرجة بين الأقواس (تجاهل المسافات)
                     
                     # إرسال الكلمة كاستثمار
-                    await event.client.send_message(event.chat_id, f"استثمار {word}")
+                    await event.client.send_message(event.chat_id, f"{word}")
                     await asyncio.sleep(1)
                 else:
                     await event.client.send_message(event.chat_id, "⌔∮ لم أتمكن من استخراج الكلمة بين الأقواس ⚠️")
