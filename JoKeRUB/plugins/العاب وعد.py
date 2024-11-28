@@ -249,15 +249,13 @@ word_meanings = {
     
     }
 
+import re
+from telethon import events
 
-@l313l.on(events.NewMessage(pattern=r"^\.العب (\d+)$"))
+@l313l.on(events.NewMessage(pattern=r"^\.العب(?: (\d+))?$"))
 async def play_command(event):
-    # الحصول على الرقم المدخل بعد الأمر .العب
-    try:
-        number = int(event.pattern_match.group(1))  # الرقم المدخل بعد .العب
-    except ValueError:
-        await event.respond("⌔∮ تأكد من إدخال رقم صحيح بعد الأمر ⚠️")
-        return
+    # الحصول على الرقم المدخل بعد الأمر .العب أو ضبط القيمة الافتراضية على 1
+    number = int(event.pattern_match.group(1)) if event.pattern_match.group(1) else 1
 
     # أرسل الكلمة "كلمات" كإشارة للبداية
     await event.respond("كلمات")
@@ -284,4 +282,3 @@ async def play_command(event):
 
         # زيادة العداد
         counter += 1
-
