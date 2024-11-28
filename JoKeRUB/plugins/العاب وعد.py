@@ -264,15 +264,3 @@ async def reply_salam(event):
             await event.reply("لا يوجد معنى لهذه الكلمة.")
     else:
         pass
-
-@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ (" in e.text.lower(), edited=False)
-async def reply_salam(event):
-    if event.sender_id == 1421907917:
-        # استخراج الكلمة من النص بين الأقواس
-        word = event.text.lower().split("اكتب معنى ↢ (")[1].split(")")[0].strip()
-
-        # الرد بالكلمة المستخرجة
-        await asyncio.sleep(1)
-        await event.reply(word)  # إرسال الكلمة التي داخل الأقواس
-    else:
-        pass
