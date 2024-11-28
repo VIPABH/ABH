@@ -248,7 +248,6 @@ word_meanings = {
     
     
     }
-
 @l313l.on(events.NewMessage(pattern=r"^\.العب(?: (\d+))?$"))
 async def play_command(event):
     # الحصول على الرقم المدخل بعد الأمر .العب أو ضبط القيمة الافتراضية على 1
@@ -265,13 +264,16 @@ async def play_command(event):
         if counter >= number:
             break  # التوقف عند استكمال العدد المطلوب من الرسائل
 
-        # استخراج الكلمة بين الأقواس بعد ↢
-        word_match = re.search(r"↢ \((.*?)\)", new_event.text)
-        if word_match:
-            word = word_match.group(1)
-            await new_event.respond(f"{word}")
-        else:
-            await new_event.respond("⌔∮ لم أتمكن من استخراج الكلمة بين الأقواس ⚠️")
+        # محاولة استخراج الكلمة بين الأقواس بعد ↢
+        try:
+            word_match = re.search(r"↢ \((.*?)\)", new_event.text)
+            if word_match:
+                word = word_match.group(1)
+                await event.respond(f"الكلمة ↢ « {word} »")
+            else:
+                await event.respond("⌔∮ لم أتمكن من استخراج الكلمة بين الأقواس ⚠️")
+        except Exception as e:
+            await event.respond(f"⌔∮ حدث خطأ أثناء معالجة الرسالة: {str(e)} ⚠️")
 
         # زيادة العداد
         counter += 1
