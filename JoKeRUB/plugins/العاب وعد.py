@@ -248,6 +248,7 @@ word_meanings = {
     
     
     }
+
 @l313l.on(events.NewMessage(pattern=r"^\.العب(?: (\d+))?$"))
 async def play_command(event):
     # الحصول على الرقم المدخل بعد الأمر .العب أو ضبط القيمة الافتراضية على 1
@@ -259,20 +260,18 @@ async def play_command(event):
     # عداد لاستقبال الرسائل
     counter = 0
 
-    # تعريف المعالج لاستقبال الرسائل من المستخدم المحدد
-    @l313l.on(events.NewMessage(from_users=1421907917))
-    async def handler(new_event):
-        nonlocal counter
+    # بدء مراقبة الرسائل داخل حلقة
+    async for new_event in l313l.iter_messages(event.chat_id, from_user=1421907917):
         if counter >= number:
-            # إزالة المعالج بعد استقبال العدد المطلوب
-            l313l.remove_event_handler(handler)
-            return
+            break  # التوقف عند استكمال العدد المطلوب من الرسائل
 
         # استخراج الكلمة بين الأقواس بعد ↢
         word_match = re.search(r"↢ \((.*?)\)", new_event.text)
         if word_match:
             word = word_match.group(1)
             await new_event.respond(f"{word}")
-   
+        else:
+            await new_event.respond("⌔∮ لم أتمكن من استخراج الكلمة بين الأقواس ⚠️")
+
         # زيادة العداد
         counter += 1
