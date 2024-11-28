@@ -264,3 +264,31 @@ async def reply_salam(event):
             await event.reply("لا يوجد معنى لهذه الكلمة.")
     else:
         pass
+@l313l.ar_cmd(incoming=True, func=lambda e: "العب " in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        # استخراج الرقم من النص بعد "العب"
+        try:
+            count = int(event.text.split()[1])  # الرقم سيكون بعد "العب"
+        except ValueError:
+            count = 1  # إذا لم يكن هناك رقم، سيتم التكرار مرة واحدة
+
+        # إرسال الكلمة "كلمات" أولاً
+        await asyncio.sleep(1)
+        await event.reply("كلمات")
+
+        # استخراج الكلمة من النص بين الأقواس
+        try:
+            word = event.text.lower().split("اكتب معنى ↢ (")[1].split(")")[0].strip()
+        except IndexError:
+            word = None  # في حال عدم وجود كلمة بين الأقواس
+
+        # إذا تم العثور على الكلمة، إرسالها بالعدد المحدد
+        if word:
+            for _ in range(count):
+                await asyncio.sleep(1)
+                await event.reply(word)  # إرسال الكلمة التي داخل الأقواس
+        else:
+            await event.reply("لم يتم العثور على الكلمة.")  # إذا لم يتم العثور على كلمة
+    else:
+        pass
