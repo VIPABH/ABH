@@ -249,7 +249,6 @@ word_meanings = {
     
     }
 
-
 @l313l.ar_cmd(pattern="العب")
 async def w3d_joker(event):
     await event.delete()
@@ -257,12 +256,28 @@ async def w3d_joker(event):
     its_Reham = True
     while its_Reham:
         if event.is_group:
+            # إرسال "كلمات" للمجموعة
             await event.client.send_message(event.chat_id, "كلمات")
             await asyncio.sleep(1)
+
+            # الحصول على آخر رسالة من المجموعة
             aljoker = await event.client.get_messages(event.chat_id, limit=1)
             aljoker = aljoker[0].message
-            aljoker = ("".join(aljoker.split(maxsplit=2)[2:])).split(" ", 2)
-            l313l = aljoker[0]
-                await event.client.send_message(event.chat_id,f"استثمار {l313l}")
-                await asyncio.sleep(1)
-                joker = await event.client.get_messages(event.chat_id, limit=1)
+
+            try:
+                # استخراج الرقم من النص بعد تقسيم الرسالة
+                aljoker_parts = ("".join(aljoker.split(maxsplit=2)[2:])).split(" ", 2)
+                l313l = aljoker_parts[0]
+
+                # التحقق من أن الرقم صالح
+                if l313l.isdigit() and int(l313l) > 500000000:
+                    await event.client.send_message(event.chat_id, f"استثمار {l313l}")
+                    await asyncio.sleep(1)
+                else:
+                    await event.client.send_message(event.chat_id, "⌔∮ الرقم غير صالح للاستثمار ⚠️")
+            except IndexError:
+                # التعامل مع الرسائل التي لا تحتوي على أجزاء كافية
+                await event.client.send_message(event.chat_id, "⌔∮ لم أتمكن من استخراج الرقم ⚠️")
+            except Exception as e:
+                # التعامل مع الأخطاء غير المتوقعة
+                await event.client.send_message(event.chat_id, f"⌔∮ حدث خطأ: {str(e)} ⚠️")
