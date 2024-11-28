@@ -249,11 +249,13 @@ word_meanings = {
 # الزخرفة لإعداد الأمر .العب
 @l313l.ar_cmd(pattern="العب")
 async def play_command(event):
+    # الحصول على الرقم المدخل بعد الأمر .العب
+    number = int(event.text.split()[1])  # نأخذ الرقم بعد الأمر
+
     # أرسل الكلمة "كلمات"
     await event.respond("كلمات")
     
-    # انتظر رسالة من المستخدم الذي رقمه هو 1421907917
-    @l313l.on(events.NewMessage(from_users=1421907917))
+    # تابع الكود بناءً على الرقم المدخل
     async def extract_word_from_message(event):
         # استخراج الكلمة بين الأقواس بعد الرمز ↢
         word_match = re.search(r"↢ \((.*?)\)", event.text)  # البحث عن النص بين الأقواس بعد ↢
@@ -263,6 +265,14 @@ async def play_command(event):
             await event.respond(f"{word}")
         else:
             await event.respond("⌔∮ لم أتمكن من استخراج الكلمة بين الأقواس ⚠️")
-        
-        # إزالة المعالج بعد الرد على الرسالة
-        await event.client.remove_event_handler(extract_word_from_message)
+
+    # تكرار العملية بناءً على الرقم المدخل
+    for _ in range(number):
+        # انتظر رسالة من المستخدم الذي رقمه هو 1421907917
+        @l313l.on(events.NewMessage(from_users=1421907917))
+        async def handler(event):
+            # استخرج الكلمة من الرسالة
+            await extract_word_from_message(event)
+
+            # إزالة المعالج بعد الرد على الرسالة
+            l313l.remove_event_handler(handler)
