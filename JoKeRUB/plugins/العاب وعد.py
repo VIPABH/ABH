@@ -273,8 +273,6 @@ async def play_command(event):
         if word_match:
             word = word_match.group(1)
             await new_event.respond(f"{word}")
-        else:
-            await new_event.respond("⌔∮ لم أتمكن من استخراج الكلمة بين الأقواس ⚠️")
-
+   
         # زيادة العداد
         counter += 1
