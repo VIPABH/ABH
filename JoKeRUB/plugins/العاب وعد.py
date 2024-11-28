@@ -4,6 +4,74 @@ from JoKeRUB import l313l
 import asyncio
 import re
 from telethon import events
+    
+import asyncio
+import re
+from JoKeRUB import l313l
+
+plugin_category = "extra"
+# تعريف المتغير global للتحكم في التكرار
+its_Reham = False
+
+@l313l.ar_cmd(pattern="العب(\s*(\d+))?$")
+async def w3d_joker(event):
+    global its_Reham
+
+    # إذا كانت اللعبة لا تعمل، سيبدأ التكرار
+    if not its_Reham:
+        # التحقق من عدد مرات التكرار (إذا كان موجودًا)
+        repetitions = 1  # افتراضيًا، يكون التكرار 1
+        if event.pattern_match.group(2):
+            repetitions = int(event.pattern_match.group(2))  # إذا كانت هناك قيمة، استخدمها
+
+        await event.delete()
+        its_Reham = True
+
+        # إرسال رسالة البداية وتخزين معرف الرسالة لتعديلها لاحقًا
+        current_message = await event.client.send_message(event.chat_id, f"تم بدء اللعبة! عدد التكرار: {repetitions}")
+
+        for _ in range(repetitions):
+            if not its_Reham:  # إذا تم إيقاف اللعبة، نخرج من الحلقة
+                break
+            if event.is_group:
+                # إرسال "كلمات" للمجموعة
+                await event.client.send_message(event.chat_id, "كلمات")
+                await asyncio.sleep(1)
+
+                # الحصول على آخر رسالة من المجموعة
+                aljoker = await event.client.get_messages(event.chat_id, limit=1)
+                aljoker = aljoker[0].message  # الرسالة الأولى (الأخيرة)
+
+                try:
+                    # استخدام تعبير نمطي لاستخراج الكلمة بين الأقواس
+                    match = re.search(r"\((.*?)\)", aljoker)  # البحث عن الكلمة بين الأقواس
+                    if match:
+                        word = match.group(1).strip()  # الكلمة المستخرجة بين الأقواس (تجاهل المسافات)
+
+                        # تعديل الرسالة الحالية بدلاً من إرسال رسائل جديدة
+                        await event.client.edit_message(current_message, f"الكلمة: {word}")
+                        await asyncio.sleep(1)
+                    else:
+                        await event.client.edit_message(current_message, "⌔∮ لم أتمكن من استخراج الكلمة بين الأقواس ⚠️")
+                
+                except Exception as e:
+                    # التعامل مع الأخطاء غير المتوقعة
+                    await event.client.edit_message(current_message, f"⌔∮ حدث خطأ: {str(e)} ⚠️")
+        
+        # تعديل الرسالة بعد الانتهاء من التكرار
+        await event.client.edit_message(current_message, "تم الانتهاء من التكرار!")
+    else:
+        await event.client.edit_message(current_message, "العب بالفعل تعمل!")
+
+# أمر لإيقاف اللعبة
+@l313l.ar_cmd(pattern="أوقف")
+async def stop_game(event):
+    global its_Reham
+    its_Reham = False
+    if current_message:
+        await event.client.edit_message(current_message, "تم إيقاف اللعبة!")
+    else:
+        await event.client.send_message(event.chat_id, "لا توجد لعبة جارية لإيقافها.")
 
 word_meanings = {
     "strong": "قوي",
@@ -248,69 +316,3 @@ word_meanings = {
     
     }
 
-    
-import asyncio
-import re
-from JoKeRUB import l313l
-
-plugin_category = "extra"
-# تعريف المتغير global للتحكم في التكرار
-its_Reham = False
-
-@l313l.ar_cmd(pattern="العب(\s*(\d+))?$")
-async def w3d_joker(event):
-    global its_Reham
-
-    # إذا كانت اللعبة لا تعمل، سيبدأ التكرار
-    if not its_Reham:
-        # التحقق من عدد مرات التكرار (إذا كان موجودًا)
-        repetitions = 1  # افتراضيًا، يكون التكرار 1
-        if event.pattern_match.group(2):
-            repetitions = int(event.pattern_match.group(2))  # إذا كانت هناك قيمة، استخدمها
-        
-        await event.delete()  # حذف الأمر
-        its_Reham = True
-
-        # إرسال رسالة البداية وتخزين معرف الرسالة لتعديلها لاحقًا
-        current_message = await event.client.send_message(event.chat_id, f"تم بدء اللعبة! عدد التكرار: {repetitions}")
-
-        for _ in range(repetitions):
-            if not its_Reham:  # إذا تم إيقاف اللعبة، نخرج من الحلقة
-                break
-            if event.is_group:
-                # إرسال "كلمات" للمجموعة
-                await event.client.send_message(event.chat_id, "كلمات")
-                await asyncio.sleep(1)
-
-                # الحصول على آخر رسالة من المجموعة
-                aljoker = await event.client.get_messages(event.chat_id, limit=1)
-                aljoker = aljoker[0].message  # الرسالة الأولى (الأخيرة)
-
-                try:
-                    # استخدام تعبير نمطي لاستخراج الكلمة بين الأقواس
-                    match = re.search(r"\((.*?)\)", aljoker)  # البحث عن الكلمة بين الأقواس
-                    if match:
-                        word = match.group(1).strip()  # الكلمة المستخرجة بين الأقواس (تجاهل المسافات)
-
-                        # تعديل الرسالة الحالية بدلاً من إرسال رسائل جديدة
-                        await event.client.edit_message(current_message, f"الكلمة: {word}")
-                        await asyncio.sleep(1)
-                    else:
-                        await event.client.edit_message(current_message, "⌔∮ لم أتمكن من استخراج الكلمة بين الأقواس ⚠️")
-                
-                except Exception as e:
-                    # التعامل مع الأخطاء غير المتوقعة
-                    await event.client.edit_message(current_message, f"⌔∮ حدث خطأ: {str(e)} ⚠️")
-        
-        # تعديل الرسالة بعد الانتهاء من التكرار
-        await event.client.edit_message(current_message, "تم الانتهاء من التكرار!")
-        its_Reham = False  # إيقاف اللعبة بعد الانتهاء من التكرار
-    else:
-        await event.client.edit_message(current_message, "العب بالفعل تعمل!")
-
-# أمر لإيقاف اللعبة
-@l313l.ar_cmd(pattern="اوقف")
-async def stop_game(event):
-    global its_Reham
-    its_Reham = False
-    await event.client.send_message(event.chat_id, "تم إيقاف اللعبة!")
