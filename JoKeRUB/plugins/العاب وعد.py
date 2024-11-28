@@ -1,3 +1,5 @@
+import re
+from telethon import events
 from JoKeRUB import l313l
 import asyncio
 import re
@@ -247,8 +249,6 @@ word_meanings = {
     
     }
 
-import re
-from telethon import events
 
 @l313l.on(events.NewMessage(pattern=r"^\.العب (\d+)$"))
 async def play_command(event):
