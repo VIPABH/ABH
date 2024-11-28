@@ -1,5 +1,7 @@
 from JoKeRUB import l313l
 import asyncio
+import re
+from telethon import events
 
 word_meanings = {
     "strong": "قوي",
@@ -245,53 +247,24 @@ word_meanings = {
     
     }
 
-# دالة واحدة للإجابة على كل كلمة
-@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ (" in e.text.lower(), edited=False)
-async def reply_salam(event):
-    if event.sender_id == 1421907917:
-        # استخراج الكلمة من النص
-        word = event.text.lower().split("اكتب معنى ↢ (")[1].split(")")[0].strip()
+# الزخرفة لإعداد الأمر .العب
+@l313l.ar_cmd(pattern="العب")
+async def play_command(event):
+    # أرسل الكلمة "انقليزي"
+    await event.respond("انقليزي")
+    
+    # انتظر رسالة من المستخدم الذي رقمه هو 1421907917
+    @client.on(events.NewMessage(from_users=1421907917))
+    async def extract_word_from_message(event):
+        # استخراج الكلمة بين الأقواس بعد الرمز ↢
+        word_match = re.search(r"↢ \((.*?)\)", event.text)  # البحث عن النص بين الأقواس بعد ↢
 
-        # البحث عن المعنى في القاموس
-        meaning = word_meanings.get(word)
-
-        # إذا كانت الكلمة موجودة في القاموس، الرد بالمعنى
-        if meaning:
-            await asyncio.sleep(1)
-            await event.reply(meaning)
+        if word_match:
+            word = word_match.group(1)  # استخراج الكلمة بين الأقواس
+            await event.respond(f"⌔∮ الكلمة هي: {word}")
         else:
-            await asyncio.sleep(1)
-            await event.reply("لا يوجد معنى لهذه الكلمة.")
-    else:
-        pass
+            await event.respond("⌔∮ لم أتمكن من استخراج الكلمة بين الأقواس ⚠️")
         
-        @l313l.ar_cmd(incoming=True, func=lambda e: "العب " in e.text.lower(), edited=False)
-async def reply_salam(event):
-    if event.sender_id == 1421907917:
-        # استخراج الرقم من النص بعد "العب"
-        try:
-            # استخراج الرقم الذي يتبع "العب"
-            parts = event.text.split()
-            count = int(parts[1])  # الرقم سيكون في المكان الثاني
-        except (ValueError, IndexError):
-            count = 1  # إذا لم يكن هناك رقم، سيتم التكرار مرة واحدة
+        # إزالة المعالج بعد الرد على الرسالة
+        client.remove_event_handler(extract_word_from_message)
 
-        # إرسال الكلمة "كلمات" أولاً
-        await asyncio.sleep(1)
-        await event.reply("كلمات")
-
-        # استخراج الكلمة من النص بين الأقواس
-        try:
-            word = event.text.lower().split("اكتب معنى ↢ (")[1].split(")")[0].strip()
-        except IndexError:
-            word = None  # في حال عدم وجود كلمة بين الأقواس
-
-        # إذا تم العثور على الكلمة، إرسالها بالعدد المحدد
-        if word:
-            for _ in range(count):
-                await asyncio.sleep(1)
-                await event.reply(word)  # إرسال الكلمة التي داخل الأقواس
-        else:
-            await event.reply("لم يتم العثور على الكلمة.")  # إذا لم يتم العثور على كلمة
-    else:
-        pass
