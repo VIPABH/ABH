@@ -8,6 +8,9 @@ from telethon import events
 import asyncio
 import re
 from JoKeRUB import l313l
+import asyncio
+import re
+from JoKeRUB import l313l
 
 plugin_category = "extra"
 # تعريف المتغير global للتحكم في التكرار
@@ -23,12 +26,12 @@ async def w3d_joker(event):
         repetitions = 1  # افتراضيًا، يكون التكرار 1
         if event.pattern_match.group(2):
             repetitions = int(event.pattern_match.group(2))  # إذا كانت هناك قيمة، استخدمها
-
-        await event.delete()
+        
+        await event.delete()  # حذف الأمر
         its_Reham = True
 
-        # إرسال رسالة البداية وتخزين معرف الرسالة لتعديلها لاحقًا
-        current_message = await event.client.send_message(event.chat_id, f"تم بدء اللعبة! عدد التكرار: {repetitions}")
+        # إرسال رسالة البداية
+        start_message = await event.client.send_message(event.chat_id, f"تم بدء اللعبة! عدد التكرار: {repetitions}")
 
         for _ in range(repetitions):
             if not its_Reham:  # إذا تم إيقاف اللعبة، نخرج من الحلقة
@@ -48,30 +51,28 @@ async def w3d_joker(event):
                     if match:
                         word = match.group(1).strip()  # الكلمة المستخرجة بين الأقواس (تجاهل المسافات)
 
-                        # تعديل الرسالة الحالية بدلاً من إرسال رسائل جديدة
-                        await event.client.edit_message(current_message, f"الكلمة: {word}")
+                        # إرسال الكلمة الجديدة
+                        await event.client.send_message(event.chat_id, f"الكلمة: {word}")
                         await asyncio.sleep(1)
                     else:
-                        await event.client.edit_message(current_message, "⌔∮ لم أتمكن من استخراج الكلمة بين الأقواس ⚠️")
+                        await event.client.send_message(event.chat_id, "⌔∮ لم أتمكن من استخراج الكلمة بين الأقواس ⚠️")
                 
                 except Exception as e:
                     # التعامل مع الأخطاء غير المتوقعة
-                    await event.client.edit_message(current_message, f"⌔∮ حدث خطأ: {str(e)} ⚠️")
+                    await event.client.send_message(event.chat_id, f"⌔∮ حدث خطأ: {str(e)} ⚠️")
         
-        # تعديل الرسالة بعد الانتهاء من التكرار
-        await event.client.edit_message(current_message, "تم الانتهاء من التكرار!")
+        # إرسال رسالة بعد الانتهاء من التكرار
+        await event.client.send_message(event.chat_id, "تم الانتهاء من التكرار!")
+        its_Reham = False  # إيقاف اللعبة بعد الانتهاء من التكرار
     else:
-        await event.client.edit_message(current_message, "العب بالفعل تعمل!")
+        await event.client.send_message(event.chat_id, "العب بالفعل تعمل!")
 
 # أمر لإيقاف اللعبة
 @l313l.ar_cmd(pattern="أوقف")
 async def stop_game(event):
     global its_Reham
     its_Reham = False
-    if current_message:
-        await event.client.edit_message(current_message, "تم إيقاف اللعبة!")
-    else:
-        await event.client.send_message(event.chat_id, "لا توجد لعبة جارية لإيقافها.")
+    await event.client.send_message(event.chat_id, "تم إيقاف اللعبة!")
 
 word_meanings = {
     "strong": "قوي",
