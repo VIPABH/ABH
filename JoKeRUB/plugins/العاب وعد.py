@@ -254,7 +254,7 @@ async def play_command(event):
     await event.respond("كلمات")
     
     # انتظر رسالة من المستخدم الذي رقمه هو 1421907917
-    @client.on(events.NewMessage(from_users=1421907917))
+    @l313l.on(events.NewMessage(from_users=1421907917))
     async def extract_word_from_message(event):
         # استخراج الكلمة بين الأقواس بعد الرمز ↢
         word_match = re.search(r"↢ \((.*?)\)", event.text)  # البحث عن النص بين الأقواس بعد ↢
