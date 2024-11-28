@@ -264,6 +264,7 @@ async def reply_salam(event):
             await event.reply("لا يوجد معنى لهذه الكلمة.")
     else:
         pass
+        
 @l313l.ar_cmd(incoming=True, func=lambda e: "العب " in e.text.lower(), edited=False)
 async def reply_salam(event):
     if event.sender_id == 1421907917:
