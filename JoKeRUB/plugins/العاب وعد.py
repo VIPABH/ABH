@@ -1,4 +1,4 @@
-import re
+
 from telethon import events
 from JoKeRUB import l313l
 import asyncio
@@ -247,7 +247,7 @@ word_meanings = {
     "queen": "ملكة"    
     
     
-    }import re
+    }
 
 @l313l.ar_cmd(pattern="العب")
 async def w3d_joker(event):
@@ -262,14 +262,14 @@ async def w3d_joker(event):
 
             # الحصول على آخر رسالة من المجموعة
             aljoker = await event.client.get_messages(event.chat_id, limit=1)
-            aljoker = aljoker[0].message
+            aljoker = aljoker[0].message  # الرسالة الأولى (الأخيرة)
 
             try:
                 # استخدام تعبير نمطي لاستخراج الكلمة بين الأقواس
                 match = re.search(r"\((.*?)\)", aljoker)  # البحث عن الكلمة بين الأقواس
                 if match:
-                    word = match.group(1)  # الكلمة المستخرجة بين الأقواس
-
+                    word = match.group(1).strip()  # الكلمة المستخرجة بين الأقواس (تجاهل المسافات)
+                    
                     # إرسال الكلمة كاستثمار
                     await event.client.send_message(event.chat_id, f"استثمار {word}")
                     await asyncio.sleep(1)
