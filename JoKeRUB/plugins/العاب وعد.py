@@ -261,7 +261,7 @@ async def play_command(event):
 
         if word_match:
             word = word_match.group(1)  # استخراج الكلمة بين الأقواس
-            await event.respond(f"⌔∮ الكلمة هي: {word}")
+            await event.respond(f"{word}")
         else:
             await event.respond("⌔∮ لم أتمكن من استخراج الكلمة بين الأقواس ⚠️")
         
