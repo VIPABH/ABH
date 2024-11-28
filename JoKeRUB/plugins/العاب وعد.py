@@ -73,6 +73,11 @@ async def stop_game(event):
     global its_Reham
     its_Reham = False
     await event.client.send_message(event.chat_id, "تم إيقاف اللعبة!")
+from JoKeRUB import l313l
+import asyncio
+
+plugin_category = "extra"
+
 
 word_meanings = {
     "strong": "قوي",
@@ -316,4 +321,21 @@ word_meanings = {
     "queen": "ملكة"    
     
     }
+@l313l.ar_cmd(pattern="العب")
+async def start_game(event):
+    # الرد بكلمة "انقليزي" عندما يكتب المستخدم "العب"
+    await event.reply("انقليزي")
 
+    # انتظار كلمة من المستخدم بعد الرد
+    @l313l.ar_cmd(pattern="معنى ↢ \((.*)\)")
+    async def handle_meaning(event):
+        # الحصول على الكلمة المدخلة بعد "معنى ↢ (الكلمة)"
+        word = event.pattern_match.group(1).strip().lower()
+
+        # إذا كانت الكلمة موجودة في القاموس، الرد بالمعنى
+        meaning = word_meanings.get(word)
+        
+        if meaning:
+            await event.reply(meaning)  # الرد بالمعنى إذا كان موجود
+        else:
+            await event.reply("لا يوجد معنى لهذا الكلمة.")  # إذا كانت الكلمة غير موجودة في القاموس
