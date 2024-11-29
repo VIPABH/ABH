@@ -1,4 +1,4 @@
-#aljoker
+from telethon.tl.types import MessageReactions
 from asyncio import sleep
 import asyncio
 import requests
@@ -1046,7 +1046,7 @@ async def Husssein(event):
 from telethon import events, functions
 
 
-@client.on(events.NewMessage)
+@l313l.on(events.NewMessage)
 async def handler(event):
     # تحقق إذا كانت الرسالة من المستخدم الذي تود التفاعل معه
     if event.sender_id == 7176263278:
