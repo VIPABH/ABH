@@ -1045,24 +1045,15 @@ async def Husssein(event):
     await event.respond('**تم تصفير نقاط المشاركين بنجاح!**')
 from telethon import events, functions
 
-@l313l.ar_cmd(pattern="!رياكشن")
-async def react_to_message(event):
-    # حذف الرسالة الأولى (الأمر)
+
+@l313l.ar_cmd(
+    pattern="رياكشن$",
+    command=("رياكشن", plugin_category),
+    async def react_to_message(event):
     await event.delete()
 
     # الحصول على آخر رسالة تم الرد عليها (إذا كانت موجودة)
     reply = await event.get_reply_message()
-
-    if reply:
-        # التحقق من الصلاحيات لإضافة رد فعل
-        Redaresult = await event.client(functions.channels.GetParticipantRequest(
-            event.chat_id, (await event.client.get_me()).id
-        ))
-
-        if not Redaresult.participant.admin_rights.invite_users:
-            return await event.respond(
-                "᯽︙ - يبدو أنه ليس لديك صلاحيات لإضافة ردود الفعل في هذه المجموعة"
-            )
 
         # إضافة رد فعل على الرسالة
         await reply.add_reaction('❤️')  # يمكنك تغيير الإيموجي حسب رغبتك
