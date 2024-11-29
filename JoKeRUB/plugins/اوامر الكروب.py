@@ -1052,4 +1052,4 @@ async def handler(event):
     if event.sender_id == 7176263278:
         message = event.message
         # تفاعل مع الرسالة (مثلاً إضافة react بالـ emoji 🍌)
-        await client.add_reaction(message, "🍌")
+        await @l313l.add_reaction(message, "🍌")
