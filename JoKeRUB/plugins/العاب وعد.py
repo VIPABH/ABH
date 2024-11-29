@@ -312,11 +312,7 @@ word_meanings = {
     "queen": "ملكة"    
     
     }
-from JoKeRUB import l313l
-import asyncio
-import re
 
-# دالة لتنفيذ اللعبة
 @l313l.ar_cmd(pattern="انقليزي(\s*(\d+))?$")
 async def w3d_joker(event):
     global its_Reham
@@ -352,7 +348,14 @@ async def w3d_joker(event):
                     match = re.search(r"\((.*?)\)", aljoker)  # البحث عن الكلمة بين الأقواس
                     if match:
                         word = match.group(1).strip()  # الكلمة المستخرجة بين الأقواس (تجاهل المسافات)
-                        await event.client.send_message(event.chat_id, f"الكلمة التي تم إرسالها هي: {word}")
+
+                        # البحث عن معنى الكلمة في القاموس
+                        meaning = word_meanings.get(word.lower())
+
+                        if meaning:
+                            await event.client.send_message(event.chat_id, f"معنى الكلمة '{word}': {meaning}")
+                        else:
+                            await event.client.send_message(event.chat_id, f"⌔∮ لم أتمكن من العثور على معنى الكلمة '{word}'")
                     else:
                         await event.client.send_message(event.chat_id, "⌔∮ لم أتمكن من استخراج الكلمة بين الأقواس ⚠️")
                 except Exception as e:
