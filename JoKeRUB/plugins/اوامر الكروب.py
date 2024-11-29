@@ -1044,7 +1044,7 @@ async def Husssein(event):
     points = {}
     await event.respond('**تم تصفير نقاط المشاركين بنجاح!**')
 
-@client.on(events.NewMessage(pattern='!رياكشن'))
+@l313l.ar_cmd(events.NewMessage(pattern='!رياكشن'))
 async def react_to_message(event):
     # الحصول على آخر رسالة تم الرد عليها (إذا كانت موجودة)
     reply = await event.get_reply_message()
