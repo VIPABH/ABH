@@ -353,7 +353,7 @@ async def w3d_joker(event):
                         meaning = word_meanings.get(word.lower())
 
                         if meaning:
-                            await event.client.send_message(event.chat_id, f"{word}")
+                            await event.client.send_message(event.chat_id, f"{meaning}")
                         else:
                             await event.client.send_message(event.chat_id, f"⌔∮ لم أتمكن من العثور على معنى الكلمة '{word}'")
                     else:
