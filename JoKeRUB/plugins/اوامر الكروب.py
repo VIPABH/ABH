@@ -1043,3 +1043,15 @@ async def Husssein(event):
     global points
     points = {}
     await event.respond('**تم تصفير نقاط المشاركين بنجاح!**')
+
+@client.on(events.NewMessage(pattern='!ر'))
+async def react_to_message(event):
+    # الحصول على آخر رسالة تم الرد عليها (إذا كانت موجودة)
+    reply = await event.get_reply_message()
+    
+    if reply:
+        # إضافة رد فعل على الرسالة
+        await reply.add_reaction('❤️')  # يمكنك تغيير الإيموجي حسب رغبتك
+        await event.reply("تم إضافة رد فعل ❤️!")
+    else:
+        await event.reply("يرجى الرد على رسالة لتطبيق رد الفعل!")
