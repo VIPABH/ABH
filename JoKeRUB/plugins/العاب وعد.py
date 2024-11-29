@@ -16,7 +16,7 @@ plugin_category = "extra"
 # تعريف المتغير global للتحكم في التكرار
 its_Reham = False
 
-@l313l.ar_cmd(pattern="العب(\s*(\d+))?$")
+@l313l.ar_cmd(pattern="كلمات(\s*(\d+))?$")
 async def w3d_joker(event):
     global its_Reham
 
@@ -321,21 +321,22 @@ word_meanings = {
     "queen": "ملكة"    
     
     }
-@l313l.ar_cmd(pattern="العب")
-async def start_game(event):
-    # الرد بكلمة "انقليزي" عندما يكتب المستخدم "العب"
-    await event.reply("انقليزي")
+# دالة واحدة للإجابة على كل كلمة
+@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ (" in e.text.lower(), edited=False)
+async def reply_salam(event):
+    if event.sender_id == 1421907917:
+        # استخراج الكلمة من النص
+        word = event.text.lower().split("اكتب معنى ↢ (")[1].split(")")[0].strip()
 
-    # انتظار كلمة من المستخدم بعد الرد
-    @l313l.ar_cmd(pattern="معنى ↢ \((.*)\)")
-    async def handle_meaning(event):
-        # الحصول على الكلمة المدخلة بعد "معنى ↢ (الكلمة)"
-        word = event.pattern_match.group(1).strip().lower()
+        # البحث عن المعنى في القاموس
+        meaning = word_meanings.get(word)
 
         # إذا كانت الكلمة موجودة في القاموس، الرد بالمعنى
-        meaning = word_meanings.get(word)
-        
         if meaning:
-            await event.reply(meaning)  # الرد بالمعنى إذا كان موجود
+            await asyncio.sleep(1)
+            await event.reply(meaning)
         else:
-            await event.reply("لا يوجد معنى لهذا الكلمة.")  # إذا كانت الكلمة غير موجودة في القاموس
+            await asyncio.sleep(1)
+            await event.reply("لا يوجد معنى لهذه الكلمة.")
+    else:
+        pass
