@@ -312,8 +312,11 @@ word_meanings = {
     "queen": "ملكة"    
     
     }
+from JoKeRUB import l313l
+import asyncio
+import re
 
-# دالة للألعاب التي تحتوي على عدد التكرار للكلمات
+# دالة لتنفيذ اللعبة
 @l313l.ar_cmd(pattern="انقليزي(\s*(\d+))?$")
 async def w3d_joker(event):
     global its_Reham
@@ -331,23 +334,30 @@ async def w3d_joker(event):
         # إرسال رسالة البداية
         start_message = await event.client.send_message(event.chat_id, f"تم بدء اللعبة! عدد التكرار: {repetitions}")
 
-        # قائمة الكلمات التي سيتم إرسالها
-        words_list = list(word_meanings.keys())  # استخراج الكلمات من القاموس
-
+        # التكرار لإرسال كلمة "انقليزي"
         for _ in range(repetitions):
             if not its_Reham:  # إذا تم إيقاف اللعبة، نخرج من الحلقة
                 break
             if event.is_group:
-                # إرسال "كلمات" للمجموعة
-                await event.client.send_message(event.chat_id, "كلمات")
+                # إرسال "انقليزي" للمجموعة
+                await event.client.send_message(event.chat_id, "انقليزي")
                 await asyncio.sleep(1)
 
-                # اختيار كلمة عشوائية من القائمة
-                word = random.choice(words_list)  # اختيار كلمة عشوائية من القائمة
+                # الحصول على آخر رسالة من المجموعة (من المستخدم الذي سيرسل الكلمة)
+                aljoker = await event.client.get_messages(event.chat_id, limit=1)
+                aljoker = aljoker[0].message  # الرسالة الأولى (الأخيرة)
 
-                # إرسال الكلمة الجديدة
-                await event.client.send_message(event.chat_id, f"{word}")
-                await asyncio.sleep(1)
+                try:
+                    # استخدام تعبير نمطي لاستخراج الكلمة من الرسالة
+                    match = re.search(r"\((.*?)\)", aljoker)  # البحث عن الكلمة بين الأقواس
+                    if match:
+                        word = match.group(1).strip()  # الكلمة المستخرجة بين الأقواس (تجاهل المسافات)
+                        await event.client.send_message(event.chat_id, f"الكلمة التي تم إرسالها هي: {word}")
+                    else:
+                        await event.client.send_message(event.chat_id, "⌔∮ لم أتمكن من استخراج الكلمة بين الأقواس ⚠️")
+                except Exception as e:
+                    # التعامل مع الأخطاء غير المتوقعة
+                    await event.client.send_message(event.chat_id, f"⌔∮ حدث خطأ: {str(e)} ⚠️")
         
         # إرسال رسالة بعد الانتهاء من التكرار
         await event.client.send_message(event.chat_id, "تم الانتهاء من التكرار!")
