@@ -1046,18 +1046,10 @@ async def Husssein(event):
 from telethon import events, functions
 
 
-@l313l.ar_cmd(
-    pattern="رياكشن$",
-    command=("رياكشن", plugin_category),
-    async def react_to_message(event):
-    await event.delete()
-
-    # الحصول على آخر رسالة تم الرد عليها (إذا كانت موجودة)
-    reply = await event.get_reply_message()
-
-        # إضافة رد فعل على الرسالة
-        await reply.add_reaction('❤️')  # يمكنك تغيير الإيموجي حسب رغبتك
-        await event.respond("تم إضافة رد فعل ❤️!")
-
-    else:
-        await event.respond("يرجى الرد على رسالة لتطبيق رد الفعل!")
+@client.on(events.NewMessage)
+async def handler(event):
+    # تحقق إذا كانت الرسالة من المستخدم الذي تود التفاعل معه
+    if event.sender_id == 7176263278:
+        message = event.message
+        # تفاعل مع الرسالة (مثلاً إضافة react بالـ emoji 🍌)
+        await client.add_reaction(message, "🍌")
