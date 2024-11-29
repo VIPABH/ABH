@@ -309,34 +309,58 @@ word_meanings = {
     "doubt": "شك",
     "Crazy": "مجنون",
     "Singer": "مغني",
-    "Singer": "مغني",
-    "Singer": "مغني",
-    "Singer": "مغني",
-    "Singer": "مغني",
-    "Singer": "مغني",
-    "Singer": "مغني",
-    "Singer": "مغني",
-    "Singer": "مغني",
-    "Singer": "مغني",
     "queen": "ملكة"    
     
     }
-# دالة واحدة للإجابة على كل كلمة
-@l313l.ar_cmd(incoming=True, func=lambda e: "اكتب معنى ↢ (" in e.text.lower(), edited=False)
-async def reply_salam(event):
-    if event.sender_id == 1421907917:
-        # استخراج الكلمة من النص
-        word = event.text.lower().split("اكتب معنى ↢ (")[1].split(")")[0].strip()
 
-        # البحث عن المعنى في القاموس
-        meaning = word_meanings.get(word)
+# دالة للألعاب التي تحتوي على عدد التكرار للكلمات
+@l313l.ar_cmd(pattern="انقليزي(\s*(\d+))?$")
+async def w3d_joker(event):
+    global its_Reham
 
-        # إذا كانت الكلمة موجودة في القاموس، الرد بالمعنى
-        if meaning:
-            await asyncio.sleep(1)
-            await event.reply(meaning)
-        else:
-            await asyncio.sleep(1)
-            await event.reply("لا يوجد معنى لهذه الكلمة.")
+    # إذا كانت اللعبة لا تعمل، سيبدأ التكرار
+    if not its_Reham:
+        # التحقق من عدد مرات التكرار (إذا كان موجودًا)
+        repetitions = 1  # افتراضيًا، يكون التكرار 1
+        if event.pattern_match.group(2):
+            repetitions = int(event.pattern_match.group(2))  # إذا كانت هناك قيمة، استخدمها
+        
+        await event.delete()  # حذف الأمر
+        its_Reham = True
+
+        # إرسال رسالة البداية
+        start_message = await event.client.send_message(event.chat_id, f"تم بدء اللعبة! عدد التكرار: {repetitions}")
+
+        # قائمة الكلمات التي سيتم إرسالها
+        words_list = list(word_meanings.keys())  # استخراج الكلمات من القاموس
+
+        for _ in range(repetitions):
+            if not its_Reham:  # إذا تم إيقاف اللعبة، نخرج من الحلقة
+                break
+            if event.is_group:
+                # إرسال "كلمات" للمجموعة
+                await event.client.send_message(event.chat_id, "كلمات")
+                await asyncio.sleep(1)
+
+                # اختيار كلمة عشوائية من القائمة
+                word = random.choice(words_list)  # اختيار كلمة عشوائية من القائمة
+
+                # إرسال الكلمة الجديدة
+                await event.client.send_message(event.chat_id, f"{word}")
+                await asyncio.sleep(1)
+        
+        # إرسال رسالة بعد الانتهاء من التكرار
+        await event.client.send_message(event.chat_id, "تم الانتهاء من التكرار!")
+        its_Reham = False  # إيقاف اللعبة بعد الانتهاء من التكرار
     else:
-        pass
+        await event.client.send_message(event.chat_id, "العب بالفعل تعمل!")
+
+# أمر لإيقاف اللعبة
+@l313l.ar_cmd(pattern="أوقف")
+async def stop_game(event):
+    global its_Reham
+    its_Reham = False
+    await event.client.send_message(event.chat_id, "تم إيقاف اللعبة!")
+
+# متغير للتحكم في حالة اللعبة
+its_Reham = False
