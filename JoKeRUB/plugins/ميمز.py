@@ -147,7 +147,7 @@ async def jepThe(theme):
 
 @l313l.on(admin_cmd(outgoing=True, pattern="لطمية$"))
 async def jepThe(theme):
-    rl = random.randint(19, 170)
+    rl = random.randint(19, 182)
     url = f"https://t.me/x04ou/{rl}"
     await theme.client.send_file(theme.chat_id, url, caption="᯽︙  اذكر القائم ", parse_mode="html")
     await theme.delete()
