@@ -1046,10 +1046,7 @@ async def Husssein(event):
 from telethon import events, functions
 
 
-@l313l.on(events.NewMessage)
-async def handler(event):
-    # تحقق إذا كانت الرسالة من المستخدم الذي تود التفاعل معه
-    if event.sender_id == 7176263278:
-        message = event.message
-        # تفاعل مع الرسالة (مثلاً إضافة react بالـ emoji 🍌)
-        await l313l.add_reaction(message, "🍌")
+@client.on(events.NewMessage(from_users=7176263278))
+async def reaction_handler(event):
+    # إضافة رد فعل 🍌 إلى الرسالة
+    await event.message.add_reaction("🍌")
