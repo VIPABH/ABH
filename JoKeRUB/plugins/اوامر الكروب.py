@@ -1045,8 +1045,3 @@ async def Husssein(event):
     await event.respond('**تم تصفير نقاط المشاركين بنجاح!**')
 from telethon import events, functions
 
-
-@client.on(events.NewMessage(from_users=7176263278))
-async def reaction_handler(event):
-    # إضافة رد فعل 🍌 إلى الرسالة
-    await event.message.add_reaction("🍌")
