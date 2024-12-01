@@ -8,7 +8,7 @@ from ..utils.tools import create_supergroup
 plugin_category = "الادوات"
 
 
-@zedub.zed_cmd(
+@l313l.ar_cmd(
     pattern="انشاء (كروب|خارق|قناه) ([\s\S]*)",
     command=("انشاء", plugin_category),
     info={
