@@ -35,7 +35,7 @@ async def on_new_message(event):
 
 
 @l313l.ar_cmd(
-    pattern="منع(?:\s|$)([\s\S]*)",
+    pattern="امنع(?:\s|$)([\s\S]*)",
     require_admin=True,
 )
 async def _(event):
