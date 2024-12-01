@@ -9,7 +9,7 @@ from ..core.managers import edit_or_reply
 plugin_category = "البوت"
 
 
-@zedub.zed_cmd(
+@l313l.ar_cmd(
     pattern="عرض$",
     command=("عرض", plugin_category),
     info={
