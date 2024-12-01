@@ -415,7 +415,7 @@ async def fastpurger(event):  # sourcery no-metrics
     await hi.delete()
 
 @l313l.ar_cmd(
-    pattern="مشاركاتة(الكل)?(?:\s|$)([\s\S]*)",
+    pattern="مشاركاتة (الكل)?(?:\s|$)([\s\S]*)",
     command=("حذف رسائله", plugin_category),
     info={
         "header": "To purge messages from the replied message of replied user.",
