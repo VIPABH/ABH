@@ -1,10 +1,4 @@
-#JoKeRUB
-#- - - - - - - - - - - - -
-#Hussein : @lMl10l
-#@jepthon
-#- - - - - - - - - - - - -
-
-
+# telegraph utils for ZThon
 import os
 import random
 import string
@@ -12,19 +6,22 @@ from datetime import datetime
 
 from PIL import Image
 from telegraph import Telegraph, exceptions, upload_file
+from telethon.errors.rpcerrorlist import YouBlockedUserError
+from telethon.tl.functions.contacts import UnblockRequest as unblock
 from telethon.utils import get_display_name
-
-from JoKeRUB import l313l
+from urlextract import URLExtract
 
 from ..Config import Config
 from ..core.logger import logging
-from ..core.managers import edit_or_reply
-from . import BOTLOG, BOTLOG_CHATID
+from ..core.managers import edit_delete, edit_or_reply
+from ..helpers.functions import delete_conv
+from . import BOTLOG, BOTLOG_CHATID, zedub, reply_id
 
 LOGS = logging.getLogger(__name__)
-plugin_category = "utils"
 
+plugin_category = "الخدمات"
 
+extractor = URLExtract()
 telegraph = Telegraph()
 r = telegraph.create_account(short_name=Config.TELEGRAPH_SHORT_NAME)
 auth_url = r["auth_url"]
@@ -35,7 +32,7 @@ def resize_image(image):
     im.save(image, "PNG")
 
 
-@l313l.ar_cmd(
+@zedub.zed_cmd(
     pattern="(ت(ل)?ك(راف)?) ?(m|t|ميديا|نص)(?:\s|$)([\s\S]*)",
     command=("تلكراف", plugin_category),
     info={
@@ -56,11 +53,16 @@ def resize_image(image):
 )  # sourcery no-metrics
 async def _(event):
     "To get telegraph link."
-    jokevent = await edit_or_reply(event, "` ⌔︙جـار انشـاء رابـط تلكـراف`")
+    zedevent = await edit_or_reply(event, "** ⪼ جاري المعالجه ༗...**")
+    if BOTLOG:
+        await event.client.send_message(
+            BOTLOG_CHATID,
+            f"**⎉╎ تم إنشاء حساب تيليجـراف جديد {auth_url} للدورة الحالية‌‌** \n**⎉╎ لا تعطي عنوان الرابـط هـذا لأي شـخص**",
+        )
     optional_title = event.pattern_match.group(5)
     if not event.reply_to_msg_id:
-        return await jokevent.edit(
-            "` ⌔︙قـم بالـرد عـلى هـذه الرسـالة للحـصول عـلى رابـط تلكـراف فـورا`",
+        return await zedevent.edit(
+            "`Reply to a message to get a permanent telegra.ph link.`",
         )
 
     start = datetime.now()
@@ -70,22 +72,22 @@ async def _(event):
         downloaded_file_name = await event.client.download_media(
             r_message, Config.TEMP_DIR
         )
-        await jokevent.edit(f"` ⌔︙تـم التحـميل الـى {downloaded_file_name}`")
+        await zedevent.edit(f"** ⪼ تم تحميل** {downloaded_file_name} **.. بنجـاح**")
         if downloaded_file_name.endswith((".webp")):
             resize_image(downloaded_file_name)
         try:
             media_urls = upload_file(downloaded_file_name)
         except exceptions.TelegraphException as exc:
-            await jokevent.edit(f"** ⌔︙خـطأ : **\n`{exc}`")
+            await zedevent.edit(f"**- خطـأ : **\n`{exc}`")
             os.remove(downloaded_file_name)
         else:
             end = datetime.now()
             ms = (end - start).seconds
             os.remove(downloaded_file_name)
-            await jokevent.edit(
-                f"** ⌔︙الـرابـط : **[إضـغط هنـا](https://telegra.ph{media_urls[0]})\
-                    \n** ⌔︙الوقـت المأخـوذ : **`{ms} ثـانيـة.`",
-                link_preview=False,
+            await zedevent.edit(
+                f"**⎉╎الــرابـط : ** [اضغــط هنـــا](https://graph.org{media_urls[0]})\
+                    \n**⎉╎الـوقـت : **`{ms} seconds.`",
+                link_preview=True,
             )
     elif input_str in ["نص", "t"]:
         user_object = await event.client.get_entity(r_message.sender_id)
@@ -118,9 +120,52 @@ async def _(event):
             response = telegraph.create_page(title_of_page, html_content=page_content)
         end = datetime.now()
         ms = (end - start).seconds
-        joker = f"https://telegra.ph/{response['path']}"
-        await jokevent.edit(
-            f"** ⌔︙الـرابـط : ** [اضغـط هنـا]({joker})\
-                 \n** ⌔︙الـوقـت المـأخـوذ : **`{ms} ثـانيـة.`",
-            link_preview=False,
+        zed = f"https://telegra.ph/{response['path']}"
+        await zedevent.edit(
+            f"**link : ** [telegraph]({zed})\
+                 \n**Time Taken : **`{ms} seconds.`",
+            link_preview=True,
         )
+
+
+@zedub.zed_cmd(
+    pattern="ctg(?: |$)([\s\S]*)",
+    command=("ctg", plugin_category),
+    info={
+        "header": "Reply to link To get link preview using telegrah.s.",
+        "usage": "{tr}ctg <reply/text>",
+    },
+)
+async def ctg(event):
+    "To get link preview"
+    input_str = event.pattern_match.group(1)
+    reply = await event.get_reply_message()
+    reply_to_id = await reply_id(event)
+    if not input_str and reply:
+        input_str = reply.text
+    if not input_str:
+        return await edit_delete(event, "**ಠ∀ಠ Give me link to search..**", 20)
+    urls = extractor.find_urls(input_str)
+    if not urls:
+        return await edit_delete(event, "**There no link to search in the text..**", 20)
+    chat = "@chotamreaderbot"
+    zedevent = await edit_or_reply(event, "```Processing...```")
+    async with event.client.conversation(chat) as conv:
+        try:
+            msg_flag = await conv.send_message(urls[0])
+        except YouBlockedUserError:
+            await edit_or_reply(
+                zedevent, "**Error:** Trying to unblock & retry, wait a sec..."
+            )
+            await zedub(unblock("chotamreaderbot"))
+            msg_flag = await conv.send_message(urls[0])
+        response = await conv.get_response()
+        await event.client.send_read_acknowledge(conv.chat_id)
+        if response.text.startswith(""):
+            await edit_or_reply(zedevent, "Am I Dumb Or Am I Dumb?")
+        else:
+            await zedevent.delete()
+            await event.client.send_message(
+                event.chat_id, response, reply_to=reply_to_id, link_preview=True
+            )
+        await delete_conv(event, chat, msg_flag)
