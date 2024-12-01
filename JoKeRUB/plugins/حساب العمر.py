@@ -6,7 +6,7 @@ from zira import zedub
 from ..core.managers import edit_delete, edit_or_reply
 
 
-@l313l.ar_cmd(pattern="حساب العمر(?:\s|$)([\s\S]*)")
+@l313l.ar_cmd(pattern="مواليد(?:\s|$)([\s\S]*)")
 async def _(event):
     yar = event.text[12:]
     if not yar:
