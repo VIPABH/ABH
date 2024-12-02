@@ -5,14 +5,17 @@ from JoKeRUB import l313l
 from ..core.managers import edit_or_reply
 
 plugin_category = "extra"
+ملحة = [1510396227, 6048901890]  
 
 @l313l.ar_cmd(incoming=True, func=lambda e: "السلام عليكم" in e.text.lower() or "سلام عليكم" in e.text.lower(), edited=False)
 async def reply_salam(event):
-    # الحصول على اسم المستخدم (إذا كان موجودًا)
-    username = event.sender.username if event.sender.username else "لا يوجد اسم مستخدم"
+	if message.from_user.id in banned_users:
+		bot.reply_to(message, "عذرا , انت محظور من استخدام البوت.")
+		bot.reply_to(message, "☝️")
+		return
+		username = event.sender.username if event.sender.username else "لا يوجد اسم مستخدم"
     
-    # الرد بـ "عليكم السلام" مع اسم المستخدم إذا كان موجودًا
-    await event.reply(f"عليكم السلام اهلا [{event.sender.first_name}](https://t.me/@{username})")
+    await event.reply(f"عليكم السلام اهلا {event.sender.first_name}")
 
 @l313l.ar_cmd(
     pattern="اوامر الحظر$",
