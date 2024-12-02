@@ -43,7 +43,7 @@ async def gtrans(text, lan):
     try:
         response = translate(text, lang_tgt=lan)
         if response == 400:
-            return Flase
+            return False
     except Exception as er:
         return f"حدث خطأ \n{er}"
     return response
