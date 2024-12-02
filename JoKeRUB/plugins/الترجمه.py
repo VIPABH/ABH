@@ -38,7 +38,6 @@ langs = {
     'كردي': 'ku',
 }
 
-
 async def gtrans(text, lan):
     try:
         response = translate(text, lang_tgt=lan)
@@ -83,17 +82,20 @@ async def _(event):
         return await edit_delete(
             event, "** قم بالرد على الرسالة للترجمة **", time=5
         )
-        lan = lan.strip()
     text = soft_deEmojify(text.strip())
+    lan = lan.strip()
     if len(text) < 2:
         return await edit_delete(event, "قم بكتابة ما تريد ترجمته!")
     try:
-        
         trans = await gtrans(text, lan)
-        output_str = f"**تمت الترجمة من ar الى {lan}**\n`{trans}`"
+        if not trans:
+            return await edit_delete(event, "**تحقق من رمز اللغة !, لا يوجد هكذا لغة**")      
+        output_str = f"**تمت الترجمة من ar الى {lan}**\
+                \n`{trans}`"
         await edit_or_reply(event, output_str)
     except Exception as exc:
         await edit_delete(event, f"**خطا:**\n`{exc}`", time=5)
+
 
 @l313l.ar_cmd(pattern="(الترجمة الفورية|الترجمه الفوريه|ايقاف الترجمة|ايقاف الترجمه)")
 async def reda(event):
