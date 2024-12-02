@@ -9,7 +9,7 @@ plugin_category = "extra"
 
 @l313l.ar_cmd(incoming=True, func=lambda e: "السلام عليكم" in e.text.lower() or "سلام عليكم" in e.text.lower(), edited=False)
 async def reply_salam(event):
-	if message.from_user.id in banned_users:
+	if event.from_user.id in banned_users:
 		await event.reply("ههههه هاي بسبب الملحة")		
 		await event.reply("😂")		
 		return
