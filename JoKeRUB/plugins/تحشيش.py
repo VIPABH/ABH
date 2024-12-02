@@ -257,7 +257,7 @@ from module_name import admin_cmd, edit_or_reply
 
 @l313l.on(admin_cmd(pattern="سيد(?:\s|$)([\s\S]*)"))
 async def permalink(mention):
-    await edit_or_reply(mention, f"عليكم السلام , اهلا")
+    await edit_or_reply(mention, "عليكم السلام , اهلا")
 @l313l.on(admin_cmd(pattern="رفع ايجة(?:\s|$)([\s\S]*)"))
 async def permalink(mention):
     """Generates a link to the user's PM with a custom text."""
