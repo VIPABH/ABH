@@ -10,8 +10,8 @@ plugin_category = "extra"
 @l313l.ar_cmd(incoming=True, func=lambda e: "السلام عليكم" in e.text.lower() or "سلام عليكم" in e.text.lower(), edited=False)
 async def reply_salam(event):
 	if message.from_user.id in banned_users:
-		bot.reply_to(message, "عذرا , انت محظور من استخدام البوت.")
-		bot.reply_to(message, "☝️")
+		await event.reply("ههههه هاي بسبب الملحة")		
+		await event.reply("😂")		
 		return
 		username = event.sender.username if event.sender.username else "لا يوجد اسم مستخدم"
     
