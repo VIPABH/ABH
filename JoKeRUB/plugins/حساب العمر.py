@@ -2,7 +2,6 @@
 
 from datetime import datetime
 
-from zira import zedub
 from ..core.managers import edit_delete, edit_or_reply
 
 
