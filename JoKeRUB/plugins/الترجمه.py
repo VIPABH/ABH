@@ -38,6 +38,8 @@ langs = {
     'كردي': 'ku',
 }
 
+lan = lan.strip()
+
 async def gtrans(text, lan):
     try:
         response = translate(text, lang_tgt=lan)
@@ -83,7 +85,6 @@ async def _(event):
             event, "** قم بالرد على الرسالة للترجمة **", time=5
         )
     text = soft_deEmojify(text.strip())
-    lan = lan.strip()
     if len(text) < 2:
         return await edit_delete(event, "قم بكتابة ما تريد ترجمته!")
     try:
