@@ -88,8 +88,7 @@ async def _(event):
         return await edit_delete(event, "قم بكتابة ما تريد ترجمته!")
     try:
         trans = await gtrans(text, lan)
-        if not trans:
-            return await edit_delete(event, "**تحقق من رمز اللغة !, لا يوجد هكذا لغة**")      
+          
         output_str = f"**تمت الترجمة من ar الى {lan}**\
                 \n`{trans}`"
         await edit_or_reply(event, output_str)
