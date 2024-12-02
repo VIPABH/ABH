@@ -92,8 +92,8 @@ async def _(event):
         trans = await gtrans(text, lan)
         output_str = f"**تمت الترجمة من ar الى {lan}**\n`{trans}`"
         await edit_or_reply(event, output_str)
-
-
+    except Exception as exc:
+        await edit_delete(event, f"**خطا:**\n`{exc}`", time=5)
 
 @l313l.ar_cmd(pattern="(الترجمة الفورية|الترجمه الفوريه|ايقاف الترجمة|ايقاف الترجمه)")
 async def reda(event):
