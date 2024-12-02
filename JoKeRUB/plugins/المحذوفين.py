@@ -1,70 +1,24 @@
-
 import asyncio
 import time
-import io
-import os
-import shutil
-import zipfile
-import csv
-import random
-import logging
-import glob
-import re
-
-from datetime import datetime
-from math import sqrt
-from asyncio import sleep
-from asyncio.exceptions import TimeoutError
-from emoji import emojize
-
-from telethon.tl.custom import Dialog
+from telethon import functions, types, events
+from telethon.errors import (
+    ChannelInvalidError, ChannelPrivateError, ChannelPublicGroupNaError, 
+    BadRequestError, ChatAdminRequiredError, FloodWaitError, 
+    MessageNotModifiedError, UserAdminInvalidError
+)
+from telethon.tl.types import (
+    UserStatusEmpty, UserStatusLastMonth, UserStatusLastWeek, 
+    UserStatusOffline, UserStatusOnline, UserStatusRecently, 
+    UserStatusDeleted, ChatBannedRights
+)
 from telethon.tl.functions.messages import ImportChatInviteRequest as Get
-from telethon.tl.types import Channel, Chat, User
-
-from telethon.tl.functions.messages import EditChatDefaultBannedRightsRequest
-from telethon import functions, types
-from telethon.sync import errors
-from telethon import events
-from telethon.tl import functions
-from telethon.tl.functions.channels import EditBannedRequest, GetFullChannelRequest, GetParticipantsRequest, EditAdminRequest, EditPhotoRequest, GetAdminedPublicChannelsRequest
-from telethon.tl.functions.users import GetFullUserRequest
-from telethon.tl.functions.messages import GetFullChatRequest, GetHistoryRequest, ExportChatInviteRequest
-from telethon.errors import ChannelInvalidError, ChannelPrivateError, ChannelPublicGroupNaError, BadRequestError, ChatAdminRequiredError, FloodWaitError, MessageNotModifiedError, UserAdminInvalidError
-from telethon.errors.rpcerrorlist import YouBlockedUserError, UserAdminInvalidError, UserIdInvalidError, UserAlreadyParticipantError, UserNotMutualContactError, UserPrivacyRestrictedError, UsernameOccupiedError
-from telethon.tl.functions.channels import GetFullChannelRequest as getchat
-from telethon.tl.functions.channels import InviteToChannelRequest, GetAdminedPublicChannelsRequest
-from telethon.tl.functions.phone import CreateGroupCallRequest as startvc
-from telethon.tl.functions.phone import DiscardGroupCallRequest as stopvc
-from telethon.tl.functions.phone import GetGroupCallRequest as getvc
-from telethon.tl.functions.phone import InviteToGroupCallRequest as invitetovc
-from telethon.errors import ImageProcessFailedError, PhotoCropSizeSmallError
-from telethon.tl.types import ChatAdminRights, InputChatPhotoEmpty, MessageMediaPhoto, InputPeerUser
-from telethon.tl.types import ChannelParticipantsKicked, ChannelParticipantAdmin, ChatBannedRights, ChannelParticipantCreator, ChannelParticipantsAdmins, ChannelParticipantsBots, MessageActionChannelMigrateFrom, UserStatusEmpty, UserStatusLastMonth, UserStatusLastWeek, UserStatusOffline, UserStatusOnline, UserStatusRecently
-from telethon.tl.types import Channel, Chat, InputPhoto, User
-from telethon.utils import get_display_name, get_input_location, get_extension
-from os import remove
-from math import sqrt
-from prettytable import PrettyTable
-from emoji import emojize
-from pathlib import Path
-
-from . import zedub
-
-from ..core.logger import logging
+from telethon.tl.functions.phone import (
+    CreateGroupCallRequest as startvc, DiscardGroupCallRequest as stopvc,
+    GetGroupCallRequest as getvc, InviteToGroupCallRequest as invitetovc
+)
+from telethon.utils import get_display_name
 from ..core.managers import edit_delete, edit_or_reply
-from ..helpers import reply_id
-from ..helpers.utils import _format, get_user_from_event, reply_id
-from ..helpers import media_type
-from ..helpers.google_image_download import googleimagesdownload
-from ..helpers.tools import media_type
-from ..sql_helper.locks_sql import get_locks, is_locked, update_lock
-from ..utils import is_admin
-from . import progress
-from ..sql_helper import gban_sql_helper as gban_sql
-from ..sql_helper.mute_sql import is_muted, mute, unmute
-from ..sql_helper import no_log_pms_sql
-from ..sql_helper.globals import addgvar, gvarstatus
-from . import BOTLOG, BOTLOG_CHATID, mention
+from ..helpers.utils import _format
 
 
 @l313l.ar_cmd(
