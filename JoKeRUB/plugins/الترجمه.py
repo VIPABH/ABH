@@ -8,7 +8,7 @@ from ..sql_helper.globals import addgvar, delgvar, gvarstatus
 from ..core.managers import edit_delete, edit_or_reply
 from ..helpers.functions import soft_deEmojify
 
-LANGUAGES = {
+trans = {
     'af': 'afrikaans',
     'sq': 'albanian',
     'am': 'amharic',
