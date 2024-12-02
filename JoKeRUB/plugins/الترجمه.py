@@ -1,6 +1,7 @@
 from asyncio import sleep
 import requests
 import json
+import os
 from JoKeRUB.helpers.functions.functions import translate
 from JoKeRUB import l313l
 from telethon import events, types
@@ -46,6 +47,15 @@ async def gtrans(text, lan):
         return f"حدث خطأ \n{er}"
     return response
 
+@l313l.ar_cmd(pattern="event")
+async def Reda(event):
+    if event.reply_to_msg_id:
+        m = await event.get_reply_message()
+        with open("reply.txt", "w") as file:
+                file.write(str(m))
+        await event.client.send_file(event.chat_id, "reply.txt")
+        os.remove("reply.txt")
+
 @l313l.ar_cmd(
     pattern="ترجمة ([\s\S]*)",
     command=("ترجمة", "tools"),
@@ -77,7 +87,7 @@ async def _(event):
     if len(text) < 2:
         return await edit_delete(event, "قم بكتابة ما تريد ترجمته!")
     try:
-         trans = await gtrans(text, lan)
+        trans = await gtrans(text, lan)
         if not trans:
             return await edit_delete(event, "**تحقق من رمز اللغة !, لا يوجد هكذا لغة**")      
         output_str = f"**تمت الترجمة من ar الى {lan}**\
@@ -85,6 +95,7 @@ async def _(event):
         await edit_or_reply(event, output_str)
     except Exception as exc:
         await edit_delete(event, f"**خطا:**\n`{exc}`", time=5)
+
 
 @l313l.ar_cmd(pattern="(الترجمة الفورية|الترجمه الفوريه|ايقاف الترجمة|ايقاف الترجمه)")
 async def reda(event):
