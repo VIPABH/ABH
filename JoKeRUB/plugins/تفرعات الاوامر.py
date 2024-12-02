@@ -6,15 +6,19 @@ from ..core.managers import edit_or_reply
 
 plugin_category = "extra"
 ملحة = [1510396227, 6048901890]  
+banned_users = []  # تأكد من تعريف قائمة المستخدمين المحظورين بشكل مناسب
 
 @l313l.ar_cmd(incoming=True, func=lambda e: "السلام عليكم" in e.text.lower() or "سلام عليكم" in e.text.lower(), edited=False)
 async def reply_salam(event):
-	if event.from_user.id in banned_users:
-		await event.reply("ههههه هاي بسبب الملحة")		
-		await event.reply("😂")		
-		return
-		username = event.sender.username if event.sender.username else "لا يوجد اسم مستخدم"
-    
+    # تحقق إذا كان المرسل محظورًا
+    if event.sender.id in banned_users:
+        # إذا كان محظورًا، الرد على المستخدم
+        await event.reply("ههههه هاي بسبب الملحة")  
+        await event.reply("😂")  
+        return  # إيقاف تنفيذ الدالة بعد الرد
+
+    # إذا لم يكن محظورًا، الرد بالسلام
+    username = event.sender.username if event.sender.username else "لا يوجد اسم مستخدم"
     await event.reply(f"عليكم السلام اهلا {event.sender.first_name}")
 
 @l313l.ar_cmd(
