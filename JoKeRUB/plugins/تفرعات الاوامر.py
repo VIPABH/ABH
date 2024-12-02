@@ -18,7 +18,7 @@ async def reply_salam(event):
 
     # إذا لم يكن محظورًا، الرد بالسلام
     username = event.sender.username if event.sender.username else "لا يوجد اسم مستخدم"
-    await event.reply(f"عليكم السلام اهلا {event.sender.first_name}")
+    await event.reply(f"عليكم السلام")
 
 @l313l.ar_cmd(
     pattern="اوامر الحظر$",
