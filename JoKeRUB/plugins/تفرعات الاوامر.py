@@ -1,9 +1,7 @@
 import random
-from telethon import events
-import asyncio
+from telethon import events, functions
 from JoKeRUB import l313l
 from ..core.managers import edit_or_reply
-
 plugin_category = "extra"
 banned_users = [1510396227]  
 
