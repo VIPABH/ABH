@@ -21,6 +21,40 @@ async def reply_salam(event):
     await event.reply(f"عليكم السلام")
 
 @l313l.ar_cmd(
+    pattern=r"تفاعل\s+(.+)$",
+    command=("تفاعل", plugin_category),
+    info={
+        "header": "Add a reaction to a message.",
+        "description": "Reply to a message and use this command to add a reaction to it.",
+        "usage": [
+            "{tr}تفاعل 👍",
+        ],
+    },
+    require_admin=False,  # يمكنك تحديد إذا ما كان يتطلب إذنًا خاصًا
+)
+async def _(event):
+    "Add a reaction to a message."
+    
+    # التحقق من وجود رد على رسالة
+    if not event.is_reply:
+        return await edit_or_reply(event, "❌ يجب الرد على رسالة لاستخدام هذا الأمر.")
+
+    # استخراج التفاعل من نص الأمر
+    reaction = event.pattern_match.group(1).strip()
+
+    # التحقق من صحة التفاعل
+    if len(reaction) > 2:  # تعديل الشرط حسب الحاجة
+        return await edit_or_reply(event, "❌ الرمز التعبيري غير صالح.")
+
+    # محاولة إرسال التفاعل
+    try:
+        replied_message = await event.get_reply_message()  # الرسالة التي تم الرد عليها
+        await event.client.send_reaction(event.chat_id, replied_message.id, reaction)
+        await edit_or_reply(event, f"✅ تمت إضافة التفاعل: {reaction}")
+    except Exception as e:
+        await edit_or_reply(event, f"❌ حدث خطأ أثناء إرسال التفاعل: {str(e)}")
+
+@l313l.ar_cmd(
     pattern="اوامر الحظر$",
     command=("اوامر الحظر ", plugin_category),
            )
