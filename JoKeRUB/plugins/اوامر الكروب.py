@@ -1043,5 +1043,5 @@ async def Husssein(event):
     global points
     points = {}
     await event.respond('**تم تصفير نقاط المشاركين بنجاح!**')
-from telethon import events, functions
+
 
