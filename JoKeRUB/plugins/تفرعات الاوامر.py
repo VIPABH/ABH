@@ -1,7 +1,10 @@
+from pyrogram import Client, filters
+from pyrogram.types import Message
 import random
 from telethon import events, functions
 from JoKeRUB import l313l
 from ..core.managers import edit_or_reply
+
 plugin_category = "extra"
 banned_users = [1510396227]  
 
@@ -18,6 +21,7 @@ async def reply_salam(event):
     username = event.sender.username if event.sender.username else "لا يوجد اسم مستخدم"
     await event.reply(f"عليكم السلام")
 
+
 @l313l.ar_cmd(
     pattern=r"تفاعل\s+(.+)$",
     command=("تفاعل", plugin_category),
@@ -28,29 +32,36 @@ async def reply_salam(event):
             "{tr}تفاعل 👍",
         ],
     },
-    require_admin=False,  # يمكنك تحديد إذا ما كان يتطلب إذنًا خاصًا
+    require_admin=False,  # لا حاجة لأن يكون المستخدم مسؤولاً لاستخدام الأمر
 )
-async def _(event):
+async def _(client: Client, message: Message):
     "Add a reaction to a message."
     
-    # التحقق من وجود رد على رسالة
-    if not event.is_reply:
-        return await edit_or_reply(event, "❌ يجب الرد على رسالة لاستخدام هذا الأمر.")
-
-    # استخراج التفاعل من نص الأمر
-    reaction = event.pattern_match.group(1).strip()
+    # التحقق من الرد على رسالة
+    if not message.reply_to_message:
+        return await edit_or_reply(message, "❌ يجب الرد على رسالة لاستخدام هذا الأمر.")
+    
+    # استخراج التفاعل
+    reaction = message.text.split(" ", 1)[1].strip()
 
     # التحقق من صحة التفاعل
-    if len(reaction) > 2:  # تعديل الشرط حسب الحاجة
-        return await edit_or_reply(event, "❌ الرمز التعبيري غير صالح.")
+    if len(reaction) > 2:  # يمكنك تعديل التحقق حسب احتياجاتك
+        return await edit_or_reply(message, "❌ الرمز التعبيري غير صالح.")
 
-    # محاولة إرسال التفاعل
     try:
-        replied_message = await event.get_reply_message()  # الرسالة التي تم الرد عليها
-        await event.client.send_reaction(event.chat_id, replied_message.id, reaction)
-        await edit_or_reply(event, f"✅ تمت إضافة التفاعل: {reaction}")
+        # الحصول على الرسالة التي تم الرد عليها
+        replied_message = message.reply_to_message
+
+        # إرسال التفاعل باستخدام Pyrogram
+        await client.send_reaction(
+            chat_id=message.chat.id,        # معرف الدردشة
+            message_id=replied_message.message_id,  # معرف الرسالة
+            reaction=reaction               # الرمز التعبيري
+        )
+
+        await edit_or_reply(message, f"✅ تمت إضافة التفاعل: {reaction}")
     except Exception as e:
-        await edit_or_reply(event, f"❌ حدث خطأ أثناء إرسال التفاعل: {str(e)}")
+        await edit_or_reply(message, f"❌ حدث خطأ أثناء إرسال التفاعل: {str(e)}")
 
 @l313l.ar_cmd(
     pattern="اوامر الحظر$",
