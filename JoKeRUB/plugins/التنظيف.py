@@ -227,7 +227,8 @@ async def fastpurger(event):  # sourcery no-metrics
                             reverse=True,
                             filter=purgetype[ty],
                         ):
-                            count += 1
+                            # count += 1 
+                            count = 0
                             msgs.append(msg)
                             if len(msgs) == 50:
                                 await event.client.delete_messages(chat, msgs)
@@ -239,7 +240,8 @@ async def fastpurger(event):  # sourcery no-metrics
                     else:
                         error += f"\n\n᯽︙ `{ty}`  : هـذه أضافـة خاطئـة "
             else:
-                count += 1
+                count = 0
+                # count += 1
                 async for msg in event.client.iter_messages(
                     event.chat_id,
                     limit=(int(input_str) - 1),
@@ -247,7 +249,8 @@ async def fastpurger(event):  # sourcery no-metrics
                     reverse=True,
                 ):
                     msgs.append(msg)
-                    count += 1
+                    count = 0
+                    # count += 1
                     if len(msgs) == 50:
                         await event.client.delete_messages(chat, msgs)
                         msgs = []
@@ -282,7 +285,7 @@ async def fastpurger(event):  # sourcery no-metrics
                         reverse=True,
                         search=input_str,
                     ):
-                        count += 1
+                        count = 0
                         msgs.append(msg)
                         if len(msgs) == 50:
                             await event.client.delete_messages(chat, msgs)
@@ -301,7 +304,8 @@ async def fastpurger(event):  # sourcery no-metrics
                         min_id=event.reply_to_msg_id - 1,
                         filter=purgetype[ty],
                     ):
-                        count += 1
+                        # count += 1
+                        count = 0
                         msgs.append(msg)
                         if len(msgs) == 50:
                             await event.client.delete_messages(chat, msgs)
@@ -314,7 +318,8 @@ async def fastpurger(event):  # sourcery no-metrics
             async for msg in event.client.iter_messages(
                 chat, min_id=event.reply_to_msg_id - 1
             ):
-                count += 1
+                count = 0
+                # count += 1
                 msgs.append(msg)
                 if len(msgs) == 50:
                     await event.client.delete_messages(chat, msgs)
