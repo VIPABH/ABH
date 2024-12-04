@@ -354,3 +354,21 @@ async def Hussein(event):
             await conv.send_message(f'{user_id}')
             response = await conv.get_response()
             await event.edit(response.text)
+
+@l313l.on(
+    pattern="رابط(?:\s|$)([\s\S]*)",
+    command=("رابطه", plugin_category),
+    info={
+        "header": "لـ جـلب اسـم الشخـص بشكـل ماركـدون ⦇.رابطه بالـرد او + معـرف/ايـدي الشخص⦈ ",
+        "الاسـتخـدام": "{tr}رابطه <username/userid/reply>",
+    },
+)
+async def permalink(event):
+    """Generates a link to the user's PM with a custom text."""
+    user, custom = await get_user_from_event(event)
+    if not user:
+        return
+    if custom:
+        return await edit_or_reply(event, f"[{custom}](tg://user?id={user.id})")
+    tag = user.first_name.replace("\u2060", "") if user.first_name else user.username
+    await edit_or_reply(event, f"[{tag}](tg://user?id={user.id})")
