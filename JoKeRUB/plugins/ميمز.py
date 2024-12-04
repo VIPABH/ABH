@@ -86,28 +86,22 @@ async def jepThe(theme):
     await theme.client.send_file(theme.chat_id, url, caption="᯽︙  اذكر القائم ", parse_mode="html")
     await theme.delete()
 
-  
-@l313l.on(admin_cmd(outgoing=True, pattern="لتغلط$"))
-async def jepmeme(memejep):
-  Jep = await reply_id(memejep)
-  url = f"https://t.me/MemeSoundJep/4"
-  await memejep.client.send_file(memejep.chat_id,url,caption="",parse_mode="html",reply_to=Jep)
-#   await memejep.delete()
-# @l313l.on(admin_cmd(outgoing=True, pattern="ببجي$"))
+# @l313l.ar_cmd(incoming=True, func=lambda e: "تجربة" in e.text.lower())
 # async def jepmeme(memejep):
 #   Jep = await reply_id(memejep)
-#   url = f"https://t.me/vipabh/1134"
+#   url = f"https://t.me/MemeSoundJep/4"
 #   await memejep.client.send_file(memejep.chat_id,url,caption="",parse_mode="html",reply_to=Jep)
-#   await memejep.delete()@l313l.on(admin_cmd(outgoing=True, pattern="ببجي$"))
+#   await memejep.delete()
+@l313l.ar_cmd(incoming=True, func=lambda e: "تجربة" in e.text.lower())
 async def jepmeme(memejep):
+    # التحقق من أن المرسل هو المستخدم المحدد
+    if memejep.sender_id != 1910015590:
+        return  # إذا كان المرسل ليس صاحب ID المحدد، يتم تجاهل الأمر
+
     Jep = await reply_id(memejep)
-    url = f"https://t.me/vipabh/1134"
-    await memejep.client.send_file(memejep.chat_id,url,caption="",parse_mode="html",reply_to=Jep)
-    await memejep.delete()
-@l313l.on(admin_cmd(outgoing=True, pattern=r"^لتغلط$"))  # يعمل دون نقطة
-async def jepmeme(memejep):
-    Jep = await reply_id(memejep)  # الحصول على الرد إذا كان موجودًا
-    url = f"https://t.me//vipabh/1134"
+    url = f"https://t.me/vipabh/1161"
+    
+    # إرسال الملف
     await memejep.client.send_file(
         memejep.chat_id,
         url,
@@ -117,7 +111,11 @@ async def jepmeme(memejep):
     )
     await memejep.delete()
 
-
+async def jepmeme(memejep):
+    Jep = await reply_id(memejep)
+    url = f"https://t.me/vipabh/1134"
+    await memejep.client.send_file(memejep.chat_id,url,caption="",parse_mode="html",reply_to=Jep)
+    await memejep.delete()
 @l313l.on(admin_cmd(outgoing=True, pattern="نشاقة$"))
 async def jepmeme(memejep):
   Jep = await reply_id(memejep)
