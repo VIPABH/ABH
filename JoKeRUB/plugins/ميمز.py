@@ -78,7 +78,7 @@ async def _(event):
             return
         await event.edit(f"- {response.message.message}\n @tt_tabot")
 
-@l313l.on(admin_cmd(outgoing=True, pattern="لطمية$"))
+@l313l.on(admin_cmd(outgoing=True, pattern="افتار$"))
 async def jepThe(theme):
     # rl = random.randint(19, 182)
     # url = f"https://t.me/x04ou/{rl}"
