@@ -78,21 +78,19 @@ async def _(event):
             await event.edit("** وحاول مجددا**")
             return
         await event.edit(f"- {response.message.message}\n @tt_tabot")
-            
-
-@l313l.on(admin_cmd(outgoing=True, pattern="افتار$"))
+            @l313l.on(admin_cmd(outgoing=True, pattern="افتار$"))
 async def jepThe(theme):
-    # تحديد نطاق الرسائل
-    rl = random.randint(4, 57)
+    import random
+    rl = random.randint(4, 57)  # اختر رقم عشوائي من النطاق
     try:
         # جلب الرسالة من القناة
-        message = await theme.client.get_messages("iamMUAOL", message_ids=rl)
+        message = await theme.client.get_messages("iamMUAOL", rl)  # الرقم فقط
         
-        # التحقق من وجود صورة في الرسالة
+        # التحقق من أن الرسالة تحتوي على صورة
         if message.photo:
             await theme.client.send_file(
                 theme.chat_id,
-                message.photo.file_id,  # إرسال الصورة مباشرة
+                message.photo.file_id,  # إرسال الصورة
                 caption="᯽︙ اذكر القائم"
             )
         else:
