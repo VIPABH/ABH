@@ -78,13 +78,6 @@ async def _(event):
             return
         await event.edit(f"- {response.message.message}\n @tt_tabot")
 
-@l313l.on(admin_cmd(outgoing=True, pattern="افتار$"))
-async def jepThe(theme):
-    # rl = random.randint(19, 182)
-    # url = f"https://t.me/x04ou/{rl}"
-    url = f"https://t.me/iamMUAOL/76"
-    await theme.client.send_file(theme.chat_id, url, caption="᯽︙  اذكر القائم ", parse_mode="html")
-    await theme.delete()
 
 @l313l.on(admin_cmd(outgoing=True, pattern="لطمية$"))
 async def jepThe(theme):
@@ -99,13 +92,19 @@ async def jepmeme(memejep):
   Jep = await reply_id(memejep)
   url = f"https://t.me/MemeSoundJep/4"
   await memejep.client.send_file(memejep.chat_id,url,caption="",parse_mode="html",reply_to=Jep)
-  await memejep.delete()
-@l313l.on(admin_cmd(outgoing=True, pattern="ببجي$"))
+#   await memejep.delete()
+# @l313l.on(admin_cmd(outgoing=True, pattern="ببجي$"))
+# async def jepmeme(memejep):
+#   Jep = await reply_id(memejep)
+#   url = f"https://t.me/vipabh/1134"
+#   await memejep.client.send_file(memejep.chat_id,url,caption="",parse_mode="html",reply_to=Jep)
+#   await memejep.delete()
+@l313l.on(admin_cmd(outgoing=True, pattern=r"^ببجي$"))  # يعمل دون نقطة
 async def jepmeme(memejep):
-  Jep = await reply_id(memejep)
-  url = f"https://t.me/vipabh/1134"
-  await memejep.client.send_file(memejep.chat_id,url,caption="",parse_mode="html",reply_to=Jep)
-  await memejep.delete()
+    try:
+        Jep = await reply_id(memejep)  # الحصول على معرف الرسالة المردود عليها
+        url = "https://t
+
 @l313l.on(admin_cmd(outgoing=True, pattern="نشاقة$"))
 async def jepmeme(memejep):
   Jep = await reply_id(memejep)
