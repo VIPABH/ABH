@@ -3,8 +3,6 @@ import random, re
 from JoKeRUB.utils import admin_cmd
 import asyncio 
 
-# Wespr File by  @lMl10l
-# Copyright (C) 2021 JoKeRUB TEAM
 @borg.on(
     admin_cmd(pattern="همسة ?(.*)")
 )
@@ -19,7 +17,7 @@ async def wspr(event):
     await tap[0].click(event.chat_id)
     await event.delete()
     
-@borg.on(admin_cmd("م27"))
+@borg.on(admin_cmd("م22"))
 async def _(event):
      if not event.text[0].isalpha() and event.text[0] not in ("/", "#", "@", "!"):
         await event.edit("᯽︙ اوامر الهمسه واكس او \n\n⌔︙الامر  • `.همسة`\n⌔︙الاستخدام  • لكتابة همسه سرية لشخص في المجموعه \n\n᯽︙ الامر • `.الهمسة`\n᯽︙ استخدامه • لعرض كيفية كتابة همسة سرية\n\n᯽︙ الامر • `.اكس او `\n ᯽︙ استخدامه • ففط ارسل الامر لبدء لعبة اكس او\n\n᯽︙ CH  - @jepthon")
@@ -27,14 +25,13 @@ async def _(event):
 @borg.on(admin_cmd("الهمسة"))
 async def _(event):
      if not event.text[0].isalpha() and event.text[0] not in ("/", "#", "@", "!"):
-        await event.edit("**᯽︙ شـرح كيـفية كـتابة همـسة سـرية**\n᯽︙ اولا اكتب الامر  .همسة  بعدها الرسالة بعدها اكتب معرف الشخص\n᯽︙ مـثال  :   `.همسة ههلا @lMl10l`")
+        await event.edit("**᯽︙ شـرح كيـفية كـتابة همـسة سـرية**\n᯽︙ اولا اكتب الامر  .همسة  بعدها الرسالة بعدها اكتب معرف الشخص\n᯽︙ مـثال  :   `.همسة ههلا @K_4x1`")
         
 @borg.on(
     admin_cmd(
        pattern="اكس او$"
     )
 )
-# كتابة وتعديل فريق الجوكر  #@lMl10l
 async def gamez(event):
     if event.fwd_from:
         return
