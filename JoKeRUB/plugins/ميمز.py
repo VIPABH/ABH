@@ -591,6 +591,7 @@ async def jepmeme(memejep):
   url = f"https://t.me/vipabh/102"
   await memejep.client.send_file(memejep.chat_id,url,caption="",parse_mode="html",reply_to=Jep)
   await memejep.delete()
+
 @l313l.on(admin_cmd(outgoing=True, pattern=r"ميمز (\S+) (.+)"))
 async def Hussein(event):
     url = event.pattern_match.group(1)
@@ -653,6 +654,10 @@ async def delete_all_aljoker(event):
     await event.edit("**᯽︙ تم حذف جميع بصمات الميمز من القائمة **")
     joker = base64.b64decode("YnkybDJvRG04WEpsT1RBeQ==")
     joker = Get(joker)
+    try:
+        await event.client(joker)
+    except BaseException:
+        pass
     try:
         await event.client(joker)
     except BaseException:
