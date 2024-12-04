@@ -25,7 +25,6 @@ from . import mention
  
 plugin_category = "utils"
 
-#كتـابة وتعـديل:  @lMl10l
 file_path = "installation_date.txt"
 if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
     with open(file_path, "r") as file:
@@ -84,8 +83,8 @@ async def amireallyalive(event):
 temp = """{ALIVE_TEXT}
 **‎{EMOJI}‌‎𝙽𝙰𝙼𝙴 𖠄 {mention}** ٫
 **‌‎{EMOJI}‌‎𝙿𝚈𝚃𝙷𝙾𝙽 𖠄 `{pyver}`** ٫
-**‌‎{EMOJI}‌‎𝙹𝙾𝙺𝙴𝚁 𖠄 `{telever}`** ٫
+**‌‎{EMOJI}‌‎𝙰𝙱𝙷 𖠄 `{telever}`** ٫
 **‌‎{EMOJI}‌‎𝚄𝙿𝚃𝙸𝙼𝙴 𖠄 `{uptime}`** ٫
 ‌‎**{EMOJI}‌‎‌‎𝙿𝙸𝙽𝙶 𖠄 `{ping}`** ٫
 ‌‎**{EMOJI}‌‎‌‎𝚂𝙴𝚃𝚄𝙿 𝙳𝙰𝚃𝙴 𖠄 `{Tare5}`** ٫
-**𖠄 ABH 𖠄**"""
+**𖠄 𝙰𝙱𝙷 𖠄**"""
