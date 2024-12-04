@@ -74,11 +74,10 @@ async def _(event):
             await conv.send_message("محرم")
             response = await response
             await event.client.send_read_acknowledge(conv.chat_id)
-        except YouBlockedUserError:
-            await event.edit("** وحاول مجددا**")
+        excepwait event.edit("** وحاول مجددا**")
             return
         await event.edit(f"- {response.message.message}\n @tt_tabot")
-            @l313l.on(admin_cmd(outgoing=True, pattern="افتار$"))
+        @l313l.on(admin_cmd(outgoing=True, pattern="افتار$"))
 async def jepThe(theme):
     import random
     rl = random.randint(4, 57)  # اختر رقم عشوائي من النطاق
@@ -99,7 +98,8 @@ async def jepThe(theme):
         await theme.reply(f"❌ حدث خطأ: {e}")
     finally:
         await theme.delete()
-
+t YouBlockedUserError:
+            a
 @l313l.on(admin_cmd(outgoing=True, pattern="لطمية$"))
 async def jepThe(theme):
     rl = random.randint(19, 182)
