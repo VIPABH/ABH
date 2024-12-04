@@ -356,11 +356,6 @@ async def Hussein(event):
 
 @l313l.on(admin_cmd(pattern="رابط$"))
 async def abh(event):
-    """Generates a link to the user's PM with a custom text."""
-    user, custom = await get_user_from_event(event)
-    if not user:
-        return
-    if custom:
-        return await edit_or_reply(event, f"[{custom}](tg://user?id={user.id})")
+    return await edit_or_reply(event, f"[{custom}](tg://user?id={user.id})")
     tag = user.first_name.replace("\u2060", "") if user.first_name else user.username
     await edit_or_reply(event, f"[{tag}](tg://user?id={user.id})")
