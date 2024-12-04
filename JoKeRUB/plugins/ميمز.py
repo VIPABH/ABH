@@ -83,16 +83,12 @@ async def jepThe(theme):
     url = f"https://t.me/x04ou/{rl}"
     await theme.client.send_file(theme.chat_id, url, caption="᯽︙  اذكر القائم ", parse_mode="html")
     await theme.delete()
-# @l313l.on(admin_cmd(outgoing=True, pattern="ببجي$"))
-@l313l.on(events.NewMessage(incoming=True))
-async def Hussein(event):
-    if event.message.text.startswith("ببج"):
-        Jep = await event.get_reply_message()
-        if Jep:
-            url = "https://t.me/vipabh/1134"
-            await event.client.send_file(event.chat_id, url, caption="", parse_mode="html", reply_to=Jep)
-            await event.delete()
-
+@l313l.on(admin_cmd(outgoing=True, pattern="ببجي$"))
+async def jepmeme(memejep):
+    Jep = await reply_id(memejep)
+    url = f"https://t.me/vipabh/1134"
+    await memejep.client.send_file(memejep.chat_id,url,caption="",parse_mode="html",reply_to=Jep)
+    await memejep.delete()
 @l313l.on(admin_cmd(outgoing=True, pattern="نشاقة$"))
 async def jepmeme(memejep):
   Jep = await reply_id(memejep)
