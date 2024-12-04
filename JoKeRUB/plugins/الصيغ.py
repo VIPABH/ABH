@@ -35,13 +35,8 @@ PATH = os.path.join("./temp", "temp_vid.mp4")
 thumb_loc = os.path.join(Config.TMP_DOWNLOAD_DIRECTORY, "thumb_image.jpg")
 cancel_process = False
 
-#Copyright  By  @jepthon  © 2021
-#WRITE BY  @lMl10l  
-#Edited By Reda 
-
-
 @l313l.ar_cmd(
-    pattern=r"حفظ_المحتوى (.+)",
+    pattern=r"حفظ (.+)",
     command=("حفظ_المحتوى", plugin_category),
     info={
         "header": "حفظ الصور والفيديوهات والملفات إذا وجد في الرسالة.",
