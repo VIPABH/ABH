@@ -1,6 +1,3 @@
-#@lMl10l   - @jepthon
-# Copyright (C) 2021 JoKeRUB TEAM
-# FILES WRITTEN BY  @lMl10l
 import asyncio
 import io
 import os
