@@ -21,32 +21,27 @@ async def reply_salam(event):
     username = event.sender.username if event.sender.username else "لا يوجد اسم مستخدم"
     await event.reply(f"عليكم السلام")
 
-
 @l313l.ar_cmd(
-    pattern=r"تفاعل\s+(.+)$",
+    pattern=r"تفاعل$",
     command=("تفاعل", plugin_category),
     info={
-        "header": "Add a reaction to a message.",
-        "description": "Reply to a message and use this command to add a reaction to it.",
+        "header": "Add a heart reaction to a message.",
+        "description": "Reply to a message and use this command to add a heart reaction to it.",
         "usage": [
-            "{tr}تفاعل 👍",
+            "{tr}تفاعل",
         ],
     },
     require_admin=False,  # لا حاجة لأن يكون المستخدم مسؤولاً لاستخدام الأمر
 )
 async def _(client: Client, message: Message):
-    "Add a reaction to a message."
+    "Add a heart reaction to a message."
     
     # التحقق من الرد على رسالة
     if not message.reply_to_message:
         return await edit_or_reply(message, "❌ يجب الرد على رسالة لاستخدام هذا الأمر.")
     
-    # استخراج التفاعل
-    reaction = message.text.split(" ", 1)[1].strip()
-
-    # التحقق من صحة التفاعل
-    if len(reaction) > 2:  # يمكنك تعديل التحقق حسب احتياجاتك
-        return await edit_or_reply(message, "❌ الرمز التعبيري غير صالح.")
+    # تحديد التفاعل كقلب
+    reaction = "❤️"
 
     try:
         # الحصول على الرسالة التي تم الرد عليها
@@ -62,6 +57,7 @@ async def _(client: Client, message: Message):
         await edit_or_reply(message, f"✅ تمت إضافة التفاعل: {reaction}")
     except Exception as e:
         await edit_or_reply(message, f"❌ حدث خطأ أثناء إرسال التفاعل: {str(e)}")
+
 
 @l313l.ar_cmd(
     pattern="اوامر الحظر$",
