@@ -1,8 +1,3 @@
-# اذا تخمط اذكر الحقوق رجـاءا  - 
-# كتابة وتعديل وترتيب  ~ @lMl10l
-# For ~ @Jepthon
-#تعديل Reda / رضا
-#من تعرف تخمط اذكر حقوق لتسوي نفسك مطور
 from ..sql_helper.group import auto_g, del_auto_g, get_auto_g
 import webcolors
 import asyncio
@@ -27,7 +22,6 @@ from . import AUTONAME, DEFAULT_GROUP, DEFAULT_BIO, edit_delete, l313l, logging
 from colour import Color
 
 plugin_category = "tools"
-# لتخمط ابن الكحبة
 DEFAULTUSERBIO = DEFAULT_BIO or "﴿ لا تَحزَن إِنَّ اللَّهَ مَعَنا ﴾ "
 DEFAULTUSERGRO = DEFAULT_GROUP or ""
 DEFAULTUSER = AUTONAME or ""
@@ -119,8 +113,7 @@ async def digitalpicloop():
             return
         DIGITALPICSTART = gvarstatus("digitalpic") == "true"
 
-#Reda
-#اننننسخخخخخ هههههههههههههههههههههههههههههههههههههههههههههههههههههههههههههههههههههههه
+
 async def digitalgrouppicloop():
     "2KjZiNin2LPYt9ipINiz2YjYsdizINis2YrYqNir2YjZhiAo2KfYsNinINin2LPYqtio2K/ZhNiq2Ycg2LHYp9itINiq2KvYqNiqINmB2LTZhNmDKSDZhdi5INiq2K3Zitin2KrZiiDYp9iu2YjZg9mFINix2LbYpyBAcmQwcjA="
 
