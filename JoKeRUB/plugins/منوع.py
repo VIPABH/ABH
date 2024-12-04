@@ -355,7 +355,7 @@ async def Hussein(event):
             await event.edit(response.text)
 
 @l313l.on(admin_cmd(pattern="رابط$"))
-async def permalink(event):
+async def abh(event):
     """Generates a link to the user's PM with a custom text."""
     user, custom = await get_user_from_event(event)
     if not user:
