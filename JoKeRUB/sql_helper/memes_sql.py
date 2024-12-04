@@ -1,7 +1,6 @@
-try:
-    from . import BASE, SESSION, engine
+from . import BASE, SESSION, engine
 except ImportError as e:
-    raise Exception("Hello!") from e
+raise Exception("Hello!") from e
 from sqlalchemy import Column, String
 
 
