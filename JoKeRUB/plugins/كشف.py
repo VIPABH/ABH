@@ -106,10 +106,10 @@ async def _(event):
     user_id = replied_user.users[0].id
     first_name = html.escape(replied_user.users[0].first_name)
     if first_name is not None:
-        # some weird people (like me) have more than 4096 characters in their
-        # names
+         some weird people (like me) have more than 4096 characters in their
+         names
         first_name = first_name.replace("\u2060", "")
-    # inspired by https://telegram.dog/afsaI181
+     inspired by https://telegram.dog/afsaI181
     common_chats = 1
     try:
         dc_id, location = get_input_location(replied_user.profile_photo)
@@ -181,8 +181,8 @@ async def who(event):
         await cat.delete()
     except TypeError:
         await cat.edit(caption, parse_mode="html")
-#كـتابة  @lMl10l
-#تعديل وترتيب  @lMl10l
+
+
 @l313l.ar_cmd(
     pattern="رابط الحساب(?:\s|$)([\s\S]*)",
     command=("رابط الحساب", plugin_category),
