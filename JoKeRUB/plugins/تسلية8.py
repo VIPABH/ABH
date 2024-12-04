@@ -1,4 +1,3 @@
-# WRITED BY - @VUUZZ - @lMl10l
 
 import io
 import os
@@ -53,7 +52,7 @@ async def waifu(animu):
     await waifutxt(text, animu.chat_id, reply_to_id, animu.client)
 
 
-# 12 21 28 30
+
 @l313l.ar_cmd(
     pattern="ستيكر ?(?:(.*?) ?; )?([\s\S]*)",
     command=("ستيكر", plugin_category),
@@ -65,7 +64,7 @@ async def waifu(animu):
         ],
         "examples": "{tr}stcr hello",
     },
-) # WRITED BY - @VUUZZ - @lMl10l
+)
 async def sticklet(event):
     " ⌔︙النص الخاص بك كملصق"
     R = random.randint(0, 256)
@@ -191,7 +190,6 @@ async def doge(event):
     text = deEmojify(text)
     await event.delete()
     await hide_inlinebot(event.client, bot_name, text, event.chat_id, reply_to_id)
-# WRITED BY - @VUUZZ - @lMl10l
 
 @l313l.ar_cmd(
     pattern="غلاكس(|ر)(?:\s|$)([\s\S]*)",
@@ -210,7 +208,7 @@ async def doge(event):
             "{tr}glaxr Die you",
         ],
     },
-) # WRITED BY - @VUUZZ - @lMl10l
+)
 async def glax(event):
     " ⌔︙اجعل غلاكس التنين ينفخ نصك."
     cmd = event.pattern_match.group(1).lower()
@@ -224,10 +222,9 @@ async def glax(event):
         else:
             return await edit_delete(
                 event, " ᯽︙ ماذا يفترض بـ گلاكـس ان يقول اعطه نصا**"
-            ) # WRITED BY - @VUUZZ - @lMl10l
+            ) 
     text = deEmojify(text)
     await event.delete()
     await hide_inlinebot(
         event.client, bot_name, text, event.chat_id, reply_to_id, c_lick=c_lick
     )
-    # WRITED BY - @VUUZZ - @lMl10l
