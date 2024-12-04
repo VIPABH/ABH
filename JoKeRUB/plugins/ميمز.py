@@ -98,12 +98,25 @@ async def jepmeme(memejep):
 #   Jep = await reply_id(memejep)
 #   url = f"https://t.me/vipabh/1134"
 #   await memejep.client.send_file(memejep.chat_id,url,caption="",parse_mode="html",reply_to=Jep)
-#   await memejep.delete()
-@l313l.on(admin_cmd(outgoing=True, pattern=r"^ببجي$"))  # يعمل دون نقطة
+#   await memejep.delete()@l313l.on(admin_cmd(outgoing=True, pattern="ببجي$"))
 async def jepmeme(memejep):
-    try:
-        Jep = await reply_id(memejep)  # الحصول على معرف الرسالة المردود عليها
-        url = "https://t
+    Jep = await reply_id(memejep)
+    url = f"https://t.me/vipabh/1134"
+    await memejep.client.send_file(memejep.chat_id,url,caption="",parse_mode="html",reply_to=Jep)
+    await memejep.delete()
+@l313l.on(admin_cmd(outgoing=True, pattern=r"^لتغلط$"))  # يعمل دون نقطة
+async def jepmeme(memejep):
+    Jep = await reply_id(memejep)  # الحصول على الرد إذا كان موجودًا
+    url = f"https://t.me//vipabh/1134"
+    await memejep.client.send_file(
+        memejep.chat_id,
+        url,
+        caption="",
+        parse_mode="html",
+        reply_to=Jep
+    )
+    await memejep.delete()
+
 
 @l313l.on(admin_cmd(outgoing=True, pattern="نشاقة$"))
 async def jepmeme(memejep):
