@@ -1,6 +1,3 @@
-# to loaded bio 
-# by ~ @lMl10l
-# For @jepthon
 
 
 JEP = [
