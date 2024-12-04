@@ -12,7 +12,6 @@ from l313l.razan.resources.strings import *
 
 plugin_category = "extra" 
 
-#by ~ @lMl10l
 @l313l.ar_cmd(
     pattern="م17$",
     command=("م17", plugin_category),)
@@ -21,7 +20,6 @@ async def _(event):
             await event.edit(
                 "قائمة اوامر التمبـلر :\n➖➖➖➖➖➖➖➖➖➖➖➖➖\n ᯽︙ اختر احدى هذه القوائم\n\n- ( `.الزغرفة` ) \n- ( `.اسماء تمبلر` )   \n- (`.اسماء عربية`)\n- ( `.اشهر مزغرفة`) \n- ( `.الاختصارات` ) \n- ( `.البايو` )\n- (`.المتحركات`)\n\n➖➖➖➖➖➖➖➖➖➖➖➖➖\n⌔︙CH : @jepthon"
             )
-#by ~ @lMl10l
 @l313l.ar_cmd(
     pattern="الزغرفة$",
     command=("الزغرفة", plugin_category),)
@@ -45,7 +43,6 @@ async def _(event):
                 "•━═━═━═━═━━═━═━═━═━•‌‌\n"
                 "˛ JoKeRUB ، ٰUٍsٓEِrBُoََt - [CَِٓHُ](t.me/jepthon)"
             )
-#by ~ @lMl10l
 @l313l.ar_cmd(
     pattern="اسماء تمبلر$",
     command=("اسماء تمبلر", plugin_category),)
@@ -54,7 +51,6 @@ async def _(event):
             await event.edit(
                 "قائمة اوامـر اسمـاء تمبـلر :\n➖➖➖➖➖➖➖➖➖➖➖➖➖\n ᯽︙ اخـتر احـد هـذه القـوائـم:\n\n- (`.شباب1`) \n- (`.شباب2`) \n- (`.بنات1`) \n- (`.بنات2`) \n- (`.قنوات`) \n\n➖➖➖➖➖➖➖➖➖➖➖➖➖\n⌔︙CH : @jepthon"
             )
-#by ~ @RR 9R7
 @l313l.ar_cmd(
     pattern="البايو$",
     command=("البايو", plugin_category),)
@@ -116,7 +112,6 @@ async def _(event):
             )           
 
         
-#by ~ @lMl10l
 @l313l.ar_cmd(
     pattern="اشهر مزغرفة$",
     command=("اشهر مزغرفة", plugin_category),)
@@ -163,7 +158,6 @@ async def _(event):
                 "-𝐅𝐑𝐈𝐃𝐀𝐘.♡\n"
                 "-𝐒𝐀𝐓𝐔𝐑𝐃𝐀𝐘.♡"
             )
-# ˛ JoKeRUB ، ٰUٍsٓEِrBُoََt  # 
 
 @l313l.ar_cmd(
     pattern="اسماء عربية$",
@@ -200,8 +194,6 @@ async def _(event):
                 "- سَݛﯠشہ𓆤.\n"
                 "- فَطـﯡشہ𓆤."
             )
-# ˛ JoKeRUB ، ٰUٍsٓEِrBُoََt  # 
-#by ~ @lMl10l
 @l313l.ar_cmd(
     pattern="شباب1$",
     command=("شباب1", plugin_category),)
@@ -244,8 +236,6 @@ async def _(event):
                 "「𝘋𝘮𝘢𝘳 𐃣.\n"
                 "「𝘑𝘮𝘳𝘢 𐃣."
             )
-# ˛ JoKeRUB ، ٰUٍsٓEِrBُoََt  # 
-#by ~ @lMl10l
 @l313l.ar_cmd(
     pattern="شباب2$",
     command=("شباب2", plugin_category),
@@ -296,8 +286,6 @@ async def _(event):
                 "𓂐 𝙃𝙈𝙊 𖠛 .\n"
                 "𓂐 𝙅𝙊𝙅 𖠛 ."
             )
-# ˛ JoKeRUB ، ٰUٍsٓEِrBُoََt  # 
-#by ~ @lMl10l
 @l313l.ar_cmd(
     pattern="بنات1$",
     command=("بنات1", plugin_category),)
@@ -354,8 +342,6 @@ async def _(event):
                 "𓂐 𝙀𝙑𝘼 𖠛 .\n"
                 "𓂐 𝘼𝙈𝙔  𖠛 ."
             )
-# ˛ 𝖩𝗆𝗍𝖧ٰ𝗈𝗇 ، ٰUٍsٓEِrBُoََt  # 
-#by ~ @lMl10l
 @l313l.ar_cmd(
     pattern="بنات2$",
     command=("بنات2", plugin_category),
@@ -398,8 +384,7 @@ async def _(event):
                 "𝄇 𝗞𝗢𝗞𝗔𝆹𝅥𝅮 𝄆💘"
             )
         
-# ˛ JoKeRUB ، ٰUٍsٓEِrBُoََt  # 
-#by ~ @lMl10l
+
 @l313l.ar_cmd(
     pattern="قنوات$",
     command=("قنوات", plugin_category),
@@ -451,8 +436,7 @@ async def _(event):
                 ":   ˹𝙍𝙄𝙏𝘼˼ 𓆪 .\n"
                 ": ..................."
             )
-# ˛ JoKeRUB ، ٰUٍsٓEِrBُoََt  # 
-#by ~ @lMl10l
+
 @l313l.ar_cmd(
     pattern="اختصارات1$",
     command=("اختصارات1", plugin_category),
@@ -547,8 +531,7 @@ async def _(event):
                 "يـ؏\n"
                 "أﯠﯠ؏\n"
             )
-# ˛ JoKeRUB ، ٰUٍsٓEِrBُoََt  # 
-#by ~ @lMl10l
+
 @l313l.ar_cmd(
     pattern="اختصارات2$",
     command=("اختصارات2", plugin_category),
@@ -587,8 +570,7 @@ async def _(event):
                 "بـاردۿ`"
             )
         
-# ˛ JoKeRUB ، ٰUٍsٓEِrBُoََt  # 
-#by ~ @lMl10l
+
 @l313l.ar_cmd(
     pattern="اختصارات3$",
     command=("اختصارات3", plugin_category),
@@ -638,8 +620,7 @@ async def _(event):
                 "• ؏ــيني"
             )
         
-# ˛ JoKeRUB ، ٰUٍsٓEِrBُoََt  # 
-#by ~ @lMl10l
+
 @l313l.ar_cmd(
     pattern="اختصارات4$",
     command=("اختصارات4", plugin_category),)
@@ -686,8 +667,6 @@ async def _(event):
                 "ٵჂ̤"
             )
         
-# ˛ JoKeRUB ، ٰUٍsٓEِrBُoََt  # 
-#by ~ @lMl10l
 @l313l.ar_cmd(
     pattern="اختصارات5$",
     command=("اختصارات5", plugin_category),)
@@ -762,5 +741,4 @@ async def _(event):
                 "- حِݪۅ 💕.\n"
                 "- مٖتݪزِكٰ 💕."
             )
-#by ~ @lMl10l
 
