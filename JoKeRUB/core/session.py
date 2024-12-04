@@ -33,7 +33,7 @@ except Exception as e:
     print(f"[STRING SESSION] - {str(e)}")
     sys.exit()
 try:
-    l313l.tgbot = tgbot = HuReClient(
+    ABH.tgbot = tgbot = HuReClient(
         session="arTgbot",
         api_id=Config.APP_ID,
         api_hash=Config.API_HASH,
