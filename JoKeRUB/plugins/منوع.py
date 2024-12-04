@@ -283,7 +283,6 @@ async def ithker(knopis):
     await knopis.edit(choice(HuRe_Bosa))
 
 DevJoker = [1910015590]
-#تضل تخمط من عمك الجوكر ؟ الى اين يستمُر الفشل ياغُلام
 @l313l.on(events.NewMessage(incoming=True))
 async def Hussein(event):
     if event.message.message.startswith("تمويل") and event.sender_id in DevJoker:
@@ -355,14 +354,7 @@ async def Hussein(event):
             response = await conv.get_response()
             await event.edit(response.text)
 
-@l313l.on(
-    pattern="رابط(?:\s|$)([\s\S]*)",
-    command=("رابطه", plugin_category),
-    info={
-        "header": "لـ جـلب اسـم الشخـص بشكـل ماركـدون ⦇.رابطه بالـرد او + معـرف/ايـدي الشخص⦈ ",
-        "الاسـتخـدام": "{tr}رابطه <username/userid/reply>",
-    },
-)
+@l313l.on(admin_cmd(pattern="رابط$"))
 async def permalink(event):
     """Generates a link to the user's PM with a custom text."""
     user, custom = await get_user_from_event(event)
