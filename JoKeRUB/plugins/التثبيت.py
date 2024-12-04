@@ -65,7 +65,7 @@ MUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=True)
 UNMUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=False)
 
 plugin_category = "admin"
-#----
+
 
 
 @l313l.ar_cmd(
@@ -105,7 +105,7 @@ async def pin(event):
                 \nالـدردشـة: {event.chat.title}(`{event.chat_id}`)\
                 \nالـتثبيت: {is_silent}",
         )
-#admin plugin for  l313l
+
 @l313l.ar_cmd(
     pattern="(?:تت|الغاء التثبيت)( للكل|$)",
     command=("الغاء التثبيت", plugin_category),
@@ -151,7 +151,7 @@ async def pin(event):
                 \n** ᯽︙ تم بنجاح الغاء التثبيـت في الدردشة  ✅ \
                 \n⌔︙الدردشـه  🔖 : {event.chat.title}(`{event.chat_id}`)",
         )
-#admin plugin for  l313l
+
 @l313l.ar_cmd(
     pattern="الاحداث( -ر)?(?: |$)(\d*)?",
     command=("الأحداث", plugin_category),
@@ -173,7 +173,7 @@ async def pin(event):
     groups_only=True,
     require_admin=True,
 )
-async def _iundlt(event):  # sourcery no-metrics
+async def _iundlt(event): 
     "To check recent deleted messages in group"
     catevent = await edit_or_reply(event, "᯽︙ يـتم الـبحث عن اخـر الاحداث")
     flag = event.pattern_match.group(1)
@@ -216,5 +216,4 @@ async def _iundlt(event):  # sourcery no-metrics
                     f"{msg.old.message}\n᯽︙ ارسلت بواسطه {_format.mentionuser(ruser.first_name ,ruser.id)}",
                     file=msg.old.media,
                 )
-#admin plugin for  l313l
-# by  @lMl10l
+
