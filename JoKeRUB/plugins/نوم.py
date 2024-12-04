@@ -1,5 +1,3 @@
-#JoKeRUB - @lMl10l - @313
-# L E O - M U H A M M E D
 
 
 import asyncio
@@ -82,9 +80,6 @@ async def set_not_afk(event):
                 + endtime
                 + "`",
             )
-#JoKeRUB - lMl10l - 313
-# L E O - M U H A M M E D
-
 @l313l.ar_cmd(
     incoming=True, func=lambda e: bool(e.mentioned or e.is_private), edited=False
 )
@@ -168,9 +163,6 @@ async def on_afk(event):  # sourcery no-metrics
                 parse_mode="html",
                 link_preview=False,
             )
-#JoKeRUB - lMl10l - 313
-# L E O - M U H A M M E D
-
 @l313l.ar_cmd(
     pattern="نوم(?:\s|$)([\s\S]*)",
     command=("نوم", plugin_category),
@@ -233,5 +225,3 @@ async def _(event):
                 BOTLOG_CHATID,
                 f"**᯽︙ امـر النوم 💤 :** \n **تم تشغيل الامر ❕**",
             )
-#JoKeRUB - lMl10l - 313
-# L E O - M U H A M M E D
