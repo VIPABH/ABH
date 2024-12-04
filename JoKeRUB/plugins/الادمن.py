@@ -1,5 +1,4 @@
-# edit ~ @lMl10l
-# for ~ @jepthon
+
 
 from asyncio import sleep
 
@@ -51,7 +50,6 @@ BANNED_RIGHTS = ChatBannedRights(
     send_inline=True,
     embed_links=True,
 )
-#admin plugin for  l313l
 UNBAN_RIGHTS = ChatBannedRights(
     until_date=None,
     send_messages=None,
@@ -89,7 +87,6 @@ plugin_category = "aadmin"
     groups_only=True,
     require_admin=True,
 )
-async def set_group_photo(event):  # sourcery no-metrics
     "For changing Group dp"
     flag = (event.pattern_match.group(1)).strip()
     if flag == "-s":
@@ -147,7 +144,7 @@ async def set_group_photo(event):  # sourcery no-metrics
     },
     groups_only=True,
     require_admin=True,
-)#admin plugin for  l313l
+)
 async def promote(event):
     "᯽︙ لـرفع مستـخدم مشـرف في الـكروب"
     new_rights = ChatAdminRights(
@@ -195,7 +192,7 @@ async def promote(event):
     },
     groups_only=True,
     require_admin=True,
-)#admin plugin for  l313l
+)
 async def promote(event):
     "᯽︙ لـرفع مستـخدم مشـرف في الـكروب"
     new_rights = ChatAdminRights(
@@ -243,7 +240,7 @@ async def promote(event):
     },
     groups_only=True,
     require_admin=True,
-)#admin plugin for  l313l
+)
 async def promote(event):
     "᯽︙ لـرفع مستـخدم مشـرف في الـكروب"
     new_rights = ChatAdminRights(
@@ -291,7 +288,7 @@ async def promote(event):
     },
     groups_only=True,
     require_admin=True,
-)#admin plugin for  l313l
+)
 async def promote(event):
     "᯽︙ لـرفع مستـخدم مشـرف في الـكروب"
     new_rights = ChatAdminRights(
