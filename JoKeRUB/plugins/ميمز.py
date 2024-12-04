@@ -77,29 +77,15 @@ async def _(event):
         excepwait event.edit("** وحاول مجددا**")
             return
         await event.edit(f"- {response.message.message}\n @tt_tabot")
-        @l313l.on(admin_cmd(outgoing=True, pattern="افتار$"))
+
+@l313l.on(admin_cmd(outgoing=True, pattern="لطمية$"))
 async def jepThe(theme):
-    import random
-    rl = random.randint(4, 57)  # اختر رقم عشوائي من النطاق
-    try:
-        # جلب الرسالة من القناة
-        message = await theme.client.get_messages("iamMUAOL", rl)  # الرقم فقط
-        
-        # التحقق من أن الرسالة تحتوي على صورة
-        if message.photo:
-            await theme.client.send_file(
-                theme.chat_id,
-                message.photo.file_id,  # إرسال الصورة
-                caption="᯽︙ اذكر القائم"
-            )
-        else:
-            await theme.reply("❌ الرسالة المختارة لا تحتوي على صورة.")
-    except Exception as e:
-        await theme.reply(f"❌ حدث خطأ: {e}")
-    finally:
-        await theme.delete()
-t YouBlockedUserError:
-            a
+    # rl = random.randint(19, 182)
+    # url = f"https://t.me/x04ou/{rl}"
+    url = f"https://t.me/iamMUAOL/76"
+    await theme.client.send_file(theme.chat_id, url, caption="᯽︙  اذكر القائم ", parse_mode="html")
+    await theme.delete()
+
 @l313l.on(admin_cmd(outgoing=True, pattern="لطمية$"))
 async def jepThe(theme):
     rl = random.randint(19, 182)
