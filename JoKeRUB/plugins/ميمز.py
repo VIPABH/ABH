@@ -11,8 +11,6 @@ from telethon.errors.rpcerrorlist import YouBlockedUserError
 # ياقائم آل محمد
 from JoKeRUB import l313l
 from ..helpers.utils import reply_id
-from pyrogram.errors import MessageNotModified
-
 plugin_category = "tools"
 
 @l313l.on(admin_cmd(pattern="رجب ?(.*)"))
@@ -74,21 +72,99 @@ async def _(event):
             await conv.send_message("محرم")
             response = await response
             await event.client.send_read_acknowledge(conv.chat_id)
-        excepwait event.edit("** وحاول مجددا**")
+        except YouBlockedUserError:
+            await event.edit("** وحاول مجددا**")
             return
         await event.edit(f"- {response.message.message}\n @tt_tabot")
+            
+
+
+@l313l.on(admin_cmd(pattern="الاغنية ?(.*)"))
+async def _(event):
+    "To reverse search music by bot."
+    if not event.reply_to_msg_id:
+        return await event.edit("**▾∮ يجب الرد على الاغنيه اولا**")
+    reply_message = await event.get_reply_message()
+    chat = "@auddbot"
+    try:
+        async with event.client.conversation(chat) as conv:
+            try:
+                await event.edit("**▾∮ يتم التعرف على الاغنية انتظر**")
+                start_msg = await conv.send_message("/start")
+                response = await conv.get_response()
+                send_audio = await conv.send_message(reply_message)
+                check = await conv.get_response()
+                if not check.text.startswith("Audio received"):
+                    return await event.edit(
+                        "**▾∮ يجب ان يكون حجم الاغنيه من 5 الى 10 ثواني **."
+                    )
+                await event.edit("- انتظر قليلا")
+                result = await conv.get_response()
+                await event.client.send_read_acknowledge(conv.chat_id)
+            except YouBlockedUserError:
+                await event.edit("```Mohon buka blokir (@auddbot) dan coba lagi```")
+                return
+            namem = f"**الأغنية : **{result.text.splitlines()[0]}\n\n**التفاصيـل : **{result.text.splitlines()[2]}"
+            await event.edit(namem)
+            await event.client.delete_messages(
+                conv.chat_id,
+                [start_msg.id, send_audio.id, check.id, result.id, response.id],
+            )
+    except TimeoutError:
+        return await event.edit("***حدث خطا ما حاول مجددا**")
+
+
+@l313l.on(admin_cmd(pattern="ايميل وهمي(?: |$)(.*)"))
+async def _(event):
+    chat = "@TempMailBot"
+    geez = await event.edit("**جاري انشاء بريد ...**")
+    async with event.client.conversation(chat) as conv:
+        try:
+            response = conv.wait_event(
+                events.NewMessage(incoming=True, from_users=220112646)
+            )
+            await conv.send_message("/start")
+            await asyncio.sleep(1)
+            await conv.send_message("/create")
+            response = await response
+            l313lmail = response.reply_markup.rows[2].buttons[0].url
+            await event.client.send_read_acknowledge(conv.chat_id)
+        except YouBlockedUserError:
+            await geez.edit("**الغي حظر @TempMailBot  و حاول مجددا**")
+            return
+        await event.edit(
+            f"الايميل الخاص هو `{response.message.message}`\n[ اضغط هنا لرؤية من رسائل الايميل الواردة]({l313lmail})"
+        )
+
+
+@l313l.on(admin_cmd(outgoing=True, pattern="افتار$"))
+async def jepThe(theme):
+    rl = random.randint(4, 57)
+    url = f"https://t.me/iamMUAOL/{rl}"
+    await theme.client.send_file(theme.chat_id, url, caption="᯽︙  اذكر القائم")
+    await theme.delete()
+
+
 @l313l.on(admin_cmd(outgoing=True, pattern="لطمية$"))
 async def jepThe(theme):
-    rl = random.randint(19, 182)
+    rl = random.randint(19, 170)
     url = f"https://t.me/x04ou/{rl}"
     await theme.client.send_file(theme.chat_id, url, caption="᯽︙  اذكر القائم ", parse_mode="html")
     await theme.delete()
+
+  
+@l313l.on(admin_cmd(outgoing=True, pattern="لتغلط$"))
+async def jepmeme(memejep):
+  Jep = await reply_id(memejep)
+  url = f"https://t.me/MemeSoundJep/4"
+  await memejep.client.send_file(memejep.chat_id,url,caption="",parse_mode="html",reply_to=Jep)
+  await memejep.delete()
 @l313l.on(admin_cmd(outgoing=True, pattern="ببجي$"))
 async def jepmeme(memejep):
-    Jep = await reply_id(memejep)
-    url = f"https://t.me/vipabh/1134"
-    await memejep.client.send_file(memejep.chat_id,url,caption="",parse_mode="html",reply_to=Jep)
-    await memejep.delete()
+  Jep = await reply_id(memejep)
+  url = f"https://t.me/vipabh/1134"
+  await memejep.client.send_file(memejep.chat_id,url,caption="",parse_mode="html",reply_to=Jep)
+  await memejep.delete()
 @l313l.on(admin_cmd(outgoing=True, pattern="نشاقة$"))
 async def jepmeme(memejep):
   Jep = await reply_id(memejep)
