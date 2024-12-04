@@ -393,7 +393,7 @@ async def fastpurger(event):  # sourcery no-metrics
                 error += f"\n᯽︙ `{ty}`  : هـذه أضافـة خاطئـة "
     elif input_str.isnumeric():
         async for msg in event.client.iter_messages(chat, limit=int(input_str) + 1):
-            count += 1
+            count = 0
             msgs.append(msg)
             if len(msgs) == 50:
                 await event.client.delete_messages(chat, msgs)
