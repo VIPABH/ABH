@@ -77,27 +77,6 @@ async def _(event):
         excepwait event.edit("** وحاول مجددا**")
             return
         await event.edit(f"- {response.message.message}\n @tt_tabot")
-
-@l313l.ar_cmd(incoming=True, func=lambda e: "تجربة" in e.text.lower())
-async def jepmeme(memejep):
-    # التحقق من أن المرسل هو المستخدم المحدد (أنت)
-    if memejep.sender_id != 1910015590:  # ضع هنا الـ user_id الخاص بك
-        return  # إذا كان المرسل ليس صاحب ID المحدد، يتم تجاهل الأمر
-
-    Jep = await reply_id(memejep)
-    url = "https://t.me/MemeSoundJep/4"
-    
-    # إرسال الملف
-    await memejep.client.send_file(
-        memejep.chat_id,
-        url,
-        caption="",
-        parse_mode="html",
-        reply_to=Jep
-    )
-    await memejep.delete()
-
-
 @l313l.on(admin_cmd(outgoing=True, pattern="لطمية$"))
 async def jepThe(theme):
     rl = random.randint(19, 182)
