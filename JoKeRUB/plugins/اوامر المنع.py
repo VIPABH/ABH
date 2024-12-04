@@ -12,10 +12,12 @@ from ..utils import is_admin
 
 logger = logging.getLogger(__name__)
 
+
+
 @l313l.ar_cmd(incoming=True, groups_only=True)
 async def on_new_message(event):
     name = event.raw_text
-    snips = spl.get_chat_blacklist(event.chat_id)
+    snips = sql.get_chat_blacklist(event.chat_id)
     zthonadmin = await is_admin(event.client, event.chat_id, event.client.uid)
     if not zthonadmin:
         return
@@ -30,12 +32,12 @@ async def on_new_message(event):
                     f"**⎉╎عـذراً عـزيـزي مـالك البـوت\n⎉╎ليست لدي صلاحية الحذف في** {get_display_name(await event.get_chat())}.\n**⎉╎لذا لن يتم إزالة الكلمات الممنوعـه في تلك الدردشـه ؟!**",
                 )
                 for word in snips:
-                    spl.rm_from_blacklist(event.chat_id, word.lower())
+                    sql.rm_from_blacklist(event.chat_id, word.lower())
             break
 
 
 @l313l.ar_cmd(
-    pattern="امنع(?:\s|$)([\s\S]*)",
+    pattern="منع(?:\s|$)([\s\S]*)",
     require_admin=True,
 )
 async def _(event):
@@ -45,7 +47,7 @@ async def _(event):
     )
 
     for trigger in to_blacklist:
-        spl.add_to_blacklist(event.chat_id, trigger.lower())
+        sql.add_to_blacklist(event.chat_id, trigger.lower())
     await edit_or_reply(
         event,
         f"**⎉╎تم اضافة (** {len(to_blacklist)} **)**\n**⎉╎الى قائمة الكلمـات الممنوعـه هنـا .. بنجـاح ✓**",
@@ -62,7 +64,7 @@ async def _(event):
         {trigger.strip() for trigger in text.split("\n") if trigger.strip()}
     )
     successful = sum(
-        bool(spl.rm_from_blacklist(event.chat_id, trigger.lower()))
+        bool(sql.rm_from_blacklist(event.chat_id, trigger.lower()))
         for trigger in to_unblacklist
     )
     await edit_or_reply(
@@ -75,7 +77,7 @@ async def _(event):
     require_admin=True,
 )
 async def _(event):
-    all_blacklisted = spl.get_chat_blacklist(event.chat_id)
+    all_blacklisted = sql.get_chat_blacklist(event.chat_id)
     OUT_STR = "**⎉╎قائمة الكلمـات الممنوعـه هنـا هـي :\n**"
     if len(all_blacklisted) > 0:
         for trigger in all_blacklisted:
@@ -83,22 +85,6 @@ async def _(event):
     else:
         OUT_STR = "**⎉╎لم يتم اضافة كلمـات ممنوعـة هنـا بعـد ؟!**"
     await edit_or_reply(event, OUT_STR)
-
-
-@l313l.ar_cmd(
-    pattern="قائمه المنع$",
-    require_admin=True,
-)
-async def _(event):
-    all_blacklisted = spl.get_chat_blacklist(event.chat_id)
-    OUT_STR = "**⎉╎قائمة الكلمـات الممنوعـه هنـا هـي :\n**"
-    if len(all_blacklisted) > 0:
-        for trigger in all_blacklisted:
-            OUT_STR += f"- {trigger} \n"
-    else:
-        OUT_STR = "**⎉╎لم يتم اضافة كلمـات ممنوعـة هنـا بعـد ؟!**"
-    await edit_or_reply(event, OUT_STR)
-
 # ================================================================================================ #
 # =========================================التحذيرات================================================= #
 # ================================================================================================ #
