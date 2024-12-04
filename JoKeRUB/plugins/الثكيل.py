@@ -1,6 +1,4 @@
-#ربي اشرح لي صدري
-#تمت كتابة الكود من قبل السيد حسين @lMl10l
-#فريق الجوكر @jepthon
+
 import asyncio
 from telethon import events
 from JoKeRUB import l313l
