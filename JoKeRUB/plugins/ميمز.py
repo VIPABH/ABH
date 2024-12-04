@@ -12,7 +12,7 @@ from telethon.errors.rpcerrorlist import YouBlockedUserError
 from JoKeRUB import l313l
 from ..helpers.utils import reply_id
 plugin_category = "tools"
-
+aljoker_links = {}
 @l313l.on(admin_cmd(pattern="رجب ?(.*)"))
 async def _(event):
     await event.edit("**- يتم جلب النتيجة**")
