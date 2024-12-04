@@ -5,7 +5,6 @@ from telethon.events import CallbackQuery, InlineQuery
 
 from JoKeRUB import CMD_HELP, l313l
 
-# 𝗧𝗲𝗹𝗲𝗚𝗿𝗮𝗠 : @jepthon  ~ @lMl10l
 from ..core.decorators import check_owner
 
 CALC = {}
