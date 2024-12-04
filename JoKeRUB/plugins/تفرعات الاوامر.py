@@ -21,43 +21,6 @@ async def reply_salam(event):
     username = event.sender.username if event.sender.username else "لا يوجد اسم مستخدم"
     await event.reply(f"عليكم السلام")
 
-@l313l.ar_cmd(
-    pattern=r"تفاعل$",
-    command=("تفاعل", plugin_category),
-    info={
-        "header": "Add a heart reaction to a message.",
-        "description": "Reply to a message and use this command to add a heart reaction to it.",
-        "usage": [
-            "{tr}تفاعل",
-        ],
-    },
-    require_admin=False,  # لا حاجة لأن يكون المستخدم مسؤولاً لاستخدام الأمر
-)
-async def _(client: Client, message: Message):
-    "Add a heart reaction to a message."
-    
-    # التحقق من الرد على رسالة
-    if not message.reply_to_message:
-        return await edit_or_reply(message, "❌ يجب الرد على رسالة لاستخدام هذا الأمر.")
-    
-    # تحديد التفاعل كقلب
-    reaction = "❤️"
-
-    try:
-        # الحصول على الرسالة التي تم الرد عليها
-        replied_message = message.reply_to_message
-
-        # إرسال التفاعل باستخدام Pyrogram
-        await client.send_reaction(
-            chat_id=message.chat.id,        # معرف الدردشة
-            message_id=replied_message.message_id,  # معرف الرسالة
-            reaction=reaction               # الرمز التعبيري
-        )
-
-        await edit_or_reply(message, f"✅ تمت إضافة التفاعل: {reaction}")
-    except Exception as e:
-        await edit_or_reply(message, f"❌ حدث خطأ أثناء إرسال التفاعل: {str(e)}")
-
 
 @l313l.ar_cmd(
     pattern="اوامر الحظر$",
