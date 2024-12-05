@@ -209,23 +209,28 @@ async def promote(event):
     )
     user, rank = await get_user_from_event(event)
 
-    # الحصول على اللقب من الرسالة إذا كان موجودًا
     if event.pattern_match.group(1):
         rank = event.pattern_match.group(1).strip()
     else:
-        rank = "مشرف"
+        rank = "︎ ︎ ︎ ︎ "
 
-    # تنفيذ الرفع
     if user:
         try:
             await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
-            await event.reply(f"᯽︙ تم رفع {user.first_name} بلقب {rank}!")
+            reply_message = await event.reply(f"᯽︙ تم رفع {user.first_name} ب لقب {rank}!")
+            await asyncio.sleep(5)  # انتظار 5 ثوانٍ
+            await reply_message.delete()
         except Exception as e:
             await event.reply(f"᯽︙ حدث خطأ: {str(e)}")
     else:
         await event.reply("᯽︙ لم يتم العثور على المستخدم!")
-
-
+        if BOTLOG:
+            await event.client.send_message(
+                BOTLOG_CHATID,
+                f"#الـرفـع\
+                \nالـمستخـدم: [{user.first_name}](tg://user?id={user.id})\
+                \nالـدردشـة: {event.chat.title} (`{event.chat_id}`)",
+        )
 
 @l313l.ar_cmd(
     pattern="مشرف(?:\s|$)([\s\S]*)",
@@ -257,16 +262,20 @@ async def promote(event):
         delete_stories=True
     )
     user, rank = await get_user_from_event(event)
-    if not rank:
-        rank = "︎ ︎ ︎ ︎ ︎ ︎ ︎ ︎"
-    if not user:
-        return
-    catevent = await edit_or_reply(event, "**يـتم الرفـع**")
-    try:
-        await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
-    except BadRequestError:
-        return await catevent.edit(NO_PERM)
-    await catevent.edit("**تم رفعه مشرف بالمجموعه بنجاح ✅**")
+    if event.pattern_match.group(1):
+        rank = event.pattern_match.group(1).strip()
+    else:
+        rank = "︎ ︎ ︎ ︎ "
+    if user:
+        try:
+            await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
+            reply_message = await event.reply(f"᯽︙ تم رفع {user.first_name} ب لقب {rank}!")
+            await asyncio.sleep(5)  # انتظار 5 ثوانٍ
+            await reply_message.delete()
+        except Exception as e:
+            await event.reply(f"᯽︙ حدث خطأ: {str(e)}")
+    else:
+        await event.reply("᯽︙ لم يتم العثور على المستخدم!")
     if BOTLOG:
         await event.client.send_message(
             BOTLOG_CHATID,
@@ -303,18 +312,21 @@ async def promote(event):
         post_stories=True,
         edit_stories=True,
         delete_stories=True
-    )
-    user, rank = await get_user_from_event(event)
-    if not rank:
-        rank = "︎ ︎ ︎ ︎ ︎ ︎ ︎ ︎"
-    if not user:
-        return
-    catevent = await edit_or_reply(event, "**يـتم الرفـع**")
-    try:
-        await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
-    except BadRequestError:
-        return await catevent.edit(NO_PERM)
-    await catevent.edit("**تم رفعه مشرف بالمجموعه بنجاح ✅**")
+    )   user, rank = await get_user_from_event(event)
+    if event.pattern_match.group(1):
+        rank = event.pattern_match.group(1).strip()
+    else:
+        rank = "︎ ︎ ︎ ︎ "
+    if user:
+        try:
+            await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
+            reply_message = await event.reply(f"᯽︙ تم رفع {user.first_name} ب لقب {rank}!")
+            await asyncio.sleep(5)  # انتظار 5 ثوانٍ
+            await reply_message.delete()
+        except Exception as e:
+            await event.reply(f"᯽︙ حدث خطأ: {str(e)}")
+    else:
+        await event.reply("᯽︙ لم يتم العثور على المستخدم!")
     if BOTLOG:
         await event.client.send_message(
             BOTLOG_CHATID,
@@ -322,6 +334,7 @@ async def promote(event):
             \nالـمستخـدم: [{user.first_name}](tg://user?id={user.id})\
             \nالـدردشـة: {event.chat.title} (`{event.chat_id}`)",
         )
+
 
 @l313l.ar_cmd(
     pattern="مشرف3(?:\s|$)([\s\S]*)",
@@ -351,18 +364,21 @@ async def promote(event):
         post_stories=True,
         edit_stories=True,
         delete_stories=True
-    )
-    user, rank = await get_user_from_event(event)
-    if not rank:
-        rank = "︎ ︎ ︎ ︎ ︎ ︎ ︎ ︎"
-    if not user:
-        return
-    catevent = await edit_or_reply(event, "**يـتم الرفـع**")
-    try:
-        await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
-    except BadRequestError:
-        return await catevent.edit(NO_PERM)
-    await catevent.edit("**تم رفعه مشرف بالمجموعه بنجاح ✅**")
+    )   user, rank = await get_user_from_event(event)
+    if event.pattern_match.group(1):
+        rank = event.pattern_match.group(1).strip()
+    else:
+        rank = "︎ ︎ ︎ ︎ "
+    if user:
+        try:
+            await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
+            reply_message = await event.reply(f"᯽︙ تم رفع {user.first_name} ب لقب {rank}!")
+            await asyncio.sleep(5)  # انتظار 5 ثوانٍ
+            await reply_message.delete()
+        except Exception as e:
+            await event.reply(f"᯽︙ حدث خطأ: {str(e)}")
+    else:
+        await event.reply("᯽︙ لم يتم العثور على المستخدم!")
     if BOTLOG:
         await event.client.send_message(
             BOTLOG_CHATID,
@@ -370,6 +386,7 @@ async def promote(event):
             \nالـمستخـدم: [{user.first_name}](tg://user?id={user.id})\
             \nالـدردشـة: {event.chat.title} (`{event.chat_id}`)",
         )
+
 
 @l313l.ar_cmd(
     pattern="تنزيل الكل(?:\s|$)([\s\S]*)",
