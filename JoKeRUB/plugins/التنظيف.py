@@ -220,7 +220,7 @@ async def fastpurger(event):  # sourcery no-metrics
                     if ty in purgetype:
                         async for msg in event.client.iter_messages(
                             event.chat_id,
-                            limit=int(input_str) - 1,
+                            limit=int(input_str),
                             offset_id=reply.id - 1,
                             reverse=True,
                             filter=purgetype[ty],
