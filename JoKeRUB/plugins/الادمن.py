@@ -178,6 +178,59 @@ async def set_group_photo(event):  # sourcery no-metrics
 #             \nالـدردشـة: {event.chat.title} (`{event.chat_id}`)",
 #         )
 
+# @l313l.ar_cmd(
+#     pattern="لقب(?:\s|$)([\s\S]*)",
+#     command=("لقب", plugin_category),
+#     info={
+#         "الامر": "᯽︙ لرفع الشخص مشرف مع صلاحيات",
+#         "الشرح": "᯽︙ لرفع الشخص مشرف بالمجموعه قم بالرد على الشخص\
+#             \n᯽︙ تـحتاج الصلاحـيات لـهذا الأمـر",
+#         "الاستخدام": [
+#             "{tr}رفع مشرف <ايدي/معرف/بالرد عليه>",
+#             "{tr}رفع مشرف <ايدي/معرف/بالرد عليه> <لقب>",
+#         ],
+#     },
+#     groups_only=True,
+#     require_admin=True,
+# )
+# async def promote(event):
+#     "᯽︙ لـرفع مستـخدم مشـرف في الـكروب"
+#     new_rights = ChatAdminRights(
+#         add_admins=False,
+#         invite_users=True,
+#         change_info=False,
+#         ban_users=False,
+#         delete_messages=False,
+#         pin_messages=False,
+#         manage_call=False,
+#         post_stories=True,
+#         edit_stories=True,
+#         delete_stories=True
+#     )
+#     user, rank = await get_user_from_event(event)
+#     rank = event.pattern_match.group(1).strip() if event.pattern_match.group(1) else "مشرف"
+#     if user:
+#         try:
+#             await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
+        
+#         reply_message = await event.reply(f"᯽︙ تم رفع {user.first_name} بلقب {rank}!")
+#         await asyncio.sleep(5)
+#         await reply_message.delete()
+#     except Exception as e:
+#         await event.reply(f"᯽︙ حدث خطأ أثناء محاولة رفع {user.first_name} في المجموعة {event.chat.title}: {str(e)}")
+        
+#         if BOTLOG:
+#             await event.client.send_message(
+#                 BOTLOG_CHATID,
+#                 f"#خطأ_رفع\nالمعرف: [{user.first_name}](tg://user?id={user.id})\nالدردشة: {event.chat.title} (`{event.chat_id}`)\nالخطأ: {str(e)}"
+#             )
+
+# else:
+#     error_message = await event.reply("᯽︙ لم يتم العثور على المستخدم!")
+    
+#     await asyncio.sleep(5)
+#     await error_message.delete()
+
 @l313l.ar_cmd(
     pattern="لقب(?:\s|$)([\s\S]*)",
     command=("لقب", plugin_category),
@@ -207,28 +260,36 @@ async def promote(event):
         edit_stories=True,
         delete_stories=True
     )
+    
+    # الحصول على المستخدم واللقب
     user, rank = await get_user_from_event(event)
+    rank = event.pattern_match.group(1).strip() if event.pattern_match.group(1) else "مشرف"
 
-    if event.pattern_match.group(1):
-        rank = event.pattern_match.group(1).strip()
-    else:
-        rank = "︎."
-
-    # تنفيذ الرفع
+    # تنفيذ رفع المستخدم
     if user:
         try:
+            # رفع المستخدم مع الحقوق المحددة
             await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
-            reply_message = await event.reply(f"᯽︙ تم رفع {user.first_name} ب لقب {rank}!")
-            await asyncio.sleep(5)  # انتظار 5 ثوانٍ
+            
+            # إرسال رسالة تأكيد
+            reply_message = await event.reply(f"᯽︙ تم رفع {user.first_name} بلقب {rank}!")
+            
+            # الانتظار لمدة 5 ثوانٍ ثم حذف الرسالة
+            await asyncio.sleep(5)
             await reply_message.delete()
+
         except Exception as e:
-            await event.reply(f"᯽︙ حدث خطأ: {str(e)}")
+            # إذا حدث خطأ أثناء رفع المستخدم
+            await event.reply(f"᯽︙ حدث خطأ أثناء محاولة رفع {user.first_name} في المجموعة {event.chat.title}: {str(e)}")
+
     else:
         # إذا لم يتم العثور على المستخدم
         error_message = await event.reply("᯽︙ لم يتم العثور على المستخدم!")
-        await asyncio.sleep(5)  # انتظار 5 ثوانٍ
-        await error_message.delete()
         
+        # الانتظار لمدة 5 ثوانٍ ثم حذف الرسالة
+        await asyncio.sleep(5)
+        await error_message.delete()
+
 
      
 
@@ -262,28 +323,32 @@ async def promote(event):
         edit_stories=True,
         delete_stories=True
     )
-    user, rank = await get_user_from_event(event)
-    
-    if event.pattern_match.group(1):
-        rank = event.pattern_match.group(1).strip()
-    else:
-        rank = "︎."
+  user, rank = await get_user_from_event(event)
+rank = event.pattern_match.group(1).strip() if event.pattern_match.group(1) else "مشرف"
 
-    # تنفيذ الرفع
-    if user:
-        try:
-            await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
-            reply_message = await event.reply(f"᯽︙ تم رفع {user.first_name} ب لقب {rank}!")
-            await asyncio.sleep(5)  # انتظار 5 ثوانٍ
-            await reply_message.delete()
-        except Exception as e:
-            await event.reply(f"᯽︙ حدث خطأ: {str(e)}")
-    else:
-        # إذا لم يتم العثور على المستخدم
-        error_message = await event.reply("᯽︙ لم يتم العثور على المستخدم!")
-        await asyncio.sleep(5)  # انتظار 5 ثوانٍ
-        await error_message.delete()
-        )
+if user:
+    try:
+        await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
+        
+        reply_message = await event.reply(f"᯽︙ تم رفع {user.first_name} بلقب {rank}!")
+        
+        await asyncio.sleep(5)
+        await reply_message.delete()
+
+    except Exception as e:
+        await event.reply(f"᯽︙ حدث خطأ أثناء محاولة رفع {user.first_name} في المجموعة {event.chat.title}: {str(e)}")
+        
+        if BOTLOG:
+            await event.client.send_message(
+                BOTLOG_CHATID,
+                f"#خطأ_رفع\nالمعرف: [{user.first_name}](tg://user?id={user.id})\nالدردشة: {event.chat.title} (`{event.chat_id}`)\nالخطأ: {str(e)}"
+            )
+
+else:
+    error_message = await event.reply("᯽︙ لم يتم العثور على المستخدم!")
+    
+    await asyncio.sleep(5)
+    await error_message.delete()
 
 
 @l313l.ar_cmd(
@@ -314,28 +379,33 @@ async def promote(event):
         post_stories=True,
         edit_stories=True,
         delete_stories=True
-    )   user, rank = await get_user_from_event(event)
-    
-    if event.pattern_match.group(1):
-        rank = event.pattern_match.group(1).strip()
-    else:
-        rank = "︎."
+    )  
+    user, rank = await get_user_from_event(event)
+    rank = event.pattern_match.group(1).strip() if event.pattern_match.group(1) else "مشرف"
 
-    # تنفيذ الرفع
-    if user:
-        try:
-            await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
-            reply_message = await event.reply(f"᯽︙ تم رفع {user.first_name} ب لقب {rank}!")
-            await asyncio.sleep(5)  # انتظار 5 ثوانٍ
-            await reply_message.delete()
-        except Exception as e:
-            await event.reply(f"᯽︙ حدث خطأ: {str(e)}")
-    else:
-        # إذا لم يتم العثور على المستخدم
-        error_message = await event.reply("᯽︙ لم يتم العثور على المستخدم!")
-        await asyncio.sleep(5)  # انتظار 5 ثوانٍ
-        await error_message.delete()
-        )
+if user:
+    try:
+        await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
+        
+        reply_message = await event.reply(f"᯽︙ تم رفع {user.first_name} بلقب {rank}!")
+        
+        await asyncio.sleep(5)
+        await reply_message.delete()
+
+    except Exception as e:
+        await event.reply(f"᯽︙ حدث خطأ أثناء محاولة رفع {user.first_name} في المجموعة {event.chat.title}: {str(e)}")
+        
+        if BOTLOG:
+            await event.client.send_message(
+                BOTLOG_CHATID,
+                f"#خطأ_رفع\nالمعرف: [{user.first_name}](tg://user?id={user.id})\nالدردشة: {event.chat.title} (`{event.chat_id}`)\nالخطأ: {str(e)}"
+            )
+
+else:
+    error_message = await event.reply("᯽︙ لم يتم العثور على المستخدم!")
+    
+    await asyncio.sleep(5)
+    await error_message.delete()
 
     
 
@@ -367,29 +437,33 @@ async def promote(event):
         post_stories=True,
         edit_stories=True,
         delete_stories=True
-    )   user, rank = await get_user_from_event(event)
+    )   
+    user, rank = await get_user_from_event(event)
+rank = event.pattern_match.group(1).strip() if event.pattern_match.group(1) else "مشرف"
 
+if user:
+    try:
+        await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
+        
+        reply_message = await event.reply(f"᯽︙ تم رفع {user.first_name} بلقب {rank}!")
+        
+        await asyncio.sleep(5)
+        await reply_message.delete()
+
+    except Exception as e:
+        await event.reply(f"᯽︙ حدث خطأ أثناء محاولة رفع {user.first_name} في المجموعة {event.chat.title}: {str(e)}")
+        
+        if BOTLOG:
+            await event.client.send_message(
+                BOTLOG_CHATID,
+                f"#خطأ_رفع\nالمعرف: [{user.first_name}](tg://user?id={user.id})\nالدردشة: {event.chat.title} (`{event.chat_id}`)\nالخطأ: {str(e)}"
+            )
+
+else:
+    error_message = await event.reply("᯽︙ لم يتم العثور على المستخدم!")
     
-    if event.pattern_match.group(1):
-        rank = event.pattern_match.group(1).strip()
-    else:
-        rank = "︎."
-
-    # تنفيذ الرفع
-    if user:
-        try:
-            await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
-            reply_message = await event.reply(f"᯽︙ تم رفع {user.first_name} ب لقب {rank}!")
-            await asyncio.sleep(5)  # انتظار 5 ثوانٍ
-            await reply_message.delete()
-        except Exception as e:
-            await event.reply(f"᯽︙ حدث خطأ: {str(e)}")
-    else:
-        # إذا لم يتم العثور على المستخدم
-        error_message = await event.reply("᯽︙ لم يتم العثور على المستخدم!")
-        await asyncio.sleep(5)  # انتظار 5 ثوانٍ
-        await error_message.delete()
-        )
+    await asyncio.sleep(5)
+    await error_message.delete()
 
 @l313l.ar_cmd(
     pattern="تنزيل الكل(?:\s|$)([\s\S]*)",
