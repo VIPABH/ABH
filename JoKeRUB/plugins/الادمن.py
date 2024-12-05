@@ -128,6 +128,7 @@ async def set_group_photo(event):  # sourcery no-metrics
             f"صورة المجموعه {process} بنجاح "
             f"الدردشه: {event.chat.title}(`{event.chat_id}`)",
         )
+        
 @l313l.ar_cmd(
     pattern="لقب(?:\s|$)([\s\S]*)",
     command=("لقب", plugin_category),
@@ -146,7 +147,6 @@ async def set_group_photo(event):  # sourcery no-metrics
 async def promote(event):
     "᯽︙ لـرفع مستخدم مشرف في الكروب"
     
-    # صلاحيات المستخدم الجديد
     new_rights = ChatAdminRights(
         add_admins=False,
         invite_users=True,
@@ -160,32 +160,165 @@ async def promote(event):
         delete_stories=True
     )
     
-    await event.delete()  # حذف الرسالة الأصلية
-
-    # الحصول على المستخدم واللقب
+    await event.delete()  
     user, rank = await get_user_from_event(event)
 
     if event.pattern_match.group(1):
         rank = event.pattern_match.group(1).strip()
     else:
-        rank = "مشرف"  # تعيين "مشرف" كقيمة افتراضية إذا لم يتم تحديد اللقب
+        rank = "مشرف"
 
     if user:
         try:
-            # رفع المستخدم باللقب المحدد
             await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
             
-            # إرسال رسالة تأكيد بالرفع
             reply_message = await event.reply(f"᯽︙ تم رفع {user.first_name} بلقب {rank}!")
-            await asyncio.sleep(4)  # الانتظار 4 ثوانٍ قبل حذف الرسالة
-            await reply_message.delete()  # حذف الرسالة بعد الانتظار
+            await asyncio.sleep(4) 
+            await reply_message.delete()  
         except Exception as e:
             await event.reply(f"᯽︙ حدث خطأ أثناء رفع {user.first_name}: {str(e)}")
     else:
-        # في حالة عدم العثور على المستخدم
         await event.reply("᯽︙ لم يتم العثور على المستخدم!")
-        await event.delete()  # حذف الرسالة الأصلية بعد الرد
+        await event.delete()  
+@l313l.ar_cmd(
+    pattern="مشرف(?:\s|$)([\s\S]*)",
+    command=("مشرف", plugin_category),
+    info={
+        "الامر": "᯽︙ لرفع الشخص مشرف مع صلاحيات",
+        "الشرح": "᯽︙ لرفع الشخص مشرف بالمجموعة قم بالرد على الشخص\
+            \n᯽︙ تـحتاج الصلاحـيات لـهذا الأمـر",
+        "الاستخدام": [
+            "{tr}رفع مشرف <ايدي/معرف/بالرد عليه>",
+            "{tr}رفع مشرف <ايدي/معرف/بالرد عليه> <لقب>",
+        ],
+    },
+    groups_only=True,
+    require_admin=True,
+)
+async def promote(event):
+    "᯽︙ لـرفع مستخدم مشرف في الكروب"
+    
+    new_rights = ChatAdminRights(
+        add_admins=True,
+        invite_users=True,
+        change_info=True,
+        ban_users=False,
+        delete_messages=True,
+        pin_messages=True,
+        manage_call=True,
+        post_stories=True,
+        edit_stories=True,
+        delete_stories=True
+    )
+    
+    await event.delete()  
+    user, rank = await get_user_from_event(event)
 
+    if event.pattern_match.group(1):
+        rank = event.pattern_match.group(1).strip()
+    else:
+        rank = "مشرف"
+
+    if user:
+        try:
+            await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
+            
+            reply_message = await event.reply(f"᯽︙ تم رفع {user.first_name} بلقب {rank}!")
+            await asyncio.sleep(4) 
+            await reply_message.delete()  
+        except Exception as e:
+            await event.reply(f"᯽︙ حدث خطأ أثناء رفع {user.first_name}: {str(e)}")
+    else:
+        await event.reply("᯽︙ لم يتم العثور على المستخدم!")
+        await event.delete()  
+@l313l.ar_cmd(
+    pattern="مشرف2(?:\s|$)([\s\S]*)",
+    command=("مشرف2", plugin_category),
+    info={
+        "الامر": "᯽︙ لرفع الشخص مشرف مع صلاحيات",
+        "الشرح": "᯽︙ لرفع الشخص مشرف بالمجموعة قم بالرد على الشخص\
+            \n᯽︙ تـحتاج الصلاحـيات لـهذا الأمـر",
+        "الاستخدام": [
+            "{tr}رفع مشرف <ايدي/معرف/بالرد عليه>",
+            "{tr}رفع مشرف <ايدي/معرف/بالرد عليه> <لقب>",
+        ],
+    },
+    groups_only=True,
+    require_admin=True,
+)
+async def promote(event):
+    "᯽︙ لـرفع مستخدم مشرف في الكروب"
+    
+    new_rights = ChatAdminRights(
+        add_admins=False,
+        invite_users=True,
+        change_info=True,
+        ban_users=False,
+        delete_messages=True,
+        pin_messages=True,
+        manage_call=False,
+        post_stories=True,
+        edit_stories=True,
+        delete_stories=True
+    )
+    
+    await event.delete()  
+    user, rank = await get_user_from_event(event)
+
+    if event.pattern_match.group(1):
+        rank = event.pattern_match.group(1).strip()
+    else:
+        rank = "مشرف"
+
+    if user:
+        try:
+            await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
+            
+            reply_message = await event.reply(f"᯽︙ تم رفع {user.first_name} بلقب {rank}!")
+            await asyncio.sleep(4) 
+            await reply_message.delete()  
+        except Exception as e:
+            await event.reply(f"᯽︙ حدث خطأ أثناء رفع {user.first_name}: {str(e)}")
+    else:
+        await event.reply("᯽︙ لم يتم العثور على المستخدم!")
+        await event.delete()  
+
+@l313l.ar_cmd(
+    pattern="نغيير لقب(?:\s|$)([\s\S]*)",
+    command=("لقب", plugin_category),
+    info={
+        "الامر": "᯽︙ لتغيير لقب الشخص المشرف",
+        "الشرح": "᯽︙ لتغيير لقب الشخص المشرف في المجموعة قم بالرد على الشخص\
+            \n᯽︙ تـحتاج الصلاحيات لـهذا الأمـر",
+        "الاستخدام": [
+            "{tr}لقب <ايدي/معرف/بالرد عليه> <لقب>",
+        ],
+    },
+    groups_only=True,
+    require_admin=True,
+)
+async def change_rank(event):
+    "᯽︙ لـتغيير لقب مشرف في الكروب"
+    
+    if event.pattern_match.group(1):
+        new_rank = event.pattern_match.group(1).strip()
+    else:
+        return await event.reply("᯽︙ يجب عليك تحديد اللقب الجديد!")
+
+    user, _ = await get_user_from_event(event)
+
+    if user:
+        try:
+            await event.client(EditAdminRequest(event.chat_id, user.id, None, new_rank))
+            
+            reply_message = await event.reply(f"᯽︙ تم تغيير لقب {user.first_name} إلى {new_rank}!")
+            await asyncio.sleep(4) 
+            await reply_message.delete() 
+        except Exception as e:
+            await event.reply(f"᯽︙ حدث خطأ أثناء تغيير لقب {user.first_name}: {str(e)}")
+    else:
+        await event.reply("᯽︙ لم يتم العثور على المستخدم!")
+        await event.delete()  
 
 @l313l.ar_cmd(
     pattern="تنزيل الكل(?:\s|$)([\s\S]*)",
