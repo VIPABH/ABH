@@ -212,7 +212,7 @@ async def promote(event):
     if event.pattern_match.group(1):
         rank = event.pattern_match.group(1).strip()
     else:
-        rank = "︎ ︎ ︎ ︎ "
+        rank = "︎."
 
     # تنفيذ الرفع
     if user:
@@ -228,7 +228,7 @@ async def promote(event):
         error_message = await event.reply("᯽︙ لم يتم العثور على المستخدم!")
         await asyncio.sleep(5)  # انتظار 5 ثوانٍ
         await error_message.delete()
-        )
+        
 
      
 
@@ -267,7 +267,7 @@ async def promote(event):
     if event.pattern_match.group(1):
         rank = event.pattern_match.group(1).strip()
     else:
-        rank = "︎ ︎ ︎ ︎ "
+        rank = "︎."
 
     # تنفيذ الرفع
     if user:
@@ -300,7 +300,7 @@ async def promote(event):
     },
     groups_only=True,
     require_admin=True,
-)#admin plugin for  l313l
+)
 async def promote(event):
     "᯽︙ لـرفع مستـخدم مشـرف في الـكروب"
     new_rights = ChatAdminRights(
@@ -319,7 +319,7 @@ async def promote(event):
     if event.pattern_match.group(1):
         rank = event.pattern_match.group(1).strip()
     else:
-        rank = "︎ ︎ ︎ ︎ "
+        rank = "︎."
 
     # تنفيذ الرفع
     if user:
@@ -373,7 +373,7 @@ async def promote(event):
     if event.pattern_match.group(1):
         rank = event.pattern_match.group(1).strip()
     else:
-        rank = "︎ ︎ ︎ ︎ "
+        rank = "︎."
 
     # تنفيذ الرفع
     if user:
@@ -422,7 +422,7 @@ async def demote(event):
         manage_call=None
 
     )
-    rank = "︎ ︎ ︎ ︎ ︎ ︎ ︎ ︎"
+    rank = "."
     try:
         await event.client(EditAdminRequest(event.chat_id, user.id, newrights, rank))
     except BadRequestError:
