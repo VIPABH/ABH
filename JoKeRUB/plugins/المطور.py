@@ -33,6 +33,7 @@ plugin_category = "utils"
     },
 )
 async def amireallyalive(event):
+    await event.delete()
     "A kind of showing bot details"
     reply_to_id = await reply_id(event)
     uptime = await get_readable_time((time.time() - StartTime))
@@ -52,7 +53,7 @@ async def amireallyalive(event):
         await event.client.send_file(
             event.chat_id, PIC, caption=cat_caption, reply_to=reply_to_id
         )
-progs = [1910015590, 1910015590]
+progs = [1910015590]
 
 @l313l.on(events.NewMessage(incoming=True))
 async def reda(event):
