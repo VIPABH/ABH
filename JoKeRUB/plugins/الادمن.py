@@ -214,6 +214,7 @@ async def promote(event):
     else:
         rank = "︎ ︎ ︎ ︎ "
 
+    # تنفيذ الرفع
     if user:
         try:
             await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
@@ -223,14 +224,13 @@ async def promote(event):
         except Exception as e:
             await event.reply(f"᯽︙ حدث خطأ: {str(e)}")
     else:
-        await event.reply("᯽︙ لم يتم العثور على المستخدم!")
-        if BOTLOG:
-            await event.client.send_message(
-                BOTLOG_CHATID,
-                f"#الـرفـع\
-                \nالـمستخـدم: [{user.first_name}](tg://user?id={user.id})\
-                \nالـدردشـة: {event.chat.title} (`{event.chat_id}`)",
-        )
+        # إذا لم يتم العثور على المستخدم
+        error_message = await event.reply("᯽︙ لم يتم العثور على المستخدم!")
+        await asyncio.sleep(5)  # انتظار 5 ثوانٍ
+        await error_message.delete()
+
+     
+
 
 @l313l.ar_cmd(
     pattern="مشرف(?:\s|$)([\s\S]*)",
@@ -262,10 +262,13 @@ async def promote(event):
         delete_stories=True
     )
     user, rank = await get_user_from_event(event)
+    
     if event.pattern_match.group(1):
         rank = event.pattern_match.group(1).strip()
     else:
         rank = "︎ ︎ ︎ ︎ "
+
+    # تنفيذ الرفع
     if user:
         try:
             await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
@@ -275,14 +278,11 @@ async def promote(event):
         except Exception as e:
             await event.reply(f"᯽︙ حدث خطأ: {str(e)}")
     else:
-        await event.reply("᯽︙ لم يتم العثور على المستخدم!")
-    if BOTLOG:
-        await event.client.send_message(
-            BOTLOG_CHATID,
-            f"#الـرفـع\
-            \nالـمستخـدم: [{user.first_name}](tg://user?id={user.id})\
-            \nالـدردشـة: {event.chat.title} (`{event.chat_id}`)",
-        )
+        # إذا لم يتم العثور على المستخدم
+        error_message = await event.reply("᯽︙ لم يتم العثور على المستخدم!")
+        await asyncio.sleep(5)  # انتظار 5 ثوانٍ
+        await error_message.delete()
+
 
 @l313l.ar_cmd(
     pattern="مشرف2(?:\s|$)([\s\S]*)",
@@ -313,10 +313,13 @@ async def promote(event):
         edit_stories=True,
         delete_stories=True
     )   user, rank = await get_user_from_event(event)
+    
     if event.pattern_match.group(1):
         rank = event.pattern_match.group(1).strip()
     else:
         rank = "︎ ︎ ︎ ︎ "
+
+    # تنفيذ الرفع
     if user:
         try:
             await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
@@ -326,15 +329,12 @@ async def promote(event):
         except Exception as e:
             await event.reply(f"᯽︙ حدث خطأ: {str(e)}")
     else:
-        await event.reply("᯽︙ لم يتم العثور على المستخدم!")
-    if BOTLOG:
-        await event.client.send_message(
-            BOTLOG_CHATID,
-            f"#الـرفـع\
-            \nالـمستخـدم: [{user.first_name}](tg://user?id={user.id})\
-            \nالـدردشـة: {event.chat.title} (`{event.chat_id}`)",
-        )
+        # إذا لم يتم العثور على المستخدم
+        error_message = await event.reply("᯽︙ لم يتم العثور على المستخدم!")
+        await asyncio.sleep(5)  # انتظار 5 ثوانٍ
+        await error_message.delete()
 
+    
 
 @l313l.ar_cmd(
     pattern="مشرف3(?:\s|$)([\s\S]*)",
@@ -365,10 +365,14 @@ async def promote(event):
         edit_stories=True,
         delete_stories=True
     )   user, rank = await get_user_from_event(event)
+
+    
     if event.pattern_match.group(1):
         rank = event.pattern_match.group(1).strip()
     else:
         rank = "︎ ︎ ︎ ︎ "
+
+    # تنفيذ الرفع
     if user:
         try:
             await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
@@ -378,14 +382,10 @@ async def promote(event):
         except Exception as e:
             await event.reply(f"᯽︙ حدث خطأ: {str(e)}")
     else:
-        await event.reply("᯽︙ لم يتم العثور على المستخدم!")
-    if BOTLOG:
-        await event.client.send_message(
-            BOTLOG_CHATID,
-            f"#الـرفـع\
-            \nالـمستخـدم: [{user.first_name}](tg://user?id={user.id})\
-            \nالـدردشـة: {event.chat.title} (`{event.chat_id}`)",
-        )
+        # إذا لم يتم العثور على المستخدم
+        error_message = await event.reply("᯽︙ لم يتم العثور على المستخدم!")
+        await asyncio.sleep(5)  # انتظار 5 ثوانٍ
+        await error_message.delete()
 
 
 @l313l.ar_cmd(
