@@ -177,8 +177,8 @@ async def promote(event):
     except Exception as e:
         await event.reply(f"᯽︙ حدث خطأ أثناء رفع {user.first_name}: {str(e)}")
 else:
-    await event.reply("᯽︙ لم يتم العثور على المستخدم!")
-    await event.delete()  
+        await event.reply("᯽︙ لم يتم العثور على المستخدم!")
+        await event.delete()  
         
         
 
