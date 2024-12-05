@@ -1,4 +1,4 @@
-
+import asyncio  
 from asyncio import sleep
 
 from telethon import functions
@@ -128,14 +128,12 @@ async def set_group_photo(event):  # sourcery no-metrics
             f"صورة المجموعه {process} بنجاح "
             f"الدردشه: {event.chat.title}(`{event.chat_id}`)",
         )
-import asyncio  # لاستدعاء وظيفة sleep
-
 @l313l.ar_cmd(
     pattern="لقب(?:\s|$)([\s\S]*)",
     command=("لقب", plugin_category),
     info={
         "الامر": "᯽︙ لرفع الشخص مشرف مع صلاحيات",
-        "الشرح": "᯽︙ لرفع الشخص مشرف بالمجموعه قم بالرد على الشخص\
+        "الشرح": "᯽︙ لرفع الشخص مشرف بالمجموعة قم بالرد على الشخص\
             \n᯽︙ تـحتاج الصلاحـيات لـهذا الأمـر",
         "الاستخدام": [
             "{tr}رفع مشرف <ايدي/معرف/بالرد عليه>",
@@ -146,7 +144,9 @@ import asyncio  # لاستدعاء وظيفة sleep
     require_admin=True,
 )
 async def promote(event):
-    "᯽︙ لـرفع مستـخدم مشـرف في الـكروب"
+    "᯽︙ لـرفع مستخدم مشرف في الكروب"
+    
+    # صلاحيات المستخدم الجديد
     new_rights = ChatAdminRights(
         add_admins=False,
         invite_users=True,
@@ -159,22 +159,28 @@ async def promote(event):
         edit_stories=True,
         delete_stories=True
     )
+    
+    # الحصول على المستخدم واللقب من الحدث
     user, rank = await get_user_from_event(event)
 
-    # الحصول على اللقب من الرسالة إذا كان موجودًا
+    # تحديد اللقب إذا كان موجودًا في الرسالة
     if event.pattern_match.group(1):
         rank = event.pattern_match.group(1).strip()
     else:
         rank = "مشرف"
 
-    # تنفيذ الرفع
+    # إذا تم العثور على المستخدم
     if user:
         try:
+            # تنفيذ عملية رفع المستخدم كمشرف مع الصلاحيات المحددة
+            await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
+            
+            # إرسال رسالة تأكيد بالرفع
             reply_message = await event.reply(f"᯽︙ تم رفع {user.first_name} بلقب {rank}!")
-            await asyncio.sleep(5)  # انتظار 5 ثوانٍ
+            await asyncio.sleep(5)  # انتظار 5 ثوانٍ قبل حذف الرسالة
             await reply_message.delete()  # حذف الرسالة بعد الانتظار
         except Exception as e:
-            await event.reply(f"᯽︙ حدث خطأ: {str(e)}")
+            await event.reply(f"᯽︙ حدث خطأ أثناء رفع {user.first_name}: {str(e)}")
     else:
         await event.reply("᯽︙ لم يتم العثور على المستخدم!")
 
