@@ -164,7 +164,6 @@ async def Hussein(event):
     await smsg.delete()
 
 
-# TODO: only sticker messages.
 @l313l.ar_cmd(
     pattern="تنظيف(?:\s|$)([\s\S]*)",
     command=("تنظيف", plugin_category),
@@ -227,7 +226,7 @@ async def fastpurger(event):  # sourcery no-metrics
                             reverse=True,
                             filter=purgetype[ty],
                         ):
-                            # count += 1 
+                            # count = 0 
                             count = 0
                             msgs.append(msg)
                             if len(msgs) == 50:
@@ -241,7 +240,7 @@ async def fastpurger(event):  # sourcery no-metrics
                         error += f"\n\n᯽︙ `{ty}`  : هـذه أضافـة خاطئـة "
             else:
                 count = 0
-                # count += 1
+                # count = 0
                 async for msg in event.client.iter_messages(
                     event.chat_id,
                     limit=(int(input_str) - 1),
@@ -250,7 +249,7 @@ async def fastpurger(event):  # sourcery no-metrics
                 ):
                     msgs.append(msg)
                     count = 0
-                    # count += 1
+                    # count = 0
                     if len(msgs) == 50:
                         await event.client.delete_messages(chat, msgs)
                         msgs = []
@@ -273,7 +272,7 @@ async def fastpurger(event):  # sourcery no-metrics
                         reverse=True,
                         search=inputstr,
                     ):
-                        count += 1
+                        count = 0
                         msgs.append(msg)
                         if len(msgs) == 50:
                             await event.client.delete_messages(chat, msgs)
@@ -304,7 +303,7 @@ async def fastpurger(event):  # sourcery no-metrics
                         min_id=event.reply_to_msg_id - 1,
                         filter=purgetype[ty],
                     ):
-                        # count += 1
+                        # count = 0
                         count = 0
                         msgs.append(msg)
                         if len(msgs) == 50:
@@ -319,7 +318,7 @@ async def fastpurger(event):  # sourcery no-metrics
                 chat, min_id=event.reply_to_msg_id - 1
             ):
                 count = 0
-                # count += 1
+                # count = 0
                 msgs.append(msg)
                 if len(msgs) == 50:
                     await event.client.delete_messages(chat, msgs)
@@ -333,7 +332,7 @@ async def fastpurger(event):  # sourcery no-metrics
                     async for msg in event.client.iter_messages(
                         event.chat_id, limit=int(input_str), filter=purgetype[ty]
                     ):
-                        count += 1
+                        count = 0
                         msgs.append(msg)
                         if len(msgs) == 50:
                             await event.client.delete_messages(chat, msgs)
@@ -356,7 +355,7 @@ async def fastpurger(event):  # sourcery no-metrics
                 async for msg in event.client.iter_messages(
                     event.chat_id, limit=int(cont), search=inputstr
                 ):
-                    count += 1
+                    count = 0
                     msgs.append(msg)
                     if len(msgs) == 50:
                         await event.client.delete_messages(chat, msgs)
@@ -365,7 +364,7 @@ async def fastpurger(event):  # sourcery no-metrics
                 async for msg in event.client.iter_messages(
                     event.chat_id, search=input_str
                 ):
-                    count += 1
+                    count = 0
                     msgs.append(msg)
                     if len(msgs) == 50:
                         await event.client.delete_messages(chat, msgs)
@@ -393,7 +392,7 @@ async def fastpurger(event):  # sourcery no-metrics
                 error += f"\n᯽︙ `{ty}`  : هـذه أضافـة خاطئـة "
     elif input_str.isnumeric():
         async for msg in event.client.iter_messages(chat, limit=int(input_str) + 1):
-            count += 1
+            count = 0
             msgs.append(msg)
             if len(msgs) == 50:
                 await event.client.delete_messages(chat, msgs)
