@@ -40,7 +40,8 @@ async def delete_filtered_messages(event):
 
         if total_deleted > 0:
             await event.reply(f"تم حذف {total_deleted} رسالة تحتوي على روابط أو مستندات!")
-        
+            await event.delete()
+
         else:
             await event.reply("لا توجد رسائل تطابق الفلاتر المحددة!")
 
