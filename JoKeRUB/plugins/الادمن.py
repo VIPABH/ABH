@@ -160,28 +160,31 @@ async def promote(event):
         delete_stories=True
     )
     
-    await event.delete()
+    await event.delete()  # حذف الرسالة الأصلية
+
+    # الحصول على المستخدم واللقب
     user, rank = await get_user_from_event(event)
 
     if event.pattern_match.group(1):
         rank = event.pattern_match.group(1).strip()
     else:
-        rank = "مشرف"
+        rank = "مشرف"  # تعيين "مشرف" كقيمة افتراضية إذا لم يتم تحديد اللقب
 
- if user:
-    try:
-        await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
-        reply_message = await event.reply(f"᯽︙ تم رفع {user.first_name} بلقب {rank}!")
-        await asyncio.sleep(4)
-        await reply_message.delete()  
-    except Exception as e:
-        await event.reply(f"᯽︙ حدث خطأ أثناء رفع {user.first_name}: {str(e)}")
-else:
+    if user:
+        try:
+            # رفع المستخدم باللقب المحدد
+            await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
+            
+            # إرسال رسالة تأكيد بالرفع
+            reply_message = await event.reply(f"᯽︙ تم رفع {user.first_name} بلقب {rank}!")
+            await asyncio.sleep(4)  # الانتظار 4 ثوانٍ قبل حذف الرسالة
+            await reply_message.delete()  # حذف الرسالة بعد الانتظار
+        except Exception as e:
+            await event.reply(f"᯽︙ حدث خطأ أثناء رفع {user.first_name}: {str(e)}")
+    else:
+        # في حالة عدم العثور على المستخدم
         await event.reply("᯽︙ لم يتم العثور على المستخدم!")
-        await event.delete()  
-        
-        
-
+        await event.delete()  # حذف الرسالة الأصلية بعد الرد
 
 
 @l313l.ar_cmd(
