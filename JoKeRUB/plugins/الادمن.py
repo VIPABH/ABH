@@ -228,6 +228,7 @@ async def promote(event):
         error_message = await event.reply("᯽︙ لم يتم العثور على المستخدم!")
         await asyncio.sleep(5)  # انتظار 5 ثوانٍ
         await error_message.delete()
+        )
 
      
 
@@ -282,6 +283,7 @@ async def promote(event):
         error_message = await event.reply("᯽︙ لم يتم العثور على المستخدم!")
         await asyncio.sleep(5)  # انتظار 5 ثوانٍ
         await error_message.delete()
+        )
 
 
 @l313l.ar_cmd(
@@ -333,6 +335,7 @@ async def promote(event):
         error_message = await event.reply("᯽︙ لم يتم العثور على المستخدم!")
         await asyncio.sleep(5)  # انتظار 5 ثوانٍ
         await error_message.delete()
+        )
 
     
 
@@ -386,7 +389,7 @@ async def promote(event):
         error_message = await event.reply("᯽︙ لم يتم العثور على المستخدم!")
         await asyncio.sleep(5)  # انتظار 5 ثوانٍ
         await error_message.delete()
-
+        )
 
 @l313l.ar_cmd(
     pattern="تنزيل الكل(?:\s|$)([\s\S]*)",
