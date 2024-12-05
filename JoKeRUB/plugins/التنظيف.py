@@ -205,7 +205,7 @@ async def fastpurger(event):  # sourcery no-metrics
     input_str = event.pattern_match.group(1)
     ptype = re.findall(r"-\w+", input_str)
     try:
-        p_type = ptype[1].replace("-", "")
+        p_type = ptype[0].replace("-", "")
         input_str = input_str.replace(ptype[0], "").strip()
     except IndexError:
         p_type = None
@@ -220,7 +220,7 @@ async def fastpurger(event):  # sourcery no-metrics
                     if ty in purgetype:
                         async for msg in event.client.iter_messages(
                             event.chat_id,
-                            limit=int(input_str),
+                            limit=int(input_str) - 1,
                             offset_id=reply.id - 1,
                             reverse=True,
                             filter=purgetype[ty],
