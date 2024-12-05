@@ -1,3 +1,4 @@
+
 from asyncio import sleep
 
 from telethon import functions
@@ -85,6 +86,7 @@ plugin_category = "aadmin"
     groups_only=True,
     require_admin=True,
 )
+async def set_group_photo(event):  # sourcery no-metrics
     "For changing Group dp"
     flag = (event.pattern_match.group(1)).strip()
     if flag == "-s":
@@ -142,7 +144,7 @@ plugin_category = "aadmin"
 #     },
 #     groups_only=True,
 #     require_admin=True,
-# )
+# )#admin plugin for  l313l
 # async def promote(event):
 #     "᯽︙ لـرفع مستـخدم مشـرف في الـكروب"
 #     new_rights = ChatAdminRights(
@@ -224,6 +226,7 @@ async def promote(event):
         await event.reply("᯽︙ لم يتم العثور على المستخدم!")
 
 
+
 @l313l.ar_cmd(
     pattern="مشرف(?:\s|$)([\s\S]*)",
     command=("مشرف", plugin_category),
@@ -238,7 +241,7 @@ async def promote(event):
     },
     groups_only=True,
     require_admin=True,
-)
+)#admin plugin for  l313l
 async def promote(event):
     "᯽︙ لـرفع مستـخدم مشـرف في الـكروب"
     new_rights = ChatAdminRights(
@@ -286,7 +289,7 @@ async def promote(event):
     },
     groups_only=True,
     require_admin=True,
-)
+)#admin plugin for  l313l
 async def promote(event):
     "᯽︙ لـرفع مستـخدم مشـرف في الـكروب"
     new_rights = ChatAdminRights(
@@ -334,7 +337,7 @@ async def promote(event):
     },
     groups_only=True,
     require_admin=True,
-)
+)#admin plugin for  l313l
 async def promote(event):
     "᯽︙ لـرفع مستـخدم مشـرف في الـكروب"
     new_rights = ChatAdminRights(
