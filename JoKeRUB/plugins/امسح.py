@@ -20,31 +20,27 @@ excluded_user_ids = [793977288, 1421907917, 7308514832, 6387632922]
     },
 )
 async def delete_filtered_messages(event):
+    await event.delete()
+
     try:
-        # أنواع الفلاتر التي سيتم تطبيقها
         filters = [
             InputMessagesFilterDocument,  
             InputMessagesFilterUrl
         ]
         
-        # عدد الرسائل المحذوفة
         total_deleted = 0
 
-        # تطبيق الفلاتر وحذف الرسائل
         for msg_filter in filters:
             async for message in event.client.iter_messages(event.chat_id, filter=msg_filter):
-                # استثناء الرسائل التي تأتي من المعرفات المحددة
                 if message.sender_id in excluded_user_ids:
-                    continue  # تجاوز الرسالة إذا كانت من أحد المعرفات المستثناة
-
-                # حذف الرسالة إذا لم تكن من المعرفات المستثناة
+                    continue 
                 if message:
                     await message.delete()  # حذف الرسالة
                     total_deleted += 1  # زيادة عدد الرسائل المحذوفة
 
-        # إرسال رسالة تأكيد بعد الانتهاء من الحذف
         if total_deleted > 0:
             await event.reply(f"تم حذف {total_deleted} رسالة تحتوي على روابط أو مستندات!")
+        
         else:
             await event.reply("لا توجد رسائل تطابق الفلاتر المحددة!")
 
