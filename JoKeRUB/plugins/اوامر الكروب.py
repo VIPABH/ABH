@@ -450,7 +450,7 @@ async def ca_sp(event):
       pass
     return await edit_or_reply(event, "** ᯽︙ تم الغاء العملية بنجاح ✓**")
 @l313l.ar_cmd(
-    pattern="احصائيات الاعضاء ?([\s\S]*)",
+    pattern="احصائيات الاعضاء?([\s\S]*)",
     command=("احصائيات الاعضاء", plugin_category),
     info={
         "header": "To get breif summary of members in the group",
@@ -722,7 +722,6 @@ async def hussein(event):
         await event.edit("يُرجى كتابة رسالة مع الأمر للحصول على إجابة.")
 is_Reham = False
 No_group_Joker = "@jepthonsupport"
-# يا يلفاشل هم الك نيه تاخذه وتنشره بسورسك 🤣
 active_aljoker = []
 
 @l313l.ar_cmd(pattern=r"الذكاء تفعيل")
@@ -759,7 +758,6 @@ async def reply_to_hussein(event):
             response = requests.get(f'https://gptzaid.zaidbot.repl.co/1/text={text}').text
             await asyncio.sleep(4)
             await event.reply(response)
-#ها هم تريد تخمط بمحرم ؟ روح شوفلك موكب واضرب زنجيل احسن من ماتخمط
 Ya_Hussein = False
 active_joker = []
 @l313l.on(events.NewMessage(incoming=True))
@@ -789,7 +787,6 @@ async def disable_emoji_blocker(event):
     active_joker.remove(event.chat_id)
     await event.edit("**᯽︙ تم تعطيل امر منع الايموجي المُميز بنجاح ✓ **")
 remove_admins_aljoker = {}
-#الكود تمت كتابته من قبل مطورين الجوكر اذا الك نية تخمطه اذكر حقوق السورس @jepthon
 @l313l.on(events.ChatAction)
 async def Hussein(event):
     if gvarstatus("Mn3_Kick"):
