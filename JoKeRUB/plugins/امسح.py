@@ -30,7 +30,7 @@ async def delete_filtered_messages(event):
         filters = {
             "الملفات": InputMessagesFilterDocument,
             "الروابط": InputMessagesFilterUrl,
-            "الصور": InputMessagesFilterPhotos,
+            "الصور": InputMessagesFilterPhotos
         }
 
         total_deleted = 0  # إجمالي عدد الرسائل المحذوفة
