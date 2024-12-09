@@ -19,58 +19,36 @@ excluded_user_ids = [793977288, 1421907917, 7308514832, 6387632922]
         "usage": ["{tr}امسح"],
         "examples": "{tr}امسح",
     },
-# )
-# async def delete_filtered_messages(event):
-#     await event.delete()
-
-#     try:
-#         filters = [
-#             InputMessagesFilterDocument,  
-#             InputMessagesFilterUrl
-#             InputMessagesFilterPhotos,
-#         ]
-        
-#         total_deleted = 0
-
-#         for msg_filter in filters:
-#             async for message in event.client.iter_messages(event.chat_id, filter=msg_filter):
-#                 if message.sender_id in excluded_user_ids:
-#                     continue 
-#                 if message:
-#                     await message.delete()  # حذف الرسالة
-#                     total_deleted += 1  # زيادة عدد الرسائل المحذوفة
-
-#         if total_deleted > 0:
-#             await event.reply(f"تم حذف {total_deleted} رسالة تحتوي على روابط أو مستندات!")
-#             await event.delete()
-
-#         else:
-#             await event.reply("لا توجد رسائل تطابق الفلاتر المحددة!")
-
-#     except Exception as e:
-#         await event.reply(f"حدث خطأ أثناء الحذف: {str(e)}")
+)
 async def delete_filtered_messages(event):
-    await event.delete()
+    """حذف الرسائل بناءً على فلاتر محددة."""
+
+    await event.delete()  # حذف الرسالة الأصلية لإخفاء الأمر
 
     try:
+        # الفلاتر وأنواع الرسائل
         filters = {
             "الملفات": InputMessagesFilterDocument,
             "الروابط": InputMessagesFilterUrl,
             "الصور": InputMessagesFilterPhotos,
         }
 
-        total_deleted = 0
-        deleted_counts = {key: 0 for key in filters.keys()}
+        total_deleted = 0  # إجمالي عدد الرسائل المحذوفة
+        deleted_counts = {key: 0 for key in filters.keys()}  # عدد الرسائل المحذوفة لكل نوع
 
+        # المرور على الفلاتر
         for msg_type, msg_filter in filters.items():
             async for message in event.client.iter_messages(event.chat_id, filter=msg_filter):
+                # استثناء المعرفات المحددة
                 if message.sender_id in excluded_user_ids:
                     continue 
+                # حذف الرسالة
                 if message:
-                    await message.delete()  # حذف الرسالة
-                    deleted_counts[msg_type] += 1  # زيادة عدد الرسائل المحذوفة لنوع معين
-                    total_deleted += 1  # زيادة العدد الإجمالي للرسائل المحذوفة
+                    await message.delete()
+                    deleted_counts[msg_type] += 1
+                    total_deleted += 1
 
+        # الرد بالتفاصيل
         if total_deleted > 0:
             details = "\n".join([f"{msg_type}: {count}" for msg_type, count in deleted_counts.items() if count > 0])
             await event.reply(f"تم حذف {total_deleted} رسالة.\nالتفاصيل:\n{details}")
@@ -78,4 +56,5 @@ async def delete_filtered_messages(event):
             await event.reply("لا توجد رسائل تطابق الفلاتر المحددة!")
 
     except Exception as e:
+        # التعامل مع الأخطاء
         await event.reply(f"حدث خطأ أثناء الحذف: {str(e)}")
