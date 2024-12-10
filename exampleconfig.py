@@ -3,7 +3,8 @@ class Development(Config):
     APP_ID = 
     API_HASH = ""
     ALIVE_NAME = ""
-    # create any PostgreSQL database (i recommend to use elephantsql) and paste that link here
+    STRING_SESSION = 
+    TG_BOT_TOKEN = 
     DB_URI = ""
     COMMAND_HAND_LER = "."
     SUDO_USERS = []
