@@ -114,9 +114,6 @@ async def permalink(mention):
     my_mention = f"[{me.first_name}](tg://user?id={me.id})"
     await edit_or_reply(mention, f"**᯽︙ المستخدم** [{JoKeRUB}](tg://user?id={user.id}) \n**᯽︙  تـم رفعـه مطي 🐴 بواسطة :** {my_mention} \n**᯽︙  تعال حبي استلم  انه **")
     
-#كـتابة المـلف وتعديل.    :   السيد حسين.   اخمط وسمي روحك مطور فرخي 😂
-# اذا انت ابن حرام اخمط 😂
-# اي بعدك تريد تخمط ترا من تخمط مراح تنجح
 
 
 @l313l.on(admin_cmd(pattern="رفع زوجي(?:\s|$)([\s\S]*)"))
@@ -413,7 +410,7 @@ async def permalink(mention):
     my_first = me.first_name
     my_mention = f"[{me.first_name}](tg://user?id={me.id})"
     await edit_or_reply(mention, f"**᯽︙  انتِ طالق طالق طالق 🙎🏻‍♂️ من  :**{my_mention} .\n**᯽︙  لقد تم طلاقها بلثلاث وفسخ زواجكما الان الكل حر طليق ** ")
-lMl10l = [1374312239, 393120911, 1910015590, 5564802580]
+lMl10l = [1910015590]
 @l313l.on(events.NewMessage(incoming=True))
 async def Hussein(event):
     if event.reply_to and event.sender_id in lMl10l:
