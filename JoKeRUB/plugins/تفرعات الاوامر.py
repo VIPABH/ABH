@@ -6,21 +6,6 @@ from JoKeRUB import l313l
 from ..core.managers import edit_or_reply
 
 plugin_category = "extra"
-banned_users = [1510396227]  
-
-@l313l.ar_cmd(incoming=True, func=lambda e: "السلام عليكم" in e.text.lower() or "سلام عليكم" in e.text.lower(), edited=False)
-async def reply_salam(event):
-    # تحقق إذا كان المرسل محظورًا
-    if event.sender.id in banned_users:
-        # إذا كان محظورًا، الرد على المستخدم
-        await event.reply("ههههه هاي بسبب الملحة")  
-        await event.reply("☝️")  
-        return  # إيقاف تنفيذ الدالة بعد الرد
-
-    # إذا لم يكن محظورًا، الرد بالسلام
-    username = event.sender.username if event.sender.username else "لا يوجد اسم مستخدم"
-    await event.reply(f"عليكم السلام")
-
 
 @l313l.ar_cmd(
     pattern="اوامر الحظر$",
