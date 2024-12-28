@@ -11,29 +11,30 @@ __version__ = "3.1.3"
 __license__ = "كـتابة وتـعديل فريـق الجوكر"
 __author__ = "الجوكر <https://T.ME/Jepthon>"
 __copyright__ = "AlJOKER TEAM (C) 2021 - 2023  " + __author__
-
-l313l.version = __version__
-l313l.tgbot.version = __version__
-LOGS = logging.getLogger("jepthon")
-bot = l313l
+ABH.version = __version__
+ABH.tgbot.version = __version__
+LOGS = logging.getLogger("ABH")
+bot = ABH
 
 StartTime = time.time()
 JEPVERSION = "3.1.3"
 
-
-if Config.UPSTREAM_REPO == "jepthoniq":
-    UPSTREAM_REPO_URL = "https://github.com/redaiq90/jepthon"
-else:
-    UPSTREAM_REPO_URL = Config.UPSTREAM_REPO
-
 if Config.PRIVATE_GROUP_BOT_API_ID == 0:
-    if gvarstatus("PRIVATE_GROUP_BOT_API_ID") is None:
+    try:
+        PRIVATE_GROUP_BOT_API_ID = gvarstatus("PRIVATE_GROUP_BOT_API_ID")
+        if PRIVATE_GROUP_BOT_API_ID is None:
+            Config.BOTLOG = False
+            Config.BOTLOG_CHATID = "me"
+        elif PRIVATE_GROUP_BOT_API_ID.isdigit():
+            Config.BOTLOG_CHATID = int(PRIVATE_GROUP_BOT_API_ID)
+            Config.PRIVATE_GROUP_BOT_API_ID = int(PRIVATE_GROUP_BOT_API_ID)
+            Config.BOTLOG = True
+        else:
+            raise ValueError("Invalid PRIVATE_GROUP_BOT_API_ID value.")
+    except Exception as e:
         Config.BOTLOG = False
         Config.BOTLOG_CHATID = "me"
-    else:
-        Config.BOTLOG_CHATID = int(gvarstatus("PRIVATE_GROUP_BOT_API_ID"))
-        Config.PRIVATE_GROUP_BOT_API_ID = int(gvarstatus("PRIVATE_GROUP_BOT_API_ID"))
-        Config.BOTLOG = True
+        LOGS.warning(f"Error in PRIVATE_GROUP_BOT_API_ID: {e}")
 else:
     if str(Config.PRIVATE_GROUP_BOT_API_ID)[0] != "-":
         Config.BOTLOG_CHATID = int("-" + str(Config.PRIVATE_GROUP_BOT_API_ID))
@@ -41,22 +42,42 @@ else:
         Config.BOTLOG_CHATID = Config.PRIVATE_GROUP_BOT_API_ID
     Config.BOTLOG = True
 
-if Config.PM_LOGGER_GROUP_ID == 0:
-    if gvarstatus("PM_LOGGER_GROUP_ID") is None:
-        Config.PM_LOGGER_GROUP_ID = -100
-    else:
-        Config.PM_LOGGER_GROUP_ID = int(gvarstatus("PM_LOGGER_GROUP_ID"))
-elif str(Config.PM_LOGGER_GROUP_ID)[0] != "-":
-    Config.PM_LOGGER_GROUP_ID = int("-" + str(Config.PM_LOGGER_GROUP_ID))
-try:
-    if Config.HEROKU_API_KEY is not None or Config.HEROKU_APP_NAME is not None:
-        HEROKU_APP = heroku3.from_key(Config.HEROKU_API_KEY).apps()[
-            Config.HEROKU_APP_NAME
-        ]
-    else:
-        HEROKU_APP = None
-except Exception:
-    HEROKU_APP = None
+# if Config.UPSTREAM_REPO == "abh":
+#     UPSTREAM_REPO_URL = "https://github.com/vipabh/abh"
+# else:
+#     UPSTREAM_REPO_URL = Config.UPSTREAM_REPO
+
+# if Config.PRIVATE_GROUP_BOT_API_ID == 0:
+#     if gvarstatus("PRIVATE_GROUP_BOT_API_ID") is None:
+#         Config.BOTLOG = False
+#         Config.BOTLOG_CHATID = "me"
+#     else:
+#         Config.BOTLOG_CHATID = int(gvarstatus("PRIVATE_GROUP_BOT_API_ID"))
+#         Config.PRIVATE_GROUP_BOT_API_ID = int(gvarstatus("PRIVATE_GROUP_BOT_API_ID"))
+#         Config.BOTLOG = True
+# else:
+#     if str(Config.PRIVATE_GROUP_BOT_API_ID)[0] != "-":
+#         Config.BOTLOG_CHATID = int("-" + str(Config.PRIVATE_GROUP_BOT_API_ID))
+#     else:
+#         Config.BOTLOG_CHATID = Config.PRIVATE_GROUP_BOT_API_ID
+#     Config.BOTLOG = True
+
+# if Config.PM_LOGGER_GROUP_ID == 0:
+#     if gvarstatus("PM_LOGGER_GROUP_ID") is None:
+#         Config.PM_LOGGER_GROUP_ID = -100
+#     else:
+#         Config.PM_LOGGER_GROUP_ID = int(gvarstatus("PM_LOGGER_GROUP_ID"))
+# elif str(Config.PM_LOGGER_GROUP_ID)[0] != "-":
+#     Config.PM_LOGGER_GROUP_ID = int("-" + str(Config.PM_LOGGER_GROUP_ID))
+# try:
+#     if Config.HEROKU_API_KEY is not None or Config.HEROKU_APP_NAME is not None:
+#         HEROKU_APP = heroku3.from_key(Config.HEROKU_API_KEY).apps()[
+#             Config.HEROKU_APP_NAME
+#         ]
+#     else:
+#         HEROKU_APP = None
+# except Exception:
+#     HEROKU_APP = None
 
 
 # Global Configiables
