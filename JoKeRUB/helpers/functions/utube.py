@@ -6,7 +6,7 @@ from collections import defaultdict
 import ujson
 import yt_dlp
 from telethon import Button
-from youtubesearchpython import VideosSearch
+# from youtubesearchpython import VideosSearch
 from yt_dlp.utils import DownloadError, ExtractorError, GeoRestrictedError
 
 from ...Config import Config
