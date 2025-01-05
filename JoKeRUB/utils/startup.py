@@ -126,52 +126,62 @@ async def startupmessage():
         LOGS.error(e)
         return None
 
-
 async def mybot():
     try:
-        starkbot = await l313l.tgbot.get_me()
-        joker = "الجوكر 🤡"
+        starkbot = await ABH.tgbot.get_me()
+        joker = "ABH 🤡"
         bot_name = starkbot.first_name
-        botname = f"@{starkbot.username}"
+        bot_username = starkbot.username
+        botname = f"@{bot_username}" if bot_username else "Unknown Bot"
+
         if bot_name.endswith("Assistant"):
             print("تم تشغيل البوت")
+        
         if starkbot.bot_inline_placeholder:
             print("Aljoker ForEver")
         else:
             try:
-                await l313l.send_message("@BotFather", "/setinline")
+                await ABH.send_message("@BotFather", "/setinline")
                 await asyncio.sleep(1)
-                await l313l.send_message("@BotFather", botname)
+                await ABH.send_message("@BotFather", botname)
                 await asyncio.sleep(1)
-                await l313l.send_message("@BotFather", joker)
+                await ABH.send_message("@BotFather", joker)
                 await asyncio.sleep(2)
             except Exception as e:
-                print(e)
+                print(f"Error during inline configuration: {e}")
     except Exception as e:
-        print(e)
-
+        print(f"Error in mybot: {e}")
 
 async def add_bot_to_logger_group(chat_id):
     """
-    To add bot to logger groups
+    لإضافة البوت إلى مجموعات السجل
     """
-    bot_details = await l313l.tgbot.get_me()
     try:
-        await l313l(
-            functions.messages.AddChatUserRequest(
-                chat_id=chat_id,
-                user_id=bot_details.username,
-                fwd_limit=1000000,
-            )
-        )
-    except BaseException:
+        bot_details = await ABH.tgbot.get_me()
+        bot_username = bot_details.username
+
+        if not bot_username:
+            raise ValueError("اسم المستخدم للبوت غير موجود")
+
         try:
-            await l313l(
-                functions.channels.InviteToChannelRequest(
-                    channel=chat_id,
-                    users=[bot_details.username],
+            await ABH(
+                functions.messages.AddChatUserRequest(
+                    chat_id=chat_id,
+                    user_id=bot_username,
+                    fwd_limit=1000000,
                 )
             )
+            print(f"تمت إضافة البوت إلى المجموعة: {chat_id}")
+        except Exception:
+            await ABH(
+                functions.channels.InviteToChannelRequest(
+                    channel=chat_id,
+                    users=[bot_username],
+                )
+            )
+            print(f"تمت دعوة البوت إلى القناة: {chat_id}")
+    except Exception as e:
+        print(f"Error in add_bot_to_logger_group: {e}")
         except Exception as e:
             LOGS.error(str(e))
 JoKeRUB = {"@sszxl", "@x04ou", "@iamMUAOL"}
