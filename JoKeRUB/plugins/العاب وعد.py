@@ -13,7 +13,6 @@ import re
 from JoKeRUB import l313l
 
 plugin_category = "extra"
-# تعريف المتغير global للتحكم في التكرار
 its_Reham = False
 
 @l313l.ar_cmd(pattern="كلمات(\s*(\d+))?$")
@@ -377,3 +376,19 @@ async def stop_game(event):
 
 # متغير للتحكم في حالة اللعبة
 its_Reham = False
+
+@ZE.ar_cmd(pattern="كلمات وعد (.*)")
+async def waorwaad(event):
+    for i in range(int("".join(event.text.split(maxsplit=2)[2:]).split(" ", 2)[0])):
+        chat = event.chat_id
+        await ZE.send_message(chat, "كلمات")
+        await asyncio.sleep(0.5)
+        masg = await ZE.get_messages(chat, limit=1)
+        masg = masg[0].message
+        masg = ("".join(masg.split(maxsplit=3)[3:])).split(" ", 2)
+        if len(masg) == 2:
+            msg = masg[0]
+            await ZE.send_message(chat, msg)
+        else:
+            msg = masg[0] + " " + masg[1]
+            await ZE.send_message(chat, msg)
