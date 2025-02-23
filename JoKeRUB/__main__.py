@@ -7,7 +7,6 @@ from .core.logger import logging
 from .core.session import l313l
 from .utils import (
     add_bot_to_logger_group,
-    install_externalrepo,
     load_plugins,
     setup_bot,
     mybot,
@@ -92,10 +91,6 @@ async def startup_process():
         await add_bot_to_logger_group(PM_LOGGER_GROUP_ID)
     await startupmessage()
     return
-
-async def externalrepo():
-    if Config.VCMODE:
-        await install_externalrepo("https://github.com/jepthoniq/JepVc", "jepvc", "jepthonvc")
 
 l313l.loop.run_until_complete(externalrepo())
 l313l.loop.run_until_complete(startup_process())
