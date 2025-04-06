@@ -13,7 +13,8 @@ BASE = declarative_base()
 
 def start() -> scoped_session:
     global engine
-    engine = create_engine(Config.DB_URI)
+    DB_URI = "postgresql://postgres:your_password@localhost:5432/y"
+    engine = create_engine(DB_URI)
     BASE.metadata.bind = engine
     BASE.metadata.create_all(engine)
     return scoped_session(sessionmaker(bind=engine, autoflush=False))
