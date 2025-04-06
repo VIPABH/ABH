@@ -2,7 +2,7 @@ import time
 
 import heroku3
 
-from .Config import Config
+from .roza_config import RozaConfig
 from .core.logger import logging
 from .core.session import l313l
 from .sql_helper.globals import addgvar, delgvar, gvarstatus
