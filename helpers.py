@@ -72,8 +72,12 @@ async def ment(entity):
             return "غير معروف"
         if user_id in mentions_dict:
             return mentions_dict[user_id]
-        if not hasattr(entity, 'first_name') or (hasattr(entity, 'id') and entity.id != user_id):
-            entity = await BUTTON_BOT.get_entity(user_id)
+        user_data = profile(user_id)
+        if user_data:
+            name = user_data.get('name') if isinstance(user_data, dict) else getattr(user_data, 'name', None)
+        if not name:
+            if not hasattr(entity, 'first_name') or (hasattr(entity, 'id') and entity.id != user_id):
+                entity = await ABH.get_entity(user_id)
             name = getattr(entity, 'first_name', 'مستخدم') or 'مستخدم'
         if user_id not in mentions_dict:
             mentions_dict[user_id] = f"[{name}](tg://user?id={user_id})"
