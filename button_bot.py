@@ -13,9 +13,17 @@ async def start(e):
 @BUTTON_BOT.on(events.NewMessage(pattern=r'^الاوامر$'))
 async def command(e):
     if not e.is_private:return
-    await e.reply(f'''
-    زر + لون الزر او بدون ذكر ليكون افتراضي 
-    بعدها اسم الزر وبعدها الرابط وبعدها ايموجي مميز او بدون
-    مثلا `زراخضر المبرمج https://t.me/K_4x1 {custom_emoji(5465374681915727405)}`
-    ''', 
-    parse_mode='html')
+    await e.reply(
+    f"""
+<b>طريقة استخدام الأمر:</b>
+
+<code>زر + لون الزر</code> أو بدون لون ليكون افتراضيًا.
+
+بعدها:
+<code>اسم الزر + الرابط + الإيموجي المميز</code>
+
+<b>مثال:</b>
+<code>زراخضر المبرمج https://t.me/K_4x1</code> {custom_emoji(5465374681915727405)}
+""",
+    parse_mode="html"
+)
