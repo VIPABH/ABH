@@ -15,11 +15,6 @@ def _log_task_result(task):
         task.result()
     except Exception as e:
         print(f"fire_send_message failed: {e}")
-class Me:
-    async def init(self, ABH):
-        self.me = await ABH.get_me()
-        self.id = self.me.id
-        self.name = self.me.first_name
 channels = [
     'ANYMOUSupdate', 
     'x04ou'
@@ -37,7 +32,7 @@ async def is_user(e):
     if not e.is_private:
         raise events.StopPropagation
     uid = e.sender_id
-    me = Me()
+    me = await e.get_me()
     if r.get(f"{me.id}:{uid}"):return
     results = await asyncio.gather(
         *(is_in_channel(uid, ch) for ch in channels))
