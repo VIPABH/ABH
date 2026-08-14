@@ -37,7 +37,7 @@ async def is_user(e):
     if not e.is_private:
         raise events.StopPropagation
     uid = e.sender_id
-    if r.get(f"{ME.id}:{uid}"):return
+    if r.get(f"{Me.id}:{uid}"):return
     results = await asyncio.gather(
         *(is_in_channel(uid, ch) for ch in channels))
     buttons = [
@@ -51,7 +51,7 @@ async def is_user(e):
         )
         raise events.StopPropagation
     else:
-        r.set(f"{ME.id}:{uid}", 1, ex=120)
+        r.set(f"{Me.id}:{uid}", 1, ex=120)
 async def get_profile_photo(id, user=None):
     photos = []
     try:
