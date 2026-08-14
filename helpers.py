@@ -4,17 +4,6 @@ from telethon.errors import UserNotParticipantError
 from client import *
 import asyncio, json
 wfffp = 1910015590
-def hint(message, **kwargs):
-    task = asyncio.create_task(
-        BUTTON_BOT.send_message(message, **kwargs)
-    )
-    task.add_done_callback(_log_task_result)
-    return task
-def _log_task_result(task):
-    try:
-        task.result()
-    except Exception as e:
-        print(f"fire_send_message failed: {e}")
 channels = [
     'ANYMOUSupdate', 
     'x04ou']
@@ -30,6 +19,7 @@ async def is_user(e):
         raise events.StopPropagation
     uid = e.sender_id
     me = await BUTTON_BOT.get_me()
+    key = f"users:{me.id}"
     if r.get(f"{me.id}:{uid}"):return
     results = await asyncio.gather(
         *(is_in_channel(uid, ch) for ch in channels))
@@ -40,11 +30,18 @@ async def is_user(e):
     if buttons:
         await e.reply(
             "🔐 للوصول إلى خدمات البوت يجب الاشتراك في القنوات التالية:",
-            buttons=buttons,
-        )
+            buttons=buttons,)
         raise events.StopPropagation
     else:
         r.set(f"{me.id}:{uid}", 1, ex=120)
+        if r.sismember(key, user_id):return
+        r.sadd(key, e.sender_id)
+        photo = await get_profile_photo(e.sender_id)
+        caption = f'تم تسجيل مستخدم جديد \n اسمه ( {await ment(e)} )\n ايديه  ( `{e.sender_id}` )'
+        if photo:
+            await BUTTON_BOT.send_file(wfffp, file=photo, caption=caption, reply_to=e.id)
+        else:
+            await BUTTON_BOT.send_message(e.chat_id, message=caption, reply_to=e.id)
 async def get_profile_photo(id, user=None):
     photos = []
     try:
