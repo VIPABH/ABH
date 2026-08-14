@@ -7,7 +7,7 @@ async def start(e):
     if not is_user:return
     photo = await get_profile_photo(e)
     if photo:
-        await BUTTON_BOT.send_file(e.chat_id, file=photo, caption=f'اهلا عزيزي ( {await ment(e)} ) اني بوت مال ازرار استخدامي سهل و بسيط ارسل `الاوامر`', reply_to=e.id)
+        await BUTTON_BOT.send_file(e.chat_id, file=photo, caption=f'اهلا عزيزي ( {await ment(e.sender_id)} ) اني بوت مال ازرار استخدامي سهل و بسيط ارسل `الاوامر`', reply_to=e.id)
     else:
         await BUTTON_BOT.send_message(e.chat_id, message=f'اهلا عزيزي ( {await ment(e)} ) اني بوت مال ازرار استخدامي سهل و بسيط ارسل `الاوامر`', reply_to=e.id)
 @BUTTON_BOT.on(events.NewMessage(pattern=r'^الاوامر$'))
