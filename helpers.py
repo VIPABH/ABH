@@ -17,10 +17,14 @@ def _log_task_result(task):
         print(f"fire_send_message failed: {e}")
 channels = [
     'ANYMOUSupdate', 
-    'x04ou'
-]
+    'x04ou']
 async def is_in_channel(user_id, channel_username):
-    return await ABH(GetParticipantRequest(channel_username, user_id))
+    try:
+        return await BUTTON_BOT(GetParticipantRequest(channle=channel_username, participant=user_id))
+    except UserNotParticipantError:
+        return False
+    except:
+        return False
 async def is_user(e):
     if not e.is_private:
         raise events.StopPropagation
@@ -28,7 +32,7 @@ async def is_user(e):
     me = await BUTTON_BOT.get_me()
     if r.get(f"{me.id}:{uid}"):return
     results = await asyncio.gather(
-        *(is_in_channel(ch, uid) for ch in channels))
+        *(is_in_channel(uid, ch) for ch in channels))
     buttons = [
         [Button.url(f"اشترك في {ch}", url=f"https://t.me/{ch}")]
         for ch, joined in zip(channels, results)
