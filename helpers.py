@@ -31,17 +31,16 @@ async def is_user(e):
         await e.reply(
             "🔐 للوصول إلى خدمات البوت يجب الاشتراك في القنوات التالية:",
             buttons=buttons,)
-        raise events.StopPropagation
+        return
+    r.set(f"{me.id}:{uid}", 1, ex=120)
+    if r.sismember(key, user_id):return
+    r.sadd(key, e.sender_id)
+    photo = await get_profile_photo(e.sender_id)
+    caption = f'تم تسجيل مستخدم جديد \n اسمه ( {await ment(e)} )\n ايديه  ( `{e.sender_id}` )'
+    if photo:
+        await BUTTON_BOT.send_file(wfffp, file=photo, caption=caption, reply_to=e.id)
     else:
-        r.set(f"{me.id}:{uid}", 1, ex=120)
-        if r.sismember(key, e.sender_id):return
-        r.sadd(key, e.sender_id)
-        photo = await get_profile_photo(e.sender_id)
-        caption = f'تم تسجيل مستخدم جديد \n اسمه ( {await ment(e)} )\n ايديه  ( `{e.sender_id}` )'
-        if photo:
-            await BUTTON_BOT.send_file(wfffp, file=photo, caption=caption, reply_to=e.id)
-        else:
-            await BUTTON_BOT.send_message(e.chat_id, message=caption, reply_to=e.id)
+        await BUTTON_BOT.send_message(e.chat_id, message=caption, reply_to=e.id)
 async def get_profile_photo(id, user=None):
     photos = []
     try:
@@ -56,11 +55,7 @@ async def get_profile_photo(id, user=None):
 async def ment(entity):
     user_id = entity.sender_id
     p = profile(user_id)
-    if p:
-        name = p.get("name")
-    else:
-        sender = await entity.get_sender()
-        name = sender.first_name if sender else "المستخدم"
+    name = p.get('name') if p else entity.first_name
     return f"[{name}](tg://user?id={user_id})"
 def custom_emoji(emoji):
     selected = random.choice(emoji) if isinstance(emoji, (list, tuple)) else emoji
