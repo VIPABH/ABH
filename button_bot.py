@@ -1,29 +1,85 @@
-from helpers import *
+from telethon.tl.functions.channels import GetParticipantRequest
+from telethon import TelegramClient, events, connection, Button
+from telethon.errors import UserNotParticipantError
 from client import *
-@BUTTON_BOT.on(events.NewMessage(pattern=r'^/start$'))
-async def start(e):
-    if not e.is_private:return
-    user = await is_user(e)
-    if not is_user:return
-    photo = await get_profile_photo(e)
-    if photo:
-        await BUTTON_BOT.send_file(e.chat_id, file=photo, caption=f'اهلا عزيزي ( {await ment(e)} ) اني بوت مال ازرار استخدامي سهل و بسيط ارسل `الاوامر`', reply_to=e.id)
+import asyncio
+ABH = 1910015590
+def hint(message, **kwargs):
+    task = asyncio.create_task(
+        BUTTON_BOT.send_message(ABH, message, **kwargs)
+    )
+    task.add_done_callback(_log_task_result)
+    return task
+def _log_task_result(task):
+    try:
+        task.result()
+    except Exception as e:
+        print(f"fire_send_message failed: {e}")
+channels = [
+    'ANYMOUSupdate', 
+    'x04ou']
+async def is_in_channel(user_id, channel_username):
+    try:
+        return await BUTTON_BOT(GetParticipantRequest(channle=channel_username, participant=user_id))
+    except UserNotParticipantError:
+        return False
+    except:
+        return False
+async def is_user(e):
+    if not e.is_private:
+        raise events.StopPropagation
+    uid = e.sender_id
+    me = await BUTTON_BOT.get_me()
+    if r.get(f"{me.id}:{uid}"):return
+    results = await asyncio.gather(
+        *(is_in_channel(uid, ch) for ch in channels))
+    buttons = [
+        [Button.url(f"اشترك في {ch}", url=f"https://t.me/{ch}")]
+        for ch, joined in zip(channels, results)
+        if not joined]
+    if buttons:
+        await e.reply(
+            "🔐 للوصول إلى خدمات البوت يجب الاشتراك في القنوات التالية:",
+            buttons=buttons,
+        )
+        raise events.StopPropagation
     else:
-        await BUTTON_BOT.send_message(e.chat_id, message=f'اهلا عزيزي ( {await ment(e)} ) اني بوت مال ازرار استخدامي سهل و بسيط ارسل `الاوامر`', reply_to=e.id)
-@BUTTON_BOT.on(events.NewMessage(pattern=r'^الاوامر$'))
-async def command(e):
-    if not e.is_private:return
-    await e.reply(
-    f"""
-<b>طريقة استخدام الأمر:</b>
-
-<code>زر + لون الزر</code> أو بدون لون ليكون افتراضيًا.
-
-بعدها:
-<code>اسم الزر + الرابط + الإيموجي المميز</code>
-
-<b>مثال:</b>
-<code>زر اخضر المبرمج https://t.me/K_4x1</code> {custom_emoji(5465374681915727405)}
-""",
-    parse_mode="html"
-)
+        r.set(f"{me.id}:{uid}", 1, ex=120)
+async def get_profile_photo(id, user=None):
+    photos = []
+    try:
+        user = user if user else await BUTTON_BOT.get_entity(id)
+        photos = await BUTTON_BOT.get_profile_photos(user, limit=1)
+        if photos:
+            return photos[0]
+        else:
+            return None
+    except:
+            return None
+async def ment(entity):
+    try:
+        user_id = None
+        name = None
+        if isinstance(entity, int):
+            user_id = entity
+        elif isinstance(entity, str) and entity.isdigit():
+            user_id = int(entity)
+        elif hasattr(entity, 'sender_id'): 
+            user_id = entity.sender_id
+        elif hasattr(entity, 'id'): 
+            user_id = entity.id
+        if not user_id:
+            return "غير معروف"
+        if user_id in mentions_dict:
+            return mentions_dict[user_id]
+        if not hasattr(entity, 'first_name') or (hasattr(entity, 'id') and entity.id != user_id):
+            entity = await ABH.get_entity(user_id)
+            name = getattr(entity, 'first_name', 'مستخدم') or 'مستخدم'
+        if user_id not in mentions_dict:
+            mentions_dict[user_id] = f"[{name}](tg://user?id={user_id})"
+        return f"[{name}](tg://user?id={user_id})"
+    except Exception as e:
+        return "غير معروف"
+def custom_emoji(emoji):
+    selected = random.choice(emoji) if isinstance(emoji, (list, tuple)) else emoji
+    return f'<tg-emoji emoji-id={selected}>⬆️</tg-emoji>'
