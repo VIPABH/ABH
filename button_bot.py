@@ -23,7 +23,7 @@ async def command(e):
 <code>اسم الزر + الرابط + الإيموجي المميز</code>
 
 <b>مثال:</b>
-<code>زراخضر المبرمج https://t.me/K_4x1</code> {custom_emoji(5465374681915727405)}
+<code>زر اخضر المبرمج https://t.me/K_4x1</code> {custom_emoji(5465374681915727405)}
 """,
     parse_mode="html"
 )
