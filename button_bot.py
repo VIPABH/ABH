@@ -1,6 +1,5 @@
 from helpers import *
 from client import *
-await asyncio
 @BUTTON_BOT.on(events.NewMessage(pattern=r'^/start$'))
 async def start(e):
     if not e.is_private:return
