@@ -34,7 +34,7 @@ async def is_user(e):
         raise events.StopPropagation
     else:
         r.set(f"{me.id}:{uid}", 1, ex=120)
-        if r.sismember(key, user_id):return
+        if r.sismember(key, e.sender_id):return
         r.sadd(key, e.sender_id)
         photo = await get_profile_photo(e.sender_id)
         caption = f'تم تسجيل مستخدم جديد \n اسمه ( {await ment(e)} )\n ايديه  ( `{e.sender_id}` )'
