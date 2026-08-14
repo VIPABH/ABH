@@ -16,6 +16,3 @@ r = redis.Redis(
     port=6379,
     db=0,
     decode_responses=True)
-BUTTON_BOT.start(bot_token=bot_token)
-print("BUTTON_BOT is running!")
-BUTTON_BOT.run_until_disconnected()
