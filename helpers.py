@@ -3,10 +3,10 @@ from telethon import TelegramClient, events, connection, Button
 from telethon.errors import UserNotParticipantError
 from client import *
 import asyncio
-ABH = 1910015590
+wfffp = 1910015590
 def hint(message, **kwargs):
     task = asyncio.create_task(
-        BUTTON_BOT.send_message(ABH, message, **kwargs)
+        BUTTON_BOT.send_message(message, **kwargs)
     )
     task.add_done_callback(_log_task_result)
     return task
@@ -73,7 +73,7 @@ async def ment(entity):
         if user_id in mentions_dict:
             return mentions_dict[user_id]
         if not hasattr(entity, 'first_name') or (hasattr(entity, 'id') and entity.id != user_id):
-            entity = await ABH.get_entity(user_id)
+            entity = await BUTTON_BOT.get_entity(user_id)
             name = getattr(entity, 'first_name', 'مستخدم') or 'مستخدم'
         if user_id not in mentions_dict:
             mentions_dict[user_id] = f"[{name}](tg://user?id={user_id})"
