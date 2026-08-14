@@ -57,33 +57,13 @@ async def get_profile_photo(id, user=None):
     except:
             return None
 async def ment(entity):
-    try:
-        user_id = None
-        name = None
-        if isinstance(entity, int):
-            user_id = entity
-        elif isinstance(entity, str) and entity.isdigit():
-            user_id = int(entity)
-        elif hasattr(entity, 'sender_id'): 
-            user_id = entity.sender_id
-        elif hasattr(entity, 'id'): 
-            user_id = entity.id
-        if not user_id:
-            return "غير معروف"
-        if user_id in mentions_dict:
-            return mentions_dict[user_id]
-        user_data = profile(user_id)
-        if user_data:
-            name = user_data.get('name') if isinstance(user_data, dict) else getattr(user_data, 'name', None)
-        if not name:
-            if not hasattr(entity, 'first_name') or (hasattr(entity, 'id') and entity.id != user_id):
-                entity = await BUTTON_BOT.get_entity(user_id)
-            name = getattr(entity, 'first_name', 'مستخدم') or 'مستخدم'
-        if user_id not in mentions_dict:
-            mentions_dict[user_id] = f"[{name}](tg://user?id={user_id})"
-        return f"[{name}](tg://user?id={user_id})"
-    except Exception as e:
-        return "غير معروف"
+    user_id = entity.sender_id
+    p = profile(user_id)
+    name = p.get('name') if p else entity.first_name
+    return f"[{name}](tg://user?id={user_id})"
 def custom_emoji(emoji):
     selected = random.choice(emoji) if isinstance(emoji, (list, tuple)) else emoji
     return f'<tg-emoji emoji-id={selected}>⬆️</tg-emoji>'
+def profile(user_id):
+    data = r.get(f"user:{user_id}")
+    return json.loads(data) if data else None
