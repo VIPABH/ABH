@@ -4,7 +4,7 @@ from telethon.errors import UserNotParticipantError
 from client import *
 import asyncio
 ABH = 1910015590
-def hint(client, message, **kwargs):
+def hint(message, **kwargs):
     task = asyncio.create_task(
         BUTTON_BOT.send_message(ABH, message, **kwargs)
     )
