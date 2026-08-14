@@ -4,7 +4,7 @@ from telethon.errors import UserNotParticipantError
 from client import *
 import asyncio
 ABH = 1910015590
-def send(message, **kwargs):
+def send(client, message, **kwargs):
     task = asyncio.create_task(
         BUTTON_BOT.send_message(ABH, message, **kwargs)
     )
@@ -52,3 +52,41 @@ async def is_user(e):
         raise events.StopPropagation
     else:
         r.set(f"{key}:{uid}", 1, ex=120)
+async def get_profile_photo(id, user=None):
+    photos = []
+    try:
+        user = user if user else await ABH.get_entity(id)
+        photos = await ABH.get_profile_photos(user, limit=1)
+        if photos:
+            return photos[0]
+        else:
+            return None
+    except:
+            return None
+async def ment(entity):
+    try:
+        user_id = None
+        name = None
+        if isinstance(entity, int):
+            user_id = entity
+        elif isinstance(entity, str) and entity.isdigit():
+            user_id = int(entity)
+        elif hasattr(entity, 'sender_id'): 
+            user_id = entity.sender_id
+        elif hasattr(entity, 'id'): 
+            user_id = entity.id
+        if not user_id:
+            return "غير معروف"
+        if user_id in mentions_dict:
+            return mentions_dict[user_id]
+        if not hasattr(entity, 'first_name') or (hasattr(entity, 'id') and entity.id != user_id):
+            entity = await ABH.get_entity(user_id)
+            name = getattr(entity, 'first_name', 'مستخدم') or 'مستخدم'
+        if user_id not in mentions_dict:
+            mentions_dict[user_id] = f"[{name}](tg://user?id={user_id})"
+        return f"[{name}](tg://user?id={user_id})"
+    except Exception as e:
+        return "غير معروف"
+def custom_emoji(emoji):
+    selected = random.choice(emoji) if isinstance(emoji, (list, tuple)) else emoji
+    return f'<tg-emoji emoji-id={selected}>⬆️</tg-emoji>'
