@@ -20,7 +20,7 @@ channels = [
     'x04ou']
 async def is_in_channel(user_id, channel_username):
     try:
-        return await BUTTON_BOT(GetParticipantRequest(channel=channel_username, participant=user_id))
+        return await BUTTON_BOT(GetParticipantRequest(channle=channel_username, participant=user_id))
     except UserNotParticipantError:
         return False
     except:
@@ -48,8 +48,8 @@ async def is_user(e):
 async def get_profile_photo(id, user=None):
     photos = []
     try:
-        user = user if user else await ABH.get_entity(id)
-        photos = await ABH.get_profile_photos(user, limit=1)
+        user = user if user else await BUTTON_BOT.get_entity(id)
+        photos = await BUTTON_BOT.get_profile_photos(user, limit=1)
         if photos:
             return photos[0]
         else:
