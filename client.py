@@ -1,4 +1,5 @@
 from telethon import events, TelegramClient, connection
+import redis
 api_id = int(os.getenv("API_ID") or config['anymous'].get('api_id'))
 api_hash = os.getenv("API_HASH") or config['anymous'].get('api_hash')
 bot_token = os.getenv("BOT_TOKEN") or config['anymous'].get('bot_token')
@@ -11,3 +12,4 @@ BUTTON_BOT = TelegramClient(
     auto_reconnect=True,
     connection_retries=None
 )
+r = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
