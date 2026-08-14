@@ -21,12 +21,8 @@ channels = [
 ]
 async def is_in_channel(user_id, channel_username):
     try:
-        await ABH(GetParticipantRequest(channel_username, int(user_id)))
-        return True
-    except UserNotParticipantError:
-        return False
-    except Exception as e:
-        hint(f"Error checking {channel_username} for {user_id}: {e}")
+        return await ABH(GetParticipantRequest(channel_username, user_id))
+    except:
         return False
 async def is_user(e):
     if not e.is_private:
