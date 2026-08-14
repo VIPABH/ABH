@@ -37,7 +37,7 @@ async def is_user(e):
     if not e.is_private:
         raise events.StopPropagation
     uid = e.sender_id
-    if r.get(f"{key}:{uid}"):return
+    if r.get(f"{me.id}:{uid}"):return
     results = await asyncio.gather(
         *(is_in_channel(uid, ch) for ch in channels))
     buttons = [
