@@ -56,7 +56,11 @@ async def get_profile_photo(id, user=None):
 async def ment(entity):
     user_id = entity.sender_id
     p = profile(user_id)
-    name = p.get('name') if p else entity.first_name
+    if p:
+        name = p.get("name")
+    else:
+        sender = await entity.get_sender()
+        name = sender.first_name if sender else "المستخدم"
     return f"[{name}](tg://user?id={user_id})"
 def custom_emoji(emoji):
     selected = random.choice(emoji) if isinstance(emoji, (list, tuple)) else emoji
