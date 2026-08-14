@@ -51,7 +51,7 @@ async def is_user(e):
         )
         raise events.StopPropagation
     else:
-        r.set(f"{key}:{uid}", 1, ex=120)
+        r.set(f"{me.id}:{uid}", 1, ex=120)
 async def get_profile_photo(id, user=None):
     photos = []
     try:
