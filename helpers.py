@@ -20,10 +20,7 @@ channels = [
     'x04ou'
 ]
 async def is_in_channel(user_id, channel_username):
-    try:
-        return await ABH(GetParticipantRequest(channel_username, user_id))
-    except:
-        return False
+    return await ABH(GetParticipantRequest(channel_username, user_id))
 async def is_user(e):
     if not e.is_private:
         raise events.StopPropagation
