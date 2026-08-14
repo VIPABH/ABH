@@ -26,7 +26,7 @@ async def command(e):
 <code>زراخضر المبرمج https://t.me/K_4x1</code> {custom_emoji(5465374681915727405)}
 """,
     parse_mode="html")
-@ABH.on(events.NewMessage(pattern=r"^زر(?:\s+(.+))?$"))
+@BUTTON_BOT.on(events.NewMessage(pattern=r"^زر(?:\s+(.+))?$"))
 async def handler(event):
     full_text = event.pattern_match.group(1)
     if not full_text:
