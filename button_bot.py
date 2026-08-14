@@ -26,6 +26,36 @@ async def command(e):
 <code>زراخضر المبرمج https://t.me/K_4x1</code> {custom_emoji(5465374681915727405)}
 """,
     parse_mode="html")
+COLORS = {"ازرق": "primary", "blue": "primary",
+          "احمر": "danger", "red": "danger",
+          "اخضر": "success", "green": "success"}
+MAX_BUTTONS = 20
+MAX_LABEL_LEN = 64
+def norm(w):
+    return w.lower().strip().replace("أ", "ا").replace("إ", "ا").replace("آ", "ا")
+def valid_url(url):
+    if url.startswith("tg://"):
+        return True
+    try:
+        p = urlparse(url)
+        return p.scheme in ("http", "https") and bool(p.netloc)
+    except Exception:
+        return False
+def utf16_len(s):
+    return len(s.encode("utf-16-le")) // 2
+def split_pos(text, sep):
+    parts, start = [], 0
+    for chunk in text.split(sep):
+        idx = text.index(chunk, start)
+        parts.append((chunk, idx))
+        start = idx + len(chunk)
+    return parts
+def custom_emoji_id(entities, raw_text, offset_cp, length):
+    off = utf16_len(raw_text[:offset_cp])
+    for ent in entities:
+        if isinstance(ent, MessageEntityCustomEmoji) and ent.offset == off:
+            return ent.document_id
+    return None
 @BUTTON_BOT.on(events.NewMessage(pattern=r"^زر(?:\s+(.+))?$"))
 async def handler(event):
     full_text = event.pattern_match.group(1)
