@@ -1,11 +1,13 @@
 from helpers import *
 from client import *
 import re
+@BUTTON_BOT.on(events.NewMessage)
+async def is_user_check(e):
+    if not is_user and e.text != '/start':return
+        raise events.StopPropagation
 @BUTTON_BOT.on(events.NewMessage(pattern=r'^/start$'))
 async def start(e):
     if not e.is_private:return
-    user = await is_user(e)
-    if not is_user:return
     photo = await get_profile_photo(e)
     if photo:
         await BUTTON_BOT.send_file(e.chat_id, file=photo, caption=f'اهلا عزيزي ( {await ment(e)} ) اني بوت مال ازرار استخدامي سهل و بسيط ارسل `الاوامر`', reply_to=e.id)
