@@ -1,5 +1,7 @@
 from button_bot import *
 from client  import *
-BUTTON_BOT.start(bot_token=bot_token)
+BUTTON_BOT.start(bot_token=os.getenv("BUTTON_BOT"))
 print("BUTTON_BOT is running!")
-BUTTON_BOT.run_until_disconnected()
+REACTBOT.start(bot_token=os.getenv("REACTBOT"))
+print("REACTBOT is running!")
+REACTBOT.run_until_disconnected()
