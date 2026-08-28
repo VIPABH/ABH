@@ -6,7 +6,7 @@ async def is_user_check(e):
     user = await is_user(e)
     if not user:
         raise events.StopPropagation
-@BUTTON_BOT.on(events.NewMessage(pattern=r'^/start$'))
+@BUTTON_BOT.on(events.NewMessage(pattern=r'^/start'))
 async def start(e):
     if not e.is_private:return
     photo = await get_profile_photo(e)
