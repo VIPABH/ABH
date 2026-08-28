@@ -3,7 +3,8 @@ from client import *
 import re
 @BUTTON_BOT.on(events.NewMessage)
 async def is_user_check(e):
-    if not is_user and e.text != '/start':
+    user = await is_user(e)
+    if not user and e.text != '/start':
         raise events.StopPropagation
 @BUTTON_BOT.on(events.NewMessage(pattern=r'^/start$'))
 async def start(e):
