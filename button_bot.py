@@ -12,7 +12,6 @@ async def start(e):
 @BUTTON_BOT.on(events.NewMessage)
 async def is_user_check(e):
     user = await is_user(e)
-    print(user)
     if not user:
         raise events.StopPropagation
 @BUTTON_BOT.on(events.NewMessage(pattern=r'^الاوامر$'))
