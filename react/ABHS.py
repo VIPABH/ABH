@@ -1,0 +1,41 @@
+from telethon import events, TelegramClient
+api_id = int(os.getenv("API_ID"))
+api_hash = os.getenv("API_HASH")
+bot_token = os.getenv("bot_token")
+bot = TelegramClient("botcode", api_id, api_hash).start(bot_token=bot_token)
+wfffp = 1910015590
+mainABH = TelegramClient("wfffp", int(api_id), api_hash).start()
+clients = {}
+clients['wfffp'] = mainABH
+MAX = 15
+sessions = [f'code{num}' for num in range(1, MAX)]
+for i, session in enumerate(sessions, start=1):
+    api_id_i = os.getenv(f"API_ID{i}")
+    api_hash_i = os.getenv(f"API_HASH{i}")
+    if api_id_i and api_hash_i:
+        print(f"Starting {session}...")
+        clients[session] = TelegramClient(session, int(api_id_i), api_hash_i).start()
+        print(f"{session} is working!")
+    else:
+        print(f"Skipping {session} due to missing environment variables.")
+ABH1 = clients.get("code1")
+ABH2 = clients.get("code2")
+ABH3 = clients.get("code3")
+ABH4 = clients.get("code4")
+ABH5 = clients.get("code5")
+ABH6 = clients.get("code6")
+ABH7 = clients.get("code7")
+ABH8 = clients.get("code8")
+ABH9 = clients.get("code9")
+ABH10 = clients.get("code10")
+ABH11 = clients.get("code11")
+ABH12 = clients.get("code12")
+ABH13 = clients.get("code13")
+ABH14 = clients.get("code14")
+ABH15 = clients.get("code15")
+ABHS = [ABH1, ABH2, ABH3, ABH4, ABH5, ABH6, ABH7, ABH8, ABH9, ABH10, ABH11, ABH12, ABH13, ABH14, ABH15]
+users = {}
+async def sync_users()
+for ABH in ABHS:
+    me = await ABH.get_me()
+    user[me.id] = ABH
