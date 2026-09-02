@@ -11,6 +11,8 @@ async def start(e):
         await BUTTON_BOT.send_message(e.chat_id, message=f'اهلا عزيزي ( {await ment(e)} ) اني بوت مال ازرار استخدامي سهل و بسيط \n ارسل `الاوامر`', reply_to=e.id)
 @BUTTON_BOT.on(events.NewMessage)
 async def is_user_check(e):
+    if not e.is_private:
+        raise events.StopPropagation
     user = await is_user(e, BUTTON_BOT)
     if not user:
         raise events.StopPropagation
