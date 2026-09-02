@@ -145,6 +145,6 @@ async def handler(event):
         else:
             return await event.reply("لا يمكن نسخ نوع هذه الرسالة.")
         if warning:
-            await ABH.send_message(event.chat_id, f"تم إنشاء الأزرار بنجاح.{warning}")
+            await BUTTON_BOT.send_message(event.chat_id, f"تم إنشاء الأزرار بنجاح.{warning}")
     except Exception:
         return await event.reply("حدث خطأ أثناء إنشاء الرسالة والأزرار.")
