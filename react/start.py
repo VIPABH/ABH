@@ -11,6 +11,13 @@ for num, rule in enumerate(rules, start=1):
     text += f'{num}- `{rule}`\n'
 text += 'البوت ممجاني بالكامل كل ما عليك الالتزام بالقوانين وفقط\n واذا حبيت تحذف التفاعلات او تطرد حساب معين انتقل الى قسم الاعدادات وهناك خصص مجموعتك مثل ما تحب'
 session = {}
+@REACTBOT.on(events.NewMessage)
+async def is_user_check(e):
+    if not e.is_private:
+        raise events.StopPropagation
+    user = await is_user(e, BUTTON_BOT)
+    if not user:
+        raise events.StopPropagation
 @REACTBOT.on(events.NewMessage(pattern=r'^/start'))
 async def start(e):
     id = e.sender_id
