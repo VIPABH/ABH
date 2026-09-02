@@ -24,3 +24,4 @@ async def start(e):
     await asyncio.sleep(2)
     await e.reply('التزم بالقوانين واستمتع ب استخدامك للبوت, صنع ب حب ب يد @k_4x1 ❤')
     del session[id]
+print('start')
