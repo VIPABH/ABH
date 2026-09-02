@@ -1,14 +1,13 @@
+import os
+import asyncio
+from buttonbot.button_bot import *
+from react import *
 from client import *
-import asyncio, os
-import buttonbot
-import react
 async def main():
-    print("Starting both bots...")
-    await asyncio.gather(
-        BUTTON_BOT.start(bot_token=os.getenv("BUTTON_BOT")),
-        REACTBOT.start(bot_token=os.getenv("REACTBOT"))
-    )
-    print("Both bots are online and handlers registered!")
+    await BUTTON_BOT.start(bot_token=os.getenv("BUTTON_BOT"))
+    print("BUTTON_BOT is running!")
+    await REACTBOT.start(bot_token=os.getenv("REACTBOT"))
+    print("REACTBOT is running!")
     await asyncio.gather(
         BUTTON_BOT.run_until_disconnected(),
         REACTBOT.run_until_disconnected()
