@@ -1,4 +1,5 @@
 from buttonbot.button_bot import *
+from react import *
 from client  import *
 BUTTON_BOT.start(bot_token=os.getenv("BUTTON_BOT"))
 print("BUTTON_BOT is running!")
