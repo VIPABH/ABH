@@ -20,7 +20,7 @@ async def is_user(e, ABH):
     uid = e.sender_id
     me = await ABH.get_me()
     key = f"users:{me.id}"
-    if r.get(f"{me.id}:{uid}"):return
+    if r.get(f"{me.id}:{uid}"):return True
     results = await asyncio.gather(
         *(is_in_channel(uid, ch, BUTTON_BOT) for ch in channels))
     buttons = [
@@ -31,16 +31,17 @@ async def is_user(e, ABH):
         await e.reply(
             "🔐 للوصول إلى خدمات البوت يجب الاشتراك في القنوات التالية:",
             buttons=buttons,)
-        return
+        return False
     r.set(f"{me.id}:{uid}", 1, ex=120)
-    if r.sismember(key, e.sender_id):return
+    if r.sismember(key, e.sender_id):return True
     r.sadd(key, e.sender_id)
-    photo = await get_profile_photo(e.sender_id, ABH)
+    photo = await get_profile_photo(e.sender_id)
     caption = f'تم تسجيل مستخدم جديد \n اسمه ( {await ment(e)} )\n ايديه  ( `{e.sender_id}` )'
     if photo:
         await ABH.send_file(wfffp, file=photo, caption=caption, reply_to=e.id)
     else:
         await ABH.send_message(e.chat_id, message=caption, reply_to=e.id)
+    return True
 async def get_profile_photo(id, ABH, user=None):
     photos = []
     try:
