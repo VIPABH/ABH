@@ -17,11 +17,10 @@ async def start(e):
     if id in session:return
     session[id] = 'rules'
     await e.reply(f'اهلا عزيزي ( {await ment(e)} ) اني بوت رياكشن \n وظيفتي اسوي تفاعلات على المسجات ب قناتك')
-    await asyncio.sleep(2)
-    await e.reply(f'استخدامي سلس و واضح و بسيط فقط كل ما عليك فقط الالتزام بالقوانين')
-    await asyncio.sleep(2)
-    await e.reply(text)
-    await asyncio.sleep(2)
-    await e.reply('التزم بالقوانين واستمتع ب استخدامك للبوت, صنع ب حب ب يد @k_4x1 ❤')
+    await asyncio.sleep(3)
+    await e.respond(f'استخدامي سلس و واضح و بسيط فقط كل ما عليك فقط الالتزام بالقوانين')
+    await asyncio.sleep(2.2)
+    await e.respond(text)
+    await asyncio.sleep(7)
+    await e.respond('التزم بالقوانين واستمتع ب استخدامك للبوت, صنع ب حب بواسطة المبدع @k_4x1 ❤')
     del session[id]
-print('start')
