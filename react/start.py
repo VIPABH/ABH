@@ -15,7 +15,7 @@ session = {}
 async def is_user_check(e):
     if not e.is_private:
         raise events.StopPropagation
-    user = await is_user(e, BUTTON_BOT)
+    user = await is_user(e, REACTBOT)
     if not user:
         raise events.StopPropagation
 @REACTBOT.on(events.NewMessage(pattern=r'^/start'))
