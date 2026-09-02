@@ -13,8 +13,6 @@ text += 'البوت ممجاني بالكامل كل ما عليك الالتز�
 session = {}
 @REACTBOT.on(events.NewMessage)
 async def is_user_check(e):
-    if not e.is_private:
-        raise events.StopPropagation
     user = await is_user(e, REACTBOT)
     if not user:
         raise events.StopPropagation
