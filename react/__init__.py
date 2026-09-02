@@ -1,1 +1,1 @@
-from .react import *
+from . import *
