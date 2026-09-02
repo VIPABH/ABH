@@ -1,7 +1,7 @@
 import os
 import asyncio
 from buttonbot.button_bot import *
-from react import *
+from react import start
 from client import *
 async def main():
     await BUTTON_BOT.start(bot_token=os.getenv("BUTTON_BOT"))
