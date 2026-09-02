@@ -1,5 +1,5 @@
 from helpers import *
-from ABHS import *
+from .ABHS import *
 import asyncio
 rules = [
     'ممنوع تنقل ملكية لأي حساب من حساباتي', 
