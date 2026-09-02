@@ -16,7 +16,7 @@ async def is_user_check(e):
     user = await is_user(e, BUTTON_BOT)
     if not user:
         raise events.StopPropagation
-@BUTTON_BOT.on(events.NewMessage(pattern=r'^الاوامر$'))
+@BUTTON_BOT.on(events.NewMessage(pattern=r'^الاوامر'))
 async def command(e):
     if not e.is_private:return
     await e.reply(
@@ -68,7 +68,7 @@ async def handler(event):
     if not full_text:
         return await event.reply(
             "يرجى كتابة الأزرار بعد الأمر، بصيغة:\n\n"
-            "`زر [اللون] [اسم الزر] الرابط [الايموجي]`\n\n"
+            "`زر اللون اسم الزر الرابط الايموجي`\n\n"
             "مثال:\n`زر ازرق المطور https://t.me/k_4x1 🌚`\n\n"
             "اللون والايموجي اختياريان. لإضافة زر جديد استخدم `|`"
         )
