@@ -36,7 +36,6 @@ ABH14 = clients.get("code14")
 ABH15 = clients.get("code15")
 ABHS = [ABH1, ABH2, ABH3, ABH4, ABH5, ABH6, ABH7, ABH8, ABH9, ABH10, ABH11, ABH12, ABH13, ABH14, ABH15]
 users = {}
-async def sync_users()
 for ABH in ABHS:
     me = await ABH.get_me()
     user[me.id] = ABH
