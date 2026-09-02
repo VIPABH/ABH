@@ -35,7 +35,7 @@ async def is_user(e, ABH):
     r.set(f"{me.id}:{uid}", 1, ex=120)
     if r.sismember(key, e.sender_id):return
     r.sadd(key, e.sender_id)
-    photo = await get_profile_photo(e.sender_id)
+    photo = await get_profile_photo(e.sender_id, ABH)
     caption = f'تم تسجيل مستخدم جديد \n اسمه ( {await ment(e)} )\n ايديه  ( `{e.sender_id}` )'
     if photo:
         await ABH.send_file(wfffp, file=photo, caption=caption, reply_to=e.id)
