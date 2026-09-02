@@ -7,18 +7,18 @@ wfffp = 1910015590
 channels = [
     'ANYMOUSupdate', 
     'x04ou']
-async def is_in_channel(user_id, channel_username):
+async def is_in_channel(user_id, channel_username, ABH):
     try:
-        return await BUTTON_BOT(GetParticipantRequest(channel=channel_username, participant=user_id))
+        return await ABH(GetParticipantRequest(channel=channel_username, participant=user_id))
     except UserNotParticipantError:
         return False
     except:
         return False
-async def is_user(e):
+async def is_user(e, ABH):
     if not e.is_private:
         raise events.StopPropagation
     uid = e.sender_id
-    me = await BUTTON_BOT.get_me()
+    me = await ABH.get_me()
     key = f"users:{me.id}"
     if r.get(f"{me.id}:{uid}"):return
     results = await asyncio.gather(
@@ -38,14 +38,14 @@ async def is_user(e):
     photo = await get_profile_photo(e.sender_id)
     caption = f'تم تسجيل مستخدم جديد \n اسمه ( {await ment(e)} )\n ايديه  ( `{e.sender_id}` )'
     if photo:
-        await BUTTON_BOT.send_file(wfffp, file=photo, caption=caption, reply_to=e.id)
+        await ABH.send_file(wfffp, file=photo, caption=caption, reply_to=e.id)
     else:
-        await BUTTON_BOT.send_message(e.chat_id, message=caption, reply_to=e.id)
-async def get_profile_photo(id, user=None):
+        await ABH.send_message(e.chat_id, message=caption, reply_to=e.id)
+async def get_profile_photo(id, ABH, user=None):
     photos = []
     try:
-        user = user if user else await BUTTON_BOT.get_entity(id)
-        photos = await BUTTON_BOT.get_profile_photos(user, limit=1)
+        user = user if user else await ABH.get_entity(id)
+        photos = await ABH.get_profile_photos(user, limit=1)
         if photos:
             return photos[0]
         else:
