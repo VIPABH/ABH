@@ -2,8 +2,7 @@ import os
 import asyncio
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from buttonbot.client import BUTTON_BOT
-from react.client import REACTBOT
+from .client import *
 import buttonbot.run
 import react.run
 async def main():
