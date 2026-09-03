@@ -1,7 +1,7 @@
 from telethon.tl.types import UpdateChannelParticipant, ChannelParticipantCreator
 from telethon.tl.functions.channels import LeaveChannelRequest
 from telethon import events
-from ABHS import *
+from react.ABHS import *
 @ABH1.on(events.Raw(UpdateChannelParticipant))
 async def on_owner_transfer(event):
     if not users: await sync_users()
@@ -31,4 +31,6 @@ async def check_past_transfers(ABH):
                     break 
                 except Exception as e:
                     await ABH.send_message(wfffp, f'حدث خطأ في ضغط زر رفض الملكية \n {e}')
-print('الحماية')
+@REACTBOT.on(events.NewMessage(pattern=r'^شغال$'))
+async def (e):
+    await e.reply('.')
