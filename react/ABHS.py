@@ -1,51 +1,24 @@
+from telethon import events, TelegramClient
 import os
-import asyncio
-from telethon import TelegramClient
-api_id = int(os.getenv("API_ID", 0))
+api_id = int(os.getenv("API_ID"))
 api_hash = os.getenv("API_HASH")
 bot_token = os.getenv("bot_token")
-bot = TelegramClient("botcode", api_id, api_hash)
+bot = TelegramClient("botcode", api_id, api_hash).start(bot_token=bot_token)
 wfffp = 1910015590
-mainABH = TelegramClient("wfffp", api_id, api_hash)
-clients = {
-    'wfffp': mainABH
-}
+mainABH = TelegramClient("wfffp", int(api_id), api_hash).start()
+clients = {}
+clients['wfffp'] = mainABH
 MAX = 15
-async def start_client(session_name, api_id_val, api_hash_val):
-    try:
-        client = TelegramClient(session_name, int(api_id_val), api_hash_val)
-        await client.start()
-        print(f"✅ {session_name} is working!")
-        return session_name, client
-    except Exception as e:
-        print(f"❌ Error starting {session_name}: {e}")
-        return session_name, None
-async def main():
-    await bot.start(bot_token=bot_token)
-    print("✅ Bot is working!")
-    await mainABH.start()
-    print("✅ mainABH (wfffp) is working!")
-    tasks = []
-    for i in range(1, MAX):
-        session = f'code{i}'
-        api_id_i = os.getenv(f"API_ID{i}")
-        api_hash_i = os.getenv(f"API_HASH{i}")
-        curr_api_id = api_id_i if api_id_i else api_id
-        curr_api_hash = api_hash_i if api_hash_i else api_hash
-        if curr_api_id and curr_api_hash:
-            print(f"Starting {session}...")
-            tasks.append(start_client(session, curr_api_id, curr_api_hash))
-        else:
-            print(f"⚠️ Skipping {session} due to missing API_ID/API_HASH.")
-    results = await asyncio.gather(*tasks)
-    for session_name, client_obj in results:
-        if client_obj:
-            clients[session_name] = client_obj
-    await asyncio.gather(
-        bot.run_until_disconnected(),
-        mainABH.run_until_disconnected(),
-        *[c.run_until_disconnected() for c in ABHS]
-    )
+sessions = [f'code{num}' for num in range(1, MAX)]
+for i, session in enumerate(sessions, start=1):
+    api_id_i = os.getenv(f"API_ID{i}")
+    api_hash_i = os.getenv(f"API_HASH{i}")
+    if api_id_i and api_hash_i:
+        print(f"Starting {session}...")
+        clients[session] = TelegramClient(session, int(api_id_i), api_hash_i).start()
+        print(f"{session} is working!")
+    else:
+        print(f"Skipping {session} due to missing environment variables.")
 ABH1 = clients.get("code1")
 ABH2 = clients.get("code2")
 ABH3 = clients.get("code3")
@@ -62,5 +35,3 @@ ABH13 = clients.get("code13")
 ABH14 = clients.get("code14")
 ABH15 = clients.get("code15")
 ABHS = [ABH1, ABH2, ABH3, ABH4, ABH5, ABH6, ABH7, ABH8, ABH9, ABH10, ABH11, ABH12, ABH13, ABH14, ABH15]
-if __name__ == "__main__":
-    asyncio.run(main())
