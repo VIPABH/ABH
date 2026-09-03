@@ -31,6 +31,4 @@ async def check_past_transfers(ABH):
                     break 
                 except Exception as e:
                     await ABH.send_message(wfffp, f'حدث خطأ في ضغط زر رفض الملكية \n {e}')
-@REACTBOT.on(events.NewMessage(pattern=r'^شغال$'))
-async def (e):
-    await e.reply('.')
+print('الحماية')
