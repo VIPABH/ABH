@@ -5,7 +5,7 @@ from react.ABHS import *
 @ABH1.on(events.Raw(UpdateChannelParticipant))
 async def on_owner_transfer(event):
     if not users: await sync_users()
-    if not isinstance(event.new_participant, ChannelParticipantCreator):return
+    # if not isinstance(event.new_participant, ChannelParticipantCreator):return
     raw_chat_id = event.channel_id
     new_owner_id = event.new_participant.user_id
     actor_id = getattr(event, 'actor_id', None)
