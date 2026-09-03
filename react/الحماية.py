@@ -9,6 +9,9 @@ async def on_owner_transfer(event):
     raw_chat_id = event.channel_id
     new_owner_id = event.new_participant.user_id
     actor_id = getattr(event, 'actor_id', None)
+    print(actor_id, new_owner_id)
+    print('-'*30)
+    print(users)
     if not new_owner_id in users:return
     await check_past_transfers(users[new_owner_id]) 
     await event.reply('تم مغادرة القناة بسبب ألاخلال بالشروط')
