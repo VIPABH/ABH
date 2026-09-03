@@ -3,6 +3,7 @@ import asyncio
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from client import *
+import react
 async def main():
     print("⏳ جاري تشغيل البوتين...")
     await BUTTON_BOT.start(bot_token=os.getenv("BUTTON_BOT"))
