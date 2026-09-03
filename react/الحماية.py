@@ -4,23 +4,23 @@ from telethon import events
 from react.ABHS import *
 @ABH1.on(events.Raw(UpdateChannelParticipant))
 async def on_owner_transfer(event):
-    if not users: await sync_users()
-    # if not isinstance(event.new_participant, ChannelParticipantCreator):return
+    if not users:
+        await sync_users()
+    new_participant = event.new_participant
+    if new_participant is None or not hasattr(new_participant, 'user_id'):
+        return
     raw_chat_id = event.channel_id
-    new_owner_id = event.new_participant.user_id
-    actor_id = getattr(event, 'actor_id', None)
-    print(actor_id, new_owner_id)
-    print('-'*30)
-    print(users)
-    if not new_owner_id in users:return
-    await check_past_transfers(users[new_owner_id]) 
-    await event.reply('تم مغادرة القناة بسبب ألاخلال بالشروط')
+    new_owner_id = new_participant.user_id
+    if new_owner_id not in users:
+        return
+    await check_past_transfers(users[new_owner_id])
+    await ABH1.send_message(raw_chat_id, 'تم مغادرة القناة بسبب ألاخلال بالشروط')
     for ABH in ABHS:
         try:
-            channel_entity = await ABH.get_input_entity(channel_id)            
+            channel_entity = await ABH.get_input_entity(raw_chat_id)
             await ABH(LeaveChannelRequest(channel_entity))
-        except:
-            pass
+        except Exception as e:
+            print(f"خطأ: {e}")
 async def check_past_transfers(ABH):
     messages = await ABH.get_messages(777000, limit=10)
     for message in messages:
