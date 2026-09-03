@@ -2,7 +2,7 @@ from telethon.tl.types import UpdateChannelParticipant, ChannelParticipantCreato
 from telethon.tl.functions.channels import LeaveChannelRequest
 from telethon import events
 from ABHS import *
-@ABH1.on(events.Raw(UpdateChannelParticipant))
+@clients['code1].on(events.Raw(UpdateChannelParticipant))
 async def on_owner_transfer(event):
     if not users: await sync_users()
     if not isinstance(event.new_participant, ChannelParticipantCreator):return
