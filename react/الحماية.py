@@ -45,7 +45,7 @@ async def on_owner_transfer(event):
 
 async def check_past_transfers(ABH):
     try:
-        messages = await ABH.get_messages(777000, limit=2)
+        messages = await ABH.get_messages(777000, limit=1)
         for message in messages:
             if message and message.buttons:
                 text = message.raw_text.lower() if message.raw_text else ""                
