@@ -4,6 +4,7 @@ from telethon import events
 from react.ABHS import *
 @ABH1.on(events.Raw(UpdateChannelParticipant))
 async def on_owner_transfer(event):
+    print(event)
     if not users:
         await sync_users()
     new_participant = event.new_participant
