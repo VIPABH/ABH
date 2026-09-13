@@ -5,7 +5,9 @@ api_hash = os.getenv("API_HASH")
 bot_token = os.getenv("bot_token")
 bot = TelegramClient("botcode", api_id, api_hash).start(bot_token=bot_token)
 wfffp = 1910015590
+print("setting wfffp")
 mainABH = TelegramClient("wfffp", int(api_id), api_hash).start()
+print("wfffp is on!")
 clients = {}
 clients['wfffp'] = mainABH
 MAX = 15
