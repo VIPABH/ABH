@@ -6,7 +6,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from ABHS import *
 from client import REACTBOT
-@REACTBOT.on(events.Raw)
+@REACTBOT.on(events.Raw(UpdateChannelParticipant))
 async def on_owner_transfer(event):
     print(event)
     if not users:
