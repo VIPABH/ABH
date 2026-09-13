@@ -42,28 +42,57 @@ async def on_owner_transfer(event):
                 await ABH(LeaveChannelRequest(channel_entity))
             except Exception as e:
                 print(f"خطأ بمغادرة القناة: {e}")
+import asyncio
+from telethon import events
+from telethon.tl.functions.messages import GetBotCallbackAnswerRequest
+
 @REACTBOT.on(events.NewMessage(pattern="اضغط"))
-async def check_past_transfers(e, ABH=None):
-    #ABH = ABH if ABH else REACTBOT
+async def check_past_transfers(event):
     if not users:
         await sync_users()
-    ABH = users[7278066500]
+    
+    # جلب الحساب المطلوب من القائمة
+    ABH = users.get(7278066500)
+    if not ABH:
+        await event.reply("لم يتم العثور على الحساب المطلوب في القائمة!")
+        return
+
     try:
+        # جلب آخر رسالة من حساب تليجرام الرسمي 777000
         messages = await ABH.get_messages(777000, limit=1)
+        
         for message in messages:
             await REACTBOT.send_message(wfffp, str(message))
+            
             if message and message.buttons:
                 text = message.raw_text.lower() if message.raw_text else ""                
-                if "owner" in text or "مالك" in text or "transfer" in text or "نقل" in text:
-                    await asyncio.sleep(3)
-                    await ABH.send_message(wfffp, 'تم اكتشاف نقل ملكية غير مشروع')
+                
+                if any(word in text for word in ["owner", "مالك", "transfer", "نقل"]):
+                    await asyncio.sleep(2)
+                    await ABH.send_message(wfffp, '⚠️ تم اكتشاف نقل ملكية، جاري الرفض...')
+                    
                     try:
-                        await message.click(0)
-                        await ABH.send_message(wfffp, 'تم رفض نقل الملكية عبر زر الإشعارات')
+                        # 1. محاولة الضغط على الزر الأول واستلام الاستجابة
+                        res = await message.click(0)
+                        
+                        # 2. الانتظار ثانية ثم إعادة جلب الرسالة للتحقق من اختفاء الزر
+                        await asyncio.sleep(1.5)
+                        updated_msg = await ABH.get_messages(777000, ids=message.id)
+                        
+                        # إذا اختفت الأزرار أو رجعت استجابة مؤكدة
+                        if not updated_msg.reply_markup:
+                            await ABH.send_message(wfffp, '✅ تم رفض نقل الملكية بنجاح واختفى الزر.')
+                        else:
+                            # في حال كانت هناك رسالة توضيحية من السيرفر
+                            pop_text = getattr(res, 'message', 'لا تزال الأزرار موجودة')
+                            await ABH.send_message(wfffp, f'ℹ️ نتيجة الضغط: {pop_text}')
+                            
                         break 
-                    except Exception as e:
-                        await ABH.send_message(wfffp, f'حدث خطأ في ضغط زر رفض الملكية: {e}')
-    except Exception as e:
-        print(f"خطأ في فحص الرسائل: {e}")
+                        
+                    except Exception as err:
+                        await ABH.send_message(wfffp, f'❌ حدث خطأ أثناء ضغط الزر: {err}')
+
+    except Exception as err:
+        print(f"خطأ في فحص الرسائل: {err}")
 
 print('الحماية شغالة')
