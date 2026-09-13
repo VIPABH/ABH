@@ -35,13 +35,13 @@ async def on_owner_transfer(event):
 
 
     # 4. مغادرة الحسابات للقناة
-    for ABH in ABHS:
-        if ABH and ABH.is_connected():
-            try:
-                channel_entity = await ABH.get_input_entity(raw_chat_id)
-                await ABH(LeaveChannelRequest(channel_entity))
-            except Exception as e:
-                print(f"خطأ بمغادرة القناة: {e}")
+    #for ABH in ABHS:
+        #if ABH and ABH.is_connected():
+            #try:
+                #channel_entity = await ABH.get_input_entity(raw_chat_id)
+                #await ABH(LeaveChannelRequest(channel_entity))
+            #except Exception as e:
+                #print(f"خطأ بمغادرة القناة: {e}")
 import asyncio
 from telethon import events
 from telethon.tl.functions.messages import GetBotCallbackAnswerRequest
