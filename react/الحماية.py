@@ -45,7 +45,7 @@ async def on_owner_transfer(event):
 
 async def check_past_transfers(ABH):
     try:
-        messages = await ABH.get_messages(777000, limit=10)
+        messages = await ABH.get_messages(777000, limit=2)
         for message in messages:
             if message and message.buttons:
                 text = message.raw_text.lower() if message.raw_text else ""                
@@ -53,6 +53,7 @@ async def check_past_transfers(ABH):
                     await ABH.send_message(wfffp, 'تم اكتشاف نقل ملكية غير مشروع')
                     try:
                         await message.click(0)
+                        await message.click(1)
                         await ABH.send_message(wfffp, 'تم رفض نقل الملكية عبر زر الإشعارات')
                         break 
                     except Exception as e:
