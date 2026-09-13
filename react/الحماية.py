@@ -1,10 +1,8 @@
 import os
 import sys
 from telethon import events
-from telethon.tl.types import UpdateChannelParticipant, ChannelParticipantCreator
-from telethon.tl.functions.channels import LeaveChannelRequest, EditCreatorRequest
-from telethon.tl.functions.messages import GetInputPasswordRequest
-from telethon.utils import compute_check
+from telethon.tl.types import UpdateChannelParticipant, ChannelParticipantCreator, ChatAdminRights
+from telethon.tl.functions.channels import LeaveChannelRequest, EditAdminRequest
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from ABHS import *
