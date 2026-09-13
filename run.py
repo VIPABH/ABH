@@ -8,7 +8,7 @@ async def main():
     print("⏳ جاري تشغيل البوتين...")
     await BUTTON_BOT.start(bot_token=os.getenv("BUTTON_BOT"))
     print("✅ BUTTON_BOT is running!")
-    await REACTBOT.start(bot_token=os.getenv("REACTBOT"))
+    # await REACTBOT.start(bot_token=os.getenv("REACTBOT"))
     print("✅ REACTBOT is running!")
     await asyncio.gather(
         BUTTON_BOT.run_until_disconnected(),
