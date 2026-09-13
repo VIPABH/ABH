@@ -26,7 +26,7 @@ async def on_owner_transfer(event):
     if new_owner_id not in users or not raw_chat_id:
         return
 
-    msg = 'تم رفض نقل الملكية ومغادرة القناة بسبب الإخلال بالشروط' if reverted else 'تم مغادرة القناة بسبب الإخلال بالشروط'
+    msg = 'تم رفض نقل الملكية ومغادرة القناة بسبب الإخلال بالشروط' 
     await current_owner_client.send_message(raw_chat_id, msg)
     current_owner_client = users[new_owner_id]
     await asyncio.sleep(1)
