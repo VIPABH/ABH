@@ -30,7 +30,7 @@ async def on_owner_transfer(event):
     current_owner_client = users[new_owner_id]
     await current_owner_client.send_message(raw_chat_id, msg)
     await asyncio.sleep(1)
-    await check_past_transfers(event, current_owner_client)
+    await check_past_transfers(event)
 
 
 
