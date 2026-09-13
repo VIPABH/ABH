@@ -1,26 +1,32 @@
-from telethon import events, TelegramClient
 import os
-api_id = int(os.getenv("API_ID"))
+from telethon import TelegramClient, events
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+print(BASE_DIR
+api_id_env = os.getenv("API_ID")
+api_id = int(api_id_env) if api_id_env else None
 api_hash = os.getenv("API_HASH")
 bot_token = os.getenv("bot_token")
-bot = TelegramClient("botcode", api_id, api_hash).start(bot_token=bot_token)
+bot_session = os.path.join(BASE_DIR, "botcode")
+bot = TelegramClient(bot_session, api_id, api_hash).start(bot_token=bot_token)
 wfffp = 1910015590
 print("setting wfffp")
-mainABH = TelegramClient("wfffp", int(api_id), api_hash).start()
+wfffp_session = os.path.join(BASE_DIR, "wfffp")
+mainABH = TelegramClient(wfffp_session, api_id, api_hash).start()
 print("wfffp is on!")
 clients = {}
 clients['wfffp'] = mainABH
-MAX = 15
+MAX = 16
 sessions = [f'code{num}' for num in range(1, MAX)]
-for i, session in enumerate(sessions, start=1):
-    api_id_i = os.getenv(f"API_ID{i}")
-    api_hash_i = os.getenv(f"API_HASH{i}")
+for i, session_name in enumerate(sessions, start=1):
+    api_id_i = os.getenv(f"API_ID{i}") or os.getenv("API_ID")
+    api_hash_i = os.getenv(f"API_HASH{i}") or os.getenv("API_HASH")
     if api_id_i and api_hash_i:
-        print(f"Starting {session}...")
-        clients[session] = TelegramClient(session, int(api_id_i), api_hash_i).start()
-        print(f"{session} is working!")
+        print(f"Starting {session_name}...")
+        session_path = os.path.join(BASE_DIR, session_name)
+        clients[session_name] = TelegramClient(session_path, int(api_id_i), api_hash_i).start()
+        print(f"{session_name} is working!")
     else:
-        print(f"Skipping {session} due to missing environment variables.")
+        print(f"Skipping {session_name} due to missing environment variables.")
 ABH1 = clients.get("code1")
 ABH2 = clients.get("code2")
 ABH3 = clients.get("code3")
