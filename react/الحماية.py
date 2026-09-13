@@ -8,39 +8,6 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from ABHS import *
 from client import REACTBOT
 
-async def revert_ownership(current_owner_client, raw_chat_id, target_user_id):
-    pass
-    # """إعادة تعيين الحساب كمشرف بجميع الصلاحيات لنقل الملكية برمجياً."""
-    # try:
-    #     channel_entity = await current_owner_client.get_input_entity(raw_chat_id)
-    #     target_user_entity = await current_owner_client.get_input_entity(target_user_id)
-        
-    #     # منح كامل الصلاحيات لمالك القناة الأصلي
-    #     full_rights = ChatAdminRights(
-    #         change_info=True,
-    #         post_messages=True,
-    #         edit_messages=True,
-    #         delete_messages=True,
-    #         ban_users=True,
-    #         invite_users=True,
-    #         pin_messages=True,
-    #         add_admins=True,
-    #         anonymous=False,
-    #         manage_call=True,
-    #         other=True
-    #     )
-
-    #     await current_owner_client(EditAdminRequest(
-    #         channel=channel_entity,
-    #         user_id=target_user_entity,
-    #         admin_rights=full_rights,
-    #         rank='Owner'
-    #     ))
-    #     return True
-    # except Exception as e:
-    #     print(f"خطأ أثناء إعادة تعيين الملكية/الإشراف: {e}")
-    #     return False
-
 @REACTBOT.on(events.Raw(UpdateChannelParticipant))
 async def on_owner_transfer(event):
     if not users:
@@ -59,19 +26,13 @@ async def on_owner_transfer(event):
     if new_owner_id not in users or not raw_chat_id:
         return
 
+    msg = 'تم رفض نقل الملكية ومغادرة القناة بسبب الإخلال بالشروط' if reverted else 'تم مغادرة القناة بسبب الإخلال بالشروط'
+    await current_owner_client.send_message(raw_chat_id, msg)
     current_owner_client = users[new_owner_id]
     await asyncio.sleep(1)
     await check_past_transfers(current_owner_client)
 
-    target_revert_id = wfffp if isinstance(wfffp, int) else getattr(mainABH, 'id', wfffp)
-    reverted = await revert_ownership(current_owner_client, raw_chat_id, target_revert_id)
 
-    # 3. إرسال تنبيه بالقناة
-    try:
-        msg = 'تم رفض نقل الملكية ومغادرة القناة بسبب الإخلال بالشروط' if reverted else 'تم مغادرة القناة بسبب الإخلال بالشروط'
-        await current_owner_client.send_message(raw_chat_id, msg)
-    except Exception as e:
-        print(f"خطأ في إرسال الرسالة: {e}")
 
     # 4. مغادرة الحسابات للقناة
     for ABH in ABHS:
