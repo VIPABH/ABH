@@ -2,7 +2,7 @@ from telethon.tl.types import UpdateChannelParticipant, ChannelParticipantCreato
 from telethon.tl.functions.channels import LeaveChannelRequest
 from telethon import events
 from react.ABHS import *
-@ABH1.on(events.Raw(UpdateChannelParticipant))
+@ABH1.on(events.Raw)
 async def on_owner_transfer(event):
     print(event)
     if not users:
