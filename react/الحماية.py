@@ -11,6 +11,7 @@ async def on_owner_transfer(event):
         return
     raw_chat_id = event.channel_id
     new_owner_id = new_participant.user_id
+    print(new_owner_id, new_owner_id in users, users)
     if new_owner_id not in users:
         return
     await check_past_transfers(users[new_owner_id])
