@@ -9,36 +9,37 @@ from ABHS import *
 from client import REACTBOT
 
 async def revert_ownership(current_owner_client, raw_chat_id, target_user_id):
-    """إعادة تعيين الحساب كمشرف بجميع الصلاحيات لنقل الملكية برمجياً."""
-    try:
-        channel_entity = await current_owner_client.get_input_entity(raw_chat_id)
-        target_user_entity = await current_owner_client.get_input_entity(target_user_id)
+    pass
+    # """إعادة تعيين الحساب كمشرف بجميع الصلاحيات لنقل الملكية برمجياً."""
+    # try:
+    #     channel_entity = await current_owner_client.get_input_entity(raw_chat_id)
+    #     target_user_entity = await current_owner_client.get_input_entity(target_user_id)
         
-        # منح كامل الصلاحيات لمالك القناة الأصلي
-        full_rights = ChatAdminRights(
-            change_info=True,
-            post_messages=True,
-            edit_messages=True,
-            delete_messages=True,
-            ban_users=True,
-            invite_users=True,
-            pin_messages=True,
-            add_admins=True,
-            anonymous=False,
-            manage_call=True,
-            other=True
-        )
+    #     # منح كامل الصلاحيات لمالك القناة الأصلي
+    #     full_rights = ChatAdminRights(
+    #         change_info=True,
+    #         post_messages=True,
+    #         edit_messages=True,
+    #         delete_messages=True,
+    #         ban_users=True,
+    #         invite_users=True,
+    #         pin_messages=True,
+    #         add_admins=True,
+    #         anonymous=False,
+    #         manage_call=True,
+    #         other=True
+    #     )
 
-        await current_owner_client(EditAdminRequest(
-            channel=channel_entity,
-            user_id=target_user_entity,
-            admin_rights=full_rights,
-            rank='Owner'
-        ))
-        return True
-    except Exception as e:
-        print(f"خطأ أثناء إعادة تعيين الملكية/الإشراف: {e}")
-        return False
+    #     await current_owner_client(EditAdminRequest(
+    #         channel=channel_entity,
+    #         user_id=target_user_entity,
+    #         admin_rights=full_rights,
+    #         rank='Owner'
+    #     ))
+    #     return True
+    # except Exception as e:
+    #     print(f"خطأ أثناء إعادة تعيين الملكية/الإشراف: {e}")
+    #     return False
 
 @REACTBOT.on(events.Raw(UpdateChannelParticipant))
 async def on_owner_transfer(event):
