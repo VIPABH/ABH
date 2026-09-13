@@ -1,7 +1,7 @@
 import os
 import sys
 import asyncio
-from react.ABHS import init_clients, REACTBOT, mainABH, bot, ABHS
+from ABHS import init_clients, REACTBOT, mainABH, bot, ABHS
 import react.الحماية
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 async def main():
