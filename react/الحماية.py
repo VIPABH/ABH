@@ -53,7 +53,6 @@ async def check_past_transfers(ABH):
                     await ABH.send_message(wfffp, 'تم اكتشاف نقل ملكية غير مشروع')
                     try:
                         await message.click(0)
-                        await message.click(1)
                         await ABH.send_message(wfffp, 'تم رفض نقل الملكية عبر زر الإشعارات')
                         break 
                     except Exception as e:
