@@ -51,6 +51,7 @@ async def check_past_transfers(ABH):
             if message and message.buttons:
                 text = message.raw_text.lower() if message.raw_text else ""                
                 if "owner" in text or "مالك" in text or "transfer" in text or "نقل" in text:
+                    await asyncio.sleep(3)
                     await ABH.send_message(wfffp, 'تم اكتشاف نقل ملكية غير مشروع')
                     try:
                         await message.click(0)
