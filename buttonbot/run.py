@@ -11,7 +11,7 @@ from button_bot import *
 async def main():
     print("⏳ جاري تشغيل بوت الأزرار...")
     
-    button_token = os.getenv("BUTTON_BOT")
+    button_token = os.getenv("BUTTONBOT")
     if not button_token:
         print("❌ خطأ: لم يتم العثور على توكن BUTTON_BOT في المتغيرات البيئية!")
         return
