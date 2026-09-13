@@ -4,9 +4,9 @@ import asyncio
 from ABHS import init_clients, REACTBOT, mainABH, bot, ABHS
 import الحماية
 async def main():
-    print("⏳ جاري تشغيل بوت التفاعلات والـ 15 عميل...")
-    await init_clients()
-    print("🚀 جميع الحسابات وبوت التفاعلات شغالين بنجاح!")
+    # print("⏳ جاري تشغيل بوت التفاعلات والـ 15 عميل...")
+    # await init_clients()
+    # print("🚀 جميع الحسابات وبوت التفاعلات شغالين بنجاح!")
     all_clients = [c for c in [REACTBOT, mainABH, bot] + ABHS if c and c.is_connected()]
     try:
         if REACTBOT.is_connected():
