@@ -1,7 +1,7 @@
 import os
 from telethon import TelegramClient, events
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-print(BASE_DIR
+print(BASE_DIR)
 api_id_env = os.getenv("API_ID")
 api_id = int(api_id_env) if api_id_env else None
 api_hash = os.getenv("API_HASH")
