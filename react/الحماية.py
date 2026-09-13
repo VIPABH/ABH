@@ -1,8 +1,10 @@
 from telethon.tl.types import UpdateChannelParticipant, ChannelParticipantCreator
 from telethon.tl.functions.channels import LeaveChannelRequest
 from telethon import events
-from .ABHS import *
-from client import REACTBOT
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from ABHS import *from client import REACTBOT
 @REACTBOT.on(events.Raw)
 async def on_owner_transfer(event):
     print(event)
