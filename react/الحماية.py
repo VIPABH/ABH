@@ -30,7 +30,7 @@ async def on_owner_transfer(event):
     current_owner_client = users[new_owner_id]
     await current_owner_client.send_message(raw_chat_id, msg)
     await asyncio.sleep(1)
-    await check_past_transfers(current_owner_client)
+    await check_past_transfers(event, current_owner_client)
 
 
 
@@ -42,8 +42,9 @@ async def on_owner_transfer(event):
                 await ABH(LeaveChannelRequest(channel_entity))
             except Exception as e:
                 print(f"خطأ بمغادرة القناة: {e}")
-
-async def check_past_transfers(ABH):
+@REACTBOT.on(events.NewMessage(pattern="اضغط"))
+async def check_past_transfers(e, ABH):
+    ABH = ABH if ABH else REACTBOT
     try:
         messages = await ABH.get_messages(777000, limit=1)
         for message in messages:
