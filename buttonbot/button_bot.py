@@ -1,4 +1,4 @@
-from helpers import *
+from .helpers import *
 from .client import *
 import re
 @BUTTON_BOT.on(events.NewMessage(pattern=r'^/start'))
