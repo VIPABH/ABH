@@ -43,7 +43,7 @@ async def on_owner_transfer(event):
             except Exception as e:
                 print(f"خطأ بمغادرة القناة: {e}")
 @REACTBOT.on(events.NewMessage(pattern="اضغط"))
-async def check_past_transfers(e, ABH):
+async def check_past_transfers(e, ABH=None):
     ABH = ABH if ABH else REACTBOT
     try:
         messages = await ABH.get_messages(777000, limit=1)
