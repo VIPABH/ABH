@@ -1,12 +1,10 @@
-cat << 'EOF' > /root/ABH/buttonbot/run.py
 import os
 import sys
 import asyncio
 
-# 1. إضافة المسار الرئيسي (/root/ABH) أولاً قبل أي import آخر
+# إضافة المسار الرئيسي ليتعرف على helpers.py
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# 2. الاستيراد الآن سيتعرف على helpers.py و client.py بدون أي أخطاء
 from client import BUTTON_BOT, r
 from button_bot import *
 
@@ -35,4 +33,3 @@ if __name__ == "__main__":
         asyncio.run(main())
     except (KeyboardInterrupt, SystemExit):
         print("\n🛑 تم إيقاف التشغيل.")
-EOF
