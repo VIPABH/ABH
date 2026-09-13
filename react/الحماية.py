@@ -1,5 +1,5 @@
 import os
-import sys
+import sys, asyncio
 from telethon import events
 from telethon.tl.types import UpdateChannelParticipant, ChannelParticipantCreator, ChatAdminRights
 from telethon.tl.functions.channels import LeaveChannelRequest, EditAdminRequest
@@ -7,46 +7,74 @@ from telethon.tl.functions.channels import LeaveChannelRequest, EditAdminRequest
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from ABHS import *
 from client import REACTBOT
-TWO_STEP_PASSWORD = os.getenv("TWO_STEP_PASSWORD", "00")
+
 async def revert_ownership(current_owner_client, raw_chat_id, target_user_id):
+    """إعادة تعيين الحساب كمشرف بجميع الصلاحيات لنقل الملكية برمجياً."""
     try:
         channel_entity = await current_owner_client.get_input_entity(raw_chat_id)
         target_user_entity = await current_owner_client.get_input_entity(target_user_id)
-        pwd_check = None
-        if TWO_STEP_PASSWORD:
-            pwd_info = await current_owner_client(GetInputPasswordRequest())
-            pwd_check = compute_check(pwd_info, TWO_STEP_PASSWORD)
-        await current_owner_client(EditCreatorRequest(
+        
+        # منح كامل الصلاحيات لمالك القناة الأصلي
+        full_rights = ChatAdminRights(
+            change_info=True,
+            post_messages=True,
+            edit_messages=True,
+            delete_messages=True,
+            ban_users=True,
+            invite_users=True,
+            pin_messages=True,
+            add_admins=True,
+            anonymous=False,
+            manage_call=True,
+            other=True
+        )
+
+        await current_owner_client(EditAdminRequest(
             channel=channel_entity,
             user_id=target_user_entity,
-            password=pwd_check
+            admin_rights=full_rights,
+            rank='Owner'
         ))
         return True
     except Exception as e:
-        print(f"خطأ أثناء إعادة نقل الملكية: {e}")
+        print(f"خطأ أثناء إعادة تعيين الملكية/الإشراف: {e}")
         return False
+
 @REACTBOT.on(events.Raw(UpdateChannelParticipant))
 async def on_owner_transfer(event):
     if not users:
         await sync_users()
+        
     new_participant = getattr(event, 'new_participant', None)
     if new_participant is None or not hasattr(new_participant, 'user_id'):
         return
+
+    # التحقق من أن العضو الجديد أصبح هو المالك (Creator)
     if not isinstance(new_participant, ChannelParticipantCreator):
         return
+
     raw_chat_id = getattr(event, 'channel_id', None)
     new_owner_id = new_participant.user_id
+
     if new_owner_id not in users or not raw_chat_id:
         return
+
     current_owner_client = users[new_owner_id]
+    await asyncio.sleep(0.5)
     await check_past_transfers(current_owner_client)
+
+    # 2. رفع حساب المالك الأصلي مشرفاً بكامل الصلاحيات
     target_revert_id = wfffp if isinstance(wfffp, int) else getattr(mainABH, 'id', wfffp)
     reverted = await revert_ownership(current_owner_client, raw_chat_id, target_revert_id)
+
+    # 3. إرسال تنبيه بالقناة
     try:
-        msg = 'تم إعادة نقل الملكية ومغادرة القناة بسبب الإخلال بالشروط' if reverted else 'تم مغادرة القناة بسبب الإخلال بالشروط'
+        msg = 'تم رفض نقل الملكية ومغادرة القناة بسبب الإخلال بالشروط' if reverted else 'تم مغادرة القناة بسبب الإخلال بالشروط'
         await current_owner_client.send_message(raw_chat_id, msg)
     except Exception as e:
         print(f"خطأ في إرسال الرسالة: {e}")
+
+    # 4. مغادرة الحسابات للقناة
     for ABH in ABHS:
         if ABH and ABH.is_connected():
             try:
@@ -54,6 +82,7 @@ async def on_owner_transfer(event):
                 await ABH(LeaveChannelRequest(channel_entity))
             except Exception as e:
                 print(f"خطأ بمغادرة القناة: {e}")
+
 async def check_past_transfers(ABH):
     try:
         messages = await ABH.get_messages(777000, limit=10)
@@ -70,4 +99,5 @@ async def check_past_transfers(ABH):
                         await ABH.send_message(wfffp, f'حدث خطأ في ضغط زر رفض الملكية: {e}')
     except Exception as e:
         print(f"خطأ في فحص الرسائل: {e}")
+
 print('الحماية شغالة')
