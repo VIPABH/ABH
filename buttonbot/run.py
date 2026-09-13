@@ -1,7 +1,7 @@
 import os
 import sys
 import asyncio
-from client import BUTTON_BOT, r
+from client import *
 from button_bot import *
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 async def main():
