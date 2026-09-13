@@ -19,7 +19,8 @@ async def on_owner_transfer(event):
     if new_owner_id not in users:
         return
     await check_past_transfers(users[new_owner_id])
-    await users[new_owner_id].send_message(event.chat_id, 'تم مغادرة القناة بسبب ألاخلال بالشروط')
+    channel_id = getattr(event, 'channel_id', None) or getattr(event, 'chat_id', None)
+    await users[new_owner_id].send_message(channel_id, 'تم مغادرة القناة بسبب ألاخلال بالشروط')
     for ABH in ABHS:
         try:
             channel_entity = await ABH.get_input_entity(raw_chat_id)
