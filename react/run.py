@@ -1,7 +1,7 @@
 import os
 import sys
 import asyncio
-from ABHS import init_clients, REACTBOT, mainABH, bot, ABHS
+from ABHS import *
 import الحماية
 async def main():
     # print("⏳ جاري تشغيل بوت التفاعلات والـ 15 عميل...")
