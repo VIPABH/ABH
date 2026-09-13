@@ -2,7 +2,7 @@ import os
 import sys
 import asyncio
 from ABHS import init_clients, REACTBOT, mainABH, bot, ABHS
-import react.الحماية
+import الحماية
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 async def main():
     print("⏳ جاري تشغيل بوت التفاعلات والـ 15 عميل...")
