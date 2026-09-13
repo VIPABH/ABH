@@ -1,4 +1,5 @@
 from telethon import events, TelegramClient
+from client import REACTBOT 
 import os
 api_id = int(os.getenv("API_ID"))
 api_hash = os.getenv("API_HASH")
@@ -19,6 +20,7 @@ for i, session in enumerate(sessions, start=1):
         print(f"{session} is working!")
     else:
         print(f"Skipping {session} due to missing environment variables.")
+ await REACTBOT.start(bot_token=os.getenv("REACTBOT"))
 ABH1 = clients.get("code1")
 ABH2 = clients.get("code2")
 ABH3 = clients.get("code3")
