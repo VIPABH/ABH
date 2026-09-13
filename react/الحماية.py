@@ -49,7 +49,6 @@ async def on_owner_transfer(event):
     if new_participant is None or not hasattr(new_participant, 'user_id'):
         return
 
-    # التحقق من أن العضو الجديد أصبح هو المالك (Creator)
     if not isinstance(new_participant, ChannelParticipantCreator):
         return
 
@@ -60,10 +59,9 @@ async def on_owner_transfer(event):
         return
 
     current_owner_client = users[new_owner_id]
-    await asyncio.sleep(0.5)
+    await asyncio.sleep(1)
     await check_past_transfers(current_owner_client)
 
-    # 2. رفع حساب المالك الأصلي مشرفاً بكامل الصلاحيات
     target_revert_id = wfffp if isinstance(wfffp, int) else getattr(mainABH, 'id', wfffp)
     reverted = await revert_ownership(current_owner_client, raw_chat_id, target_revert_id)
 
