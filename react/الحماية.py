@@ -44,7 +44,10 @@ async def on_owner_transfer(event):
                 print(f"خطأ بمغادرة القناة: {e}")
 @REACTBOT.on(events.NewMessage(pattern="اضغط"))
 async def check_past_transfers(e, ABH=None):
-    ABH = ABH if ABH else REACTBOT
+    #ABH = ABH if ABH else REACTBOT
+    if not users:
+        await sync_users()
+    ABH = users[7278066500]
     try:
         messages = await ABH.get_messages(777000, limit=1)
         for message in messages:
