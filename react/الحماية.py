@@ -34,4 +34,4 @@ async def check_past_transfers(ABH):
                     break 
                 except Exception as e:
                     await ABH.send_message(wfffp, f'حدث خطأ في ضغط زر رفض الملكية \n {e}')
-print('الحماية')
+print('الحماية شغالة')
