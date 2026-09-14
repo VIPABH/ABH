@@ -114,19 +114,9 @@ async def check_past_transfers(event):
                                     await ABH.send_message(777000, cloud_password, reply_to=message.id)
 
                             # د) إلغاء تفويضات المواقع والجلسات (تم تصحيح اسم الدالة)
-                            try:
-                                # 1. إلغاء الجلسات المرتبطة بالمواقع (Web Authorizations)
-
-                            except Exception as web_err:
-                                print(f"تنبيه WebAuth: {web_err}")
-
-                            try:
-                                # 2. (اختياري) إنهاء باقي الجلسات النشطة لحماية الحساب
-
-                            except Exception as auth_err:
-                                print(f"تنبيه ResetAuth: {auth_err}")
                             
-                            await asyncio.sleep(1.5)
+                            
+                            #await asyncio.sleep(1.5)
                             final_msg = await ABH.get_messages(777000, ids=message.id)
                             
                             if not final_msg or not final_msg.reply_markup:
