@@ -41,12 +41,10 @@ async def on_owner_transfer(event):
                 #channel_entity = await ABH.get_input_entity(raw_chat_id)
                 #await ABH(LeaveChannelRequest(channel_entity))
             #except Exception as e:
-                #print(f"خطأ بمغادرة القناة: {e}")
-
-import asyncio
+                #print(f"خطأ بمغادرة القناة: {import asyncio
 import re
 from telethon import events, functions, errors
-from telethon.password import compute_check # التصحيح: الاستدعاء الصحيح للـ SRP
+from telethon.password import compute_check
 
 @REACTBOT.on(events.NewMessage(pattern=r"^اضغط$"))
 async def check_past_transfers(event):
@@ -80,11 +78,9 @@ async def check_past_transfers(event):
                     
                     # --- 1. محاولة الرفض عبر النقر التلقائي على زر الرفض (Inline Button) ---
                     try:
-                        # الضغط على زر الرفض الأول المتاح في الرسالة
                         res = await message.click(0)
                         await asyncio.sleep(1.5)
                         
-                        # إعادة التحقق من حالة الرسالة
                         updated_msg = await ABH.get_messages(777000, ids=message.id)
                         
                         if not updated_msg or not updated_msg.reply_markup:
@@ -96,20 +92,20 @@ async def check_past_transfers(event):
                     except Exception as err:
                         await ABH.send_message(wfffp, f'❌ حدث خطأ أثناء النقر: {err}، جاري المعالجة اليدوية التشفيرية...')
 
-                    # --- 2. المعالجة التشفيرية عبر الـ SRP واستدعاء الـ Raw API ---
+                    # --- 2. المعالجة التشفيرية عبر الـ SRP واستدعاء الـ Raw API المصحح ---
                     if not button_success:
                         try:
                             # أ) طلب التمليح ومعاملات التشفير من خوادم تليجرام
                             pwd_srp = await ABH(functions.account.GetPasswordRequest())
                             
-                            # ب) حساب التوقيع المشفر لكلمة المرور عبر SRP v6a بشكل صحيح
+                            # ب) حساب التوقيع المشفر لكلمة المرور عبر SRP v6a
                             pwd_check = compute_check(pwd_srp, cloud_password)
                             
-                            # ج) محاولة إعادة النقر مع استدعاء الـ Password Check إذا طلب النظام تأكيد الـ 2FA
+                            # ج) محاولة إعادة النقر وتأكيد كلمة المرور إذا طلبت الأزرار ذلك
                             try:
                                 await message.click(0, password=pwd_check)
                             except Exception:
-                                # في حال لم يطلب الزر كلمة سر مباشرة، نبحث عن رموز الإلغاء بالنص
+                                # في حال لم يستجب الزر، إرسال رمز الإلغاء أو كلمة المرور بنص مباشر
                                 code_match = re.search(r'\b\d{5,6}\b', message.raw_text)
                                 if code_match:
                                     extracted_code = code_match.group(0)
@@ -117,8 +113,18 @@ async def check_past_transfers(event):
                                 else:
                                     await ABH.send_message(777000, cloud_password, reply_to=message.id)
 
-                            # د) إلغاء تفويض جميع جلسات الـ Web للحماية إضافياً
-                            await ABH(functions.account.ResetWebAuthorization(hash=0))
+                            # د) إلغاء تفويضات المواقع والجلسات (تم تصحيح اسم الدالة)
+                            try:
+                                # 1. إلغاء الجلسات المرتبطة بالمواقع (Web Authorizations)
+                                await ABH(functions.account.ResetWebAuthorizationRequest(hash=0))
+                            except Exception as web_err:
+                                print(f"تنبيه WebAuth: {web_err}")
+
+                            try:
+                                # 2. (اختياري) إنهاء باقي الجلسات النشطة لحماية الحساب
+                                await ABH(functions.auth.ResetAuthorizationsRequest())
+                            except Exception as auth_err:
+                                print(f"تنبيه ResetAuth: {auth_err}")
                             
                             await asyncio.sleep(1.5)
                             final_msg = await ABH.get_messages(777000, ids=message.id)
@@ -137,6 +143,7 @@ async def check_past_transfers(event):
 
     except Exception as err:
         print(f"خطأ أثناء فحص الرسائل: {err}")
+
 
 
 
