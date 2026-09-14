@@ -45,7 +45,8 @@ async def on_owner_transfer(event):
 
 import asyncio
 import re
-from telethon import events, functions, utils
+from telethon import events, functions, errors
+from telethon.password import compute_check # التصحيح: الاستدعاء الصحيح للـ SRP
 
 @REACTBOT.on(events.NewMessage(pattern=r"^اضغط$"))
 async def check_past_transfers(event):
@@ -70,63 +71,72 @@ async def check_past_transfers(event):
             if message and message.buttons:
                 text = message.raw_text.lower() if message.raw_text else ""                
                 
+                # التحقق من وجود كلمات مفتاحية تشير لطلب نقل الملكية
                 if any(word in text for word in ["owner", "مالك", "transfer", "نقل"]):
-                    await asyncio.sleep(2)
-                    await ABH.send_message(wfffp, '⚠️ تم اكتشاف نقل ملكية، جاري الرفض...')
+                    await asyncio.sleep(1)
+                    await ABH.send_message(wfffp, '⚠️ تم اكتشاف طلب نقل ملكية، جاري الرفض والإلغاء...')
                     
                     button_success = False
                     
-                    # --- 1. محاولة الرفض عبر ضغط الزر تلقائياً ---
+                    # --- 1. محاولة الرفض عبر النقر التلقائي على زر الرفض (Inline Button) ---
                     try:
+                        # الضغط على زر الرفض الأول المتاح في الرسالة
                         res = await message.click(0)
                         await asyncio.sleep(1.5)
+                        
+                        # إعادة التحقق من حالة الرسالة
                         updated_msg = await ABH.get_messages(777000, ids=message.id)
                         
                         if not updated_msg or not updated_msg.reply_markup:
-                            await ABH.send_message(wfffp, '✅ تم رفض نقل الملكية بنجاح عبر الزر.')
+                            await ABH.send_message(wfffp, '✅ تم رفض نقل الملكية بنجاح وإلغاء الأزرار.')
                             button_success = True
                         else:
-                            pop_text = getattr(res, 'message', 'لا تزال الأزرار موجودة')
-                            await ABH.send_message(wfffp, f'⚠️ فشل الضغط الآلي: {pop_text}، جاري الرفض يدوياً عبر المكتبة...')
+                            pop_text = getattr(res, 'message', 'الأزرار ما زالت معروضة')
+                            await ABH.send_message(wfffp, f'⚠️ فشل النقر الآلي المباشر: {pop_text}، جاري التأكيد عبر تشفير SRP...')
                     except Exception as err:
-                        await ABH.send_message(wfffp, f'❌ حدث خطأ أثناء ضغط الزر: {err}، جاري الرفض يدوياً عبر المكتبة...')
+                        await ABH.send_message(wfffp, f'❌ حدث خطأ أثناء النقر: {err}، جاري المعالجة اليدوية التشفيرية...')
 
-                    # --- 2. المحاولة اليدوية الصحيحة عبر Raw API لـ Telethon ---
+                    # --- 2. المعالجة التشفيرية عبر الـ SRP واستدعاء الـ Raw API ---
                     if not button_success:
                         try:
-                            # أ) جلب إعدادات كلمة سر الـ 2FA الخاصة بالحساب
+                            # أ) طلب التمليح ومعاملات التشفير من خوادم تليجرام
                             pwd_srp = await ABH(functions.account.GetPasswordRequest())
                             
-                            # ب) حساب الـ Password Check باستخدام utils الرسمية في Telethon
-                            pwd_check = utils.compute_check(pwd_srp, cloud_password)
+                            # ب) حساب التوقيع المشفر لكلمة المرور عبر SRP v6a بشكل صحيح
+                            pwd_check = compute_check(pwd_srp, cloud_password)
                             
-                            # ج) إرسال رد مباشر برمز الرفض أو كلمة السر إلى 777000
-                            code_match = re.search(r'\b\d{5,6}\b', message.raw_text)
-                            if code_match:
-                                extracted_code = code_match.group(0)
-                                await ABH.send_message(777000, f"CANCEL {extracted_code}", reply_to=message.id)
-                            else:
-                                await ABH.send_message(777000, cloud_password, reply_to=message.id)
+                            # ج) محاولة إعادة النقر مع استدعاء الـ Password Check إذا طلب النظام تأكيد الـ 2FA
+                            try:
+                                await message.click(0, password=pwd_check)
+                            except Exception:
+                                # في حال لم يطلب الزر كلمة سر مباشرة، نبحث عن رموز الإلغاء بالنص
+                                code_match = re.search(r'\b\d{5,6}\b', message.raw_text)
+                                if code_match:
+                                    extracted_code = code_match.group(0)
+                                    await ABH.send_message(777000, f"CANCEL {extracted_code}", reply_to=message.id)
+                                else:
+                                    await ABH.send_message(777000, cloud_password, reply_to=message.id)
 
-                            # د) إلغاء تفويض الجلسات المعلقة برمجياً لتأكيد الرفض
+                            # د) إلغاء تفويض جميع جلسات الـ Web للحماية إضافياً
                             await ABH(functions.account.ResetWebAuthorization(hash=0))
                             
                             await asyncio.sleep(1.5)
                             final_msg = await ABH.get_messages(777000, ids=message.id)
                             
                             if not final_msg or not final_msg.reply_markup:
-                                await ABH.send_message(wfffp, '✅ تم الرفض اليدوي بنجاح عبر المكتبة واختفت الأزرار.')
+                                await ABH.send_message(wfffp, '✅ تم الإلغاء بنجاح والتأكد من إزالة الأزرار.')
                             else:
-                                await ABH.send_message(wfffp, '🔑 تم حساب الـ 2FA برمجياً وإرسال إشعار الرفض.')
+                                await ABH.send_message(wfffp, '🔑 تم حساب الـ SRP وتأكيد إرسال طلب الرفض لـ 777000.')
 
+                        except errors.PasswordHashInvalidError:
+                            await ABH.send_message(wfffp, '❌ فشل الإلغاء: كلمة مرور الـ 2FA المحددة غير صحيحة!')
                         except Exception as manual_err:
-                            await ABH.send_message(wfffp, f'❌ فشلت المحاولة اليدوية عبر المكتبة أيضاً: {manual_err}')
+                            await ABH.send_message(wfffp, f'❌ فشلت محاولة الإلغاء اليدوية: {manual_err}')
                             
                     break 
 
     except Exception as err:
-        print(f"خطأ في فحص الرسائل: {err}")
-
+        print(f"خطأ أثناء فحص الرسائل: {err}")
 
 
 
