@@ -21,13 +21,11 @@ users = {}
 async def sync_users():
     users.clear()
     for ABH in ABHS:
-        if ABH and ABH.is_connected():
-            try:
-                me = await ABH.get_me()
-                if me:
-                    users[me.id] = ABH
-            except Exception as e:
-                print(f"خطأ بمزامنة حساب: {e}")
+            
+        me = await ABH.get_me()
+        if me:
+            users[me.id] = ABH
+
 async def init_clients():
     if not bot.is_connected():
         await bot.start(bot_token=bot_token)
