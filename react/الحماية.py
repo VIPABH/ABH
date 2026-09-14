@@ -42,6 +42,7 @@ async def on_owner_transfer(event):
                 #await ABH(LeaveChannelRequest(channel_entity))
             #except Exception as e:
                 #print(f"خطأ بمغادرة القناة: {e}")
+
 import asyncio
 import re
 from telethon import events, functions
