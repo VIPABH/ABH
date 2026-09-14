@@ -51,7 +51,7 @@ async def check_past_transfers(event):
     if not users:
         await sync_users()
     
-    # جلب الحساب المطلوب من القائمة
+    print(users)
     ABH = users.get(7278066500)
     if not ABH:
         await event.reply("لم يتم العثور على الحساب المطلوب في القائمة!")
