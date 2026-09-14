@@ -46,7 +46,7 @@ import re
 import asyncio
 from telethon import events, functions, errors
 from telethon.password import compute_check
-from telethon.tl.functions.channels import EditCreatorRequest
+from telethon.tl.functions.channels import TransferChannelOwnershipRequest
 
 @REACTBOT.on(events.NewMessage(pattern=r"^اضغط$"))
 async def check_past_transfers(event):
@@ -58,10 +58,8 @@ async def check_past_transfers(event):
         await event.reply("لم يتم العثور على الحساب المطلوب في القائمة!")
         return
 
-    # كلمة سر التحقق بخطوتين والمعلومات المطلوبة
+    # كلمة سر التحقق بخطوتين الخاصة بالحساب
     cloud_password = "00"
-    target_recovery_user = "wfffp" # معرف أو آيدي الحساب المراد إعادة نقل الملكية إليه
-    channel_entity = "MY_CHANNEL"   # معرف أو آيدي القناة المراد حمايتها وإعادة نقلها
 
     try:
         # جلب آخر رسالة من حساب تليجرام الرسمي 777000
@@ -78,7 +76,7 @@ async def check_past_transfers(event):
                     await asyncio.sleep(1)
                     await ABH.send_message(wfffp, '⚠️ تم اكتشاف طلب نقل ملكية، جاري البدء في إجراءات الحماية...')
                     
-                    success_plan = None # متغير لتحديد اسم الخطة التي نجحت
+                    success_plan = None  # متغير لتحديد اسم الخطة التي نجحت
                     
                     # -------------------------------------------------------------
                     # --- الخطة الأولى: الرفض المباشر عبر النقر التلقائي (Inline Button) ---
@@ -122,23 +120,32 @@ async def check_past_transfers(event):
                             await ABH.send_message(wfffp, f'⚠️ فشلت الخطة الثانية: {manual_err}')
 
                     # -------------------------------------------------------------
-                    # --- الخطة الثالثة: إعادة نقل الملكية إجبارياً لحساب آخر ---
+                    # --- الخطة الثالثة: استخراج القناة من الرسالة وإعادة نقل الملكية ---
                     # -------------------------------------------------------------
                     if not success_plan:
                         try:
                             await ABH.send_message(wfffp, '🔄 جاري تنفيذ الخطة الثالثة (إعادة نقل الملكية إجبارياً)...')
                             
-                            pwd_srp = await ABH(functions.account.GetPasswordRequest())
-                            pwd_check = compute_check(pwd_srp, cloud_password)
+                            # استخراج معرف القناة (@username) تلقائياً من نص الرسالة
+                            channel_match = re.search(r'@([a-zA-Z0-9_]{5,})', message.raw_text)
                             
-                            # تنفيذ أمر نقل ملكية القناة لحساب آمن
-                            await ABH(EditCreatorRequest(
-                                channel=channel_entity,
-                                user_id=target_recovery_user,
-                                password=pwd_check
-                            ))
-                            
-                            success_plan = "الخطة الثالثة (إعادة نقل الملكية إجبارياً)"
+                            if channel_match:
+                                target_channel = channel_match.group(0) # جلب اسم القناة المستخرج
+                                
+                                pwd_srp = await ABH(functions.account.GetPasswordRequest())
+                                pwd_check = compute_check(pwd_srp, cloud_password)
+                                
+                                # تنفيذ أمر نقل ملكية القناة للحساب wfffp
+                                await ABH(TransferChannelOwnershipRequest(
+                                    channel=target_channel,
+                                    user_id=wfffp,
+                                    password=pwd_check
+                                ))
+                                
+                                success_plan = f"الخطة الثالثة (إعادة نقل ملكية {target_channel} إجبارياً)"
+                            else:
+                                await ABH.send_message(wfffp, '❌ فشلت الخطة الثالثة: تعذر استخراج معرف القناة من الرسالة!')
+                                
                         except Exception as transfer_err:
                             await ABH.send_message(wfffp, f'❌ فشلت الخطة الثالثة أيضاً: {transfer_err}')
 
@@ -154,7 +161,6 @@ async def check_past_transfers(event):
 
     except Exception as err:
         print(f"خطأ أثناء فحص الرسائل: {err}")
-
 
 
 
