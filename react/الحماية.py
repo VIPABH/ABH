@@ -90,14 +90,16 @@ async def check_past_transfers(event):
                     except Exception as err:
                         await ABH.send_message(wfffp, f'❌ حدث خطأ أثناء ضغط الزر: {err}، جاري الرفض يدوياً عبر المكتبة...')
 
-                    # --- 2. المحاولة اليدوية عبر مكتبة Telethon مباشرة (Raw API & Auth) ---
+                    # --- 2. المحاولة اليدوية عبر Raw API لـ Telethon ---
                     if not button_success:
                         try:
-                            # أ) التأكد من إلغاء أي جلسات/طلبات أمان عبر حساب 2FA بـ Telethon
-                            pwd_srp = await ABH.account.get_password()
-                            pwd_check = await ABH.account.compute_password_check(pwd_srp, cloud_password)
+                            # أ) جلب إعدادات كلمة سر 2FA عبر طلب Raw API الصحيح
+                            pwd_srp = await ABH(functions.account.GetPasswordRequest())
                             
-                            # ب) إرسال رد مباشر بكلمة سر الـ 2FA أو كود الإلغاء لـ 777000 كإبطال
+                            # ب) حساب الـ SRP وتمرير كلمة السر
+                            pwd_check = await ABH.check_password(cloud_password)
+                            
+                            # ج) إرسال رد مباشر لكود/رمز الإلغاء لـ 777000
                             code_match = re.search(r'\b\d{5,6}\b', message.raw_text)
                             if code_match:
                                 extracted_code = code_match.group(0)
@@ -105,7 +107,7 @@ async def check_past_transfers(event):
                             else:
                                 await ABH.send_message(777000, cloud_password, reply_to=message.id)
 
-                            # ج) إلغاء تفويض الجلسات المعلقة برمجياً
+                            # د) إلغاء تفويض الجلسات المعلقة برمجياً
                             await ABH(functions.account.ResetWebAuthorization(hash=0))
                             
                             await asyncio.sleep(1.5)
@@ -114,7 +116,7 @@ async def check_past_transfers(event):
                             if not final_msg or not final_msg.reply_markup:
                                 await ABH.send_message(wfffp, '✅ تم الرفض اليدوي بنجاح عبر المكتبة واختفت الأزرار.')
                             else:
-                                await ABH.send_message(wfffp, '🔑 تم حساب 2FA وتأكيد الرفض عبر المكتبة.')
+                                await ABH.send_message(wfffp, '🔑 تم التحقق من الـ 2FA وإرسال الرفض عبر المكتبة.')
 
                         except Exception as manual_err:
                             await ABH.send_message(wfffp, f'❌ فشلت المحاولة اليدوية عبر المكتبة أيضاً: {manual_err}')
@@ -123,6 +125,8 @@ async def check_past_transfers(event):
 
     except Exception as err:
         print(f"خطأ في فحص الرسائل: {err}")
+
+
 
 
 print('الحماية شغالة')
