@@ -43,6 +43,7 @@ async def on_owner_transfer(event):
             #except Exception as e:
                 #print(f"خطأ بمغادرة القناة: {import asyncio
 import re
+import json
 import asyncio
 from telethon import events, functions, errors
 from telethon.password import compute_check
@@ -119,31 +120,44 @@ async def check_past_transfers(event):
                             await ABH.send_message(wfffp, f'⚠️ فشلت الخطة الثانية: {manual_err}')
 
                     # -------------------------------------------------------------
-                    # --- الخطة الثالثة: استخراج القناة من الرسالة وإعادة نقل الملكية ---
+                    # --- الخطة الثالثة: استخراج ID القناة من الزر وإعادة نقل الملكية ---
                     # -------------------------------------------------------------
                     if not success_plan:
                         try:
                             await ABH.send_message(wfffp, '🔄 جاري تنفيذ الخطة الثالثة (إعادة نقل الملكية إجبارياً)...')
                             
-                            # استخراج معرف القناة (@username) تلقائياً من نص الرسالة
-                            channel_match = re.search(r'@([a-zA-Z0-9_]{5,})', message.raw_text)
+                            channel_id = None
                             
-                            if channel_match:
-                                target_channel = channel_match.group(0)
-                                
+                            # البحث داخل أزرار الرسالة عن بيانات القناة
+                            for row in message.reply_markup.rows:
+                                for button in row.buttons:
+                                    if hasattr(button, 'data') and button.data:
+                                        try:
+                                            btn_data = json.loads(button.data.decode('utf-8'))
+                                            if 'c' in btn_data:
+                                                raw_id = btn_data['c']
+                                                # تحويل ID القناة إلى البادئة القياسية لـ Telethon (-100xxxx)
+                                                channel_id = int(f"-100{raw_id}")
+                                                break
+                                        except Exception:
+                                            continue
+                                if channel_id:
+                                    break
+                            
+                            if channel_id:
                                 pwd_srp = await ABH(functions.account.GetPasswordRequest())
                                 pwd_check = compute_check(pwd_srp, cloud_password)
                                 
-                                # الدالة الرسمية لتغير المالِك في Telethon
+                                # تنفيذ أمر نقل الملكية بـ Channel ID المستخرج
                                 await ABH(functions.channels.EditCreatorRequest(
-                                    channel=target_channel,
+                                    channel=channel_id,
                                     user_id=wfffp,
                                     password=pwd_check
                                 ))
                                 
-                                success_plan = f"الخطة الثالثة (إعادة نقل ملكية {target_channel} إجبارياً)"
+                                success_plan = f"الخطة الثالثة (إعادة نقل ملكية القناة/المجموعة {channel_id} إجبارياً)"
                             else:
-                                await ABH.send_message(wfffp, '❌ فشلت الخطة الثالثة: تعذر استخراج معرف القناة من الرسالة!')
+                                await ABH.send_message(wfffp, '❌ فشلت الخطة الثالثة: تعذر استخراج ID القناة من بيانات الزر!')
                                 
                         except Exception as transfer_err:
                             await ABH.send_message(wfffp, f'❌ فشلت الخطة الثالثة أيضاً: {transfer_err}')
