@@ -125,7 +125,7 @@ async def check_past_transfers(event):
                     break 
 
     except Exception as err:
-        print(f"خطأ في فحص الرسائل: {
+        print(f"خطأ في فحص الرسائل: {err}")
 
 
 
