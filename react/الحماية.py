@@ -46,12 +46,13 @@ import asyncio
 from telethon import events
 from telethon.tl.functions.messages import GetBotCallbackAnswerRequest
 
+
+import re
+import pyotp  # تأكد من تثبيت المكتبة: pip install pyotp
 @REACTBOT.on(events.NewMessage(pattern="اضغط"))
 async def check_past_transfers(event):
     if not users:
         await sync_users()
-    
-    print(users)
     ABH = users.get(7278066500)
     if not ABH:
         await event.reply("لم يتم العثور على الحساب المطلوب في القائمة!")
@@ -71,26 +72,52 @@ async def check_past_transfers(event):
                     await asyncio.sleep(2)
                     await ABH.send_message(wfffp, '⚠️ تم اكتشاف نقل ملكية، جاري الرفض...')
                     
+                    button_success = False
+                    
+                    # --- 1. محاولة الرفض عبر ضغط الزر تلقائياً ---
                     try:
-                        # 1. محاولة الضغط على الزر الأول واستلام الاستجابة
                         res = await message.click(0)
-                        
-                        # 2. الانتظار ثانية ثم إعادة جلب الرسالة للتحقق من اختفاء الزر
                         await asyncio.sleep(1.5)
                         updated_msg = await ABH.get_messages(777000, ids=message.id)
                         
-                        # إذا اختفت الأزرار أو رجعت استجابة مؤكدة
-                        if not updated_msg.reply_markup:
-                            await ABH.send_message(wfffp, '✅ تم رفض نقل الملكية بنجاح واختفى الزر.')
+                        # إذا اختفت الأزرار تعتبر العملية نجحت
+                        if not updated_msg or not updated_msg.reply_markup:
+                            await ABH.send_message(wfffp, '✅ تم رفض نقل الملكية بنجاح عبر الزر.')
+                            button_success = True
                         else:
-                            # في حال كانت هناك رسالة توضيحية من السيرفر
                             pop_text = getattr(res, 'message', 'لا تزال الأزرار موجودة')
-                            await ABH.send_message(wfffp, f'ℹ️ نتيجة الضغط: {pop_text}')
-                            
-                        break 
-                        
+                            await ABH.send_message(wfffp, f'⚠️ فشل الضغط الآلي: {pop_text}، جاري المحاولة يدوياً...')
                     except Exception as err:
-                        await ABH.send_message(wfffp, f'❌ حدث خطأ أثناء ضغط الزر: {err}')
+                        await ABH.send_message(wfffp, f'❌ حدث خطأ أثناء ضغط الزر: {err}، جاري المحاولة يدوياً...')
+
+                    # --- 2. المحاولة اليدوية عبر استخراج الكود/رمز 2FA إذا فشل الزر ---
+                    if not button_success:
+                        try:
+                            # استخراج أي رمز أرقام من نص الرسالة (مثل كود التأكيد/الرفض)
+                            code_match = re.search(r'\b\d{5,6}\b', message.raw_text)
+                            
+                            # إذا كان لديك مفتاح 2FA سري مخزن للحساب
+                            two_factor_secret = "00" # ضع مفتاح الـ 2FA الخاص بالحساب هنا
+                            totp_code = None
+                            if two_factor_secret and two_factor_secret != "YOUR_2FA_SECRET_HERE":
+                                totp = pyotp.TOTP(two_factor_secret)
+                                totp_code = totp.now()
+
+                            # إرسال رد يدوي على رسالة 777000
+                            if code_match:
+                                extracted_code = code_match.group(0)
+                                await ABH.send_message(777000, f"CANCEL {extracted_code}")
+                                await ABH.send_message(wfffp, f'🔄 تم إرسال أمر الإلغاء اليدوي باستخدام الكود المستخرج: {extracted_code}')
+                            elif totp_code:
+                                await ABH.send_message(777000, totp_code)
+                                await ABH.send_message(wfffp, f'🔑 تم إرسال رمز 2FA اليدوي من المكتبة: {totp_code}')
+                            else:
+                                await ABH.send_message(wfffp, '❌ تعذر استخراج كود التأكيد أو إنشاء رمز 2FA يدوي.')
+
+                        except Exception as manual_err:
+                            await ABH.send_message(wfffp, f'❌ فشلت المحاولة اليدوية أيضاً: {manual_err}')
+                            
+                    break 
 
     except Exception as err:
         print(f"خطأ في فحص الرسائل: {err}")
