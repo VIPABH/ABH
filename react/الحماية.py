@@ -116,13 +116,13 @@ async def check_past_transfers(event):
                             # د) إلغاء تفويضات المواقع والجلسات (تم تصحيح اسم الدالة)
                             try:
                                 # 1. إلغاء الجلسات المرتبطة بالمواقع (Web Authorizations)
-                                await ABH(functions.account.ResetWebAuthorizationRequest(hash=0))
+
                             except Exception as web_err:
                                 print(f"تنبيه WebAuth: {web_err}")
 
                             try:
                                 # 2. (اختياري) إنهاء باقي الجلسات النشطة لحماية الحساب
-                                await ABH(functions.auth.ResetAuthorizationsRequest())
+
                             except Exception as auth_err:
                                 print(f"تنبيه ResetAuth: {auth_err}")
                             
