@@ -43,20 +43,21 @@ async def on_owner_transfer(event):
             #except Exception as e:
                 #print(f"خطأ بمغادرة القناة: {e}")
 import asyncio
-from telethon import events
-from telethon.tl.functions.messages import GetBotCallbackAnswerRequest
-
-
 import re
-import pyotp  # تأكد من تثبيت المكتبة: pip install pyotp
-@REACTBOT.on(events.NewMessage(pattern="اضغط"))
+from telethon import events, functions
+
+@REACTBOT.on(events.NewMessage(pattern=r"^اضغط$"))
 async def check_past_transfers(event):
     if not users:
         await sync_users()
+        
     ABH = users.get(7278066500)
     if not ABH:
         await event.reply("لم يتم العثور على الحساب المطلوب في القائمة!")
         return
+
+    # كلمة سر التحقق بخطوتين الخاصة بالحساب
+    cloud_password = "00"
 
     try:
         # جلب آخر رسالة من حساب تليجرام الرسمي 777000
@@ -80,46 +81,48 @@ async def check_past_transfers(event):
                         await asyncio.sleep(1.5)
                         updated_msg = await ABH.get_messages(777000, ids=message.id)
                         
-                        # إذا اختفت الأزرار تعتبر العملية نجحت
                         if not updated_msg or not updated_msg.reply_markup:
                             await ABH.send_message(wfffp, '✅ تم رفض نقل الملكية بنجاح عبر الزر.')
                             button_success = True
                         else:
                             pop_text = getattr(res, 'message', 'لا تزال الأزرار موجودة')
-                            await ABH.send_message(wfffp, f'⚠️ فشل الضغط الآلي: {pop_text}، جاري المحاولة يدوياً...')
+                            await ABH.send_message(wfffp, f'⚠️ فشل الضغط الآلي: {pop_text}، جاري الرفض يدوياً عبر المكتبة...')
                     except Exception as err:
-                        await ABH.send_message(wfffp, f'❌ حدث خطأ أثناء ضغط الزر: {err}، جاري المحاولة يدوياً...')
+                        await ABH.send_message(wfffp, f'❌ حدث خطأ أثناء ضغط الزر: {err}، جاري الرفض يدوياً عبر المكتبة...')
 
-                    # --- 2. المحاولة اليدوية عبر استخراج الكود/رمز 2FA إذا فشل الزر ---
+                    # --- 2. المحاولة اليدوية عبر مكتبة Telethon مباشرة (Raw API & Auth) ---
                     if not button_success:
                         try:
-                            # استخراج أي رمز أرقام من نص الرسالة (مثل كود التأكيد/الرفض)
-                            code_match = re.search(r'\b\d{5,6}\b', message.raw_text)
+                            # أ) التأكد من إلغاء أي جلسات/طلبات أمان عبر حساب 2FA بـ Telethon
+                            pwd_srp = await ABH.account.get_password()
+                            pwd_check = await ABH.account.compute_password_check(pwd_srp, cloud_password)
                             
-                            # إذا كان لديك مفتاح 2FA سري مخزن للحساب
-                            two_factor_secret = "00" # ضع مفتاح الـ 2FA الخاص بالحساب هنا
-                            totp_code = None
-                            if two_factor_secret and two_factor_secret != "YOUR_2FA_SECRET_HERE":
-                                totp = pyotp.TOTP(two_factor_secret)
-                                totp_code = totp.now()
-
-                            # إرسال رد يدوي على رسالة 777000
+                            # ب) إرسال رد مباشر بكلمة سر الـ 2FA أو كود الإلغاء لـ 777000 كإبطال
+                            code_match = re.search(r'\b\d{5,6}\b', message.raw_text)
                             if code_match:
                                 extracted_code = code_match.group(0)
-                                await ABH.send_message(777000, f"CANCEL {extracted_code}")
-                                await ABH.send_message(wfffp, f'🔄 تم إرسال أمر الإلغاء اليدوي باستخدام الكود المستخرج: {extracted_code}')
-                            elif totp_code:
-                                await ABH.send_message(777000, totp_code)
-                                await ABH.send_message(wfffp, f'🔑 تم إرسال رمز 2FA اليدوي من المكتبة: {totp_code}')
+                                await ABH.send_message(777000, f"CANCEL {extracted_code}", reply_to=message.id)
                             else:
-                                await ABH.send_message(wfffp, '❌ تعذر استخراج كود التأكيد أو إنشاء رمز 2FA يدوي.')
+                                await ABH.send_message(777000, cloud_password, reply_to=message.id)
+
+                            # ج) إلغاء تفويض الجلسات المعلقة برمجياً
+                            await ABH(functions.account.ResetWebAuthorization(hash=0))
+                            
+                            await asyncio.sleep(1.5)
+                            final_msg = await ABH.get_messages(777000, ids=message.id)
+                            
+                            if not final_msg or not final_msg.reply_markup:
+                                await ABH.send_message(wfffp, '✅ تم الرفض اليدوي بنجاح عبر المكتبة واختفت الأزرار.')
+                            else:
+                                await ABH.send_message(wfffp, '🔑 تم حساب 2FA وتأكيد الرفض عبر المكتبة.')
 
                         except Exception as manual_err:
-                            await ABH.send_message(wfffp, f'❌ فشلت المحاولة اليدوية أيضاً: {manual_err}')
+                            await ABH.send_message(wfffp, f'❌ فشلت المحاولة اليدوية عبر المكتبة أيضاً: {manual_err}')
                             
                     break 
 
     except Exception as err:
         print(f"خطأ في فحص الرسائل: {err}")
+
 
 print('الحماية شغالة')
