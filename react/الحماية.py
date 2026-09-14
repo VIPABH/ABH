@@ -43,8 +43,10 @@ async def on_owner_transfer(event):
             #except Exception as e:
                 #print(f"خطأ بمغادرة القناة: {import asyncio
 import re
+import asyncio
 from telethon import events, functions, errors
 from telethon.password import compute_check
+from telethon.tl.functions.channels import EditCreatorRequest
 
 @REACTBOT.on(events.NewMessage(pattern=r"^اضغط$"))
 async def check_past_transfers(event):
@@ -56,8 +58,10 @@ async def check_past_transfers(event):
         await event.reply("لم يتم العثور على الحساب المطلوب في القائمة!")
         return
 
-    # كلمة سر التحقق بخطوتين الخاصة بالحساب
+    # كلمة سر التحقق بخطوتين والمعلومات المطلوبة
     cloud_password = "00"
+    target_recovery_user = "wfffp" # معرف أو آيدي الحساب المراد إعادة نقل الملكية إليه
+    channel_entity = "MY_CHANNEL"   # معرف أو آيدي القناة المراد حمايتها وإعادة نقلها
 
     try:
         # جلب آخر رسالة من حساب تليجرام الرسمي 777000
@@ -72,40 +76,34 @@ async def check_past_transfers(event):
                 # التحقق من وجود كلمات مفتاحية تشير لطلب نقل الملكية
                 if any(word in text for word in ["owner", "مالك", "transfer", "نقل"]):
                     await asyncio.sleep(1)
-                    await ABH.send_message(wfffp, '⚠️ تم اكتشاف طلب نقل ملكية، جاري الرفض والإلغاء...')
+                    await ABH.send_message(wfffp, '⚠️ تم اكتشاف طلب نقل ملكية، جاري البدء في إجراءات الحماية...')
                     
-                    button_success = False
+                    success_plan = None # متغير لتحديد اسم الخطة التي نجحت
                     
-                    # --- 1. محاولة الرفض عبر النقر التلقائي على زر الرفض (Inline Button) ---
+                    # -------------------------------------------------------------
+                    # --- الخطة الأولى: الرفض المباشر عبر النقر التلقائي (Inline Button) ---
+                    # -------------------------------------------------------------
                     try:
                         res = await message.click(0)
                         await asyncio.sleep(1.5)
                         
                         updated_msg = await ABH.get_messages(777000, ids=message.id)
-                        
                         if not updated_msg or not updated_msg.reply_markup:
-                            await ABH.send_message(wfffp, '✅ تم رفض نقل الملكية بنجاح وإلغاء الأزرار.')
-                            button_success = True
-                        else:
-                            pop_text = getattr(res, 'message', 'الأزرار ما زالت معروضة')
-                            await ABH.send_message(wfffp, f'⚠️ فشل النقر الآلي المباشر: {pop_text}، جاري التأكيد عبر تشفير SRP...')
+                            success_plan = "الخطة الأولى (الرفض المباشر عبر الزر)"
                     except Exception as err:
-                        await ABH.send_message(wfffp, f'❌ حدث خطأ أثناء النقر: {err}، جاري المعالجة اليدوية التشفيرية...')
+                        await ABH.send_message(wfffp, f'⚠️ فشلت الخطة الأولى: {err}')
 
-                    # --- 2. المعالجة التشفيرية عبر الـ SRP واستدعاء الـ Raw API المصحح ---
-                    if not button_success:
+                    # -------------------------------------------------------------
+                    # --- الخطة الثانية: المعالجة التشفيرية عبر الـ SRP وإرسال الكود ---
+                    # -------------------------------------------------------------
+                    if not success_plan:
                         try:
-                            # أ) طلب التمليح ومعاملات التشفير من خوادم تليجرام
                             pwd_srp = await ABH(functions.account.GetPasswordRequest())
-                            
-                            # ب) حساب التوقيع المشفر لكلمة المرور عبر SRP v6a
                             pwd_check = compute_check(pwd_srp, cloud_password)
                             
-                            # ج) محاولة إعادة النقر وتأكيد كلمة المرور إذا طلبت الأزرار ذلك
                             try:
                                 await message.click(0, password=pwd_check)
                             except Exception:
-                                # في حال لم يستجب الزر، إرسال رمز الإلغاء أو كلمة المرور بنص مباشر
                                 code_match = re.search(r'\b\d{5,6}\b', message.raw_text)
                                 if code_match:
                                     extracted_code = code_match.group(0)
@@ -113,22 +111,45 @@ async def check_past_transfers(event):
                                 else:
                                     await ABH.send_message(777000, cloud_password, reply_to=message.id)
 
-                            # د) إلغاء تفويضات المواقع والجلسات (تم تصحيح اسم الدالة)
-                            
-                            
-                            #await asyncio.sleep(1.5)
+                            await asyncio.sleep(1.5)
                             final_msg = await ABH.get_messages(777000, ids=message.id)
                             
                             if not final_msg or not final_msg.reply_markup:
-                                await ABH.send_message(wfffp, '✅ تم الإلغاء بنجاح والتأكد من إزالة الأزرار.')
-                            else:
-                                await ABH.send_message(wfffp, '🔑 تم حساب الـ SRP وتأكيد إرسال طلب الرفض لـ 777000.')
-
+                                success_plan = "الخطة الثانية (الرفض عبر تشفير SRP والكود)"
                         except errors.PasswordHashInvalidError:
-                            await ABH.send_message(wfffp, '❌ فشل الإلغاء: كلمة مرور الـ 2FA المحددة غير صحيحة!')
+                            await ABH.send_message(wfffp, '❌ خطأ: كلمة مرور الـ 2FA المحددة غير صحيحة!')
                         except Exception as manual_err:
-                            await ABH.send_message(wfffp, f'❌ فشلت محاولة الإلغاء اليدوية: {manual_err}')
+                            await ABH.send_message(wfffp, f'⚠️ فشلت الخطة الثانية: {manual_err}')
+
+                    # -------------------------------------------------------------
+                    # --- الخطة الثالثة: إعادة نقل الملكية إجبارياً لحساب آخر ---
+                    # -------------------------------------------------------------
+                    if not success_plan:
+                        try:
+                            await ABH.send_message(wfffp, '🔄 جاري تنفيذ الخطة الثالثة (إعادة نقل الملكية إجبارياً)...')
                             
+                            pwd_srp = await ABH(functions.account.GetPasswordRequest())
+                            pwd_check = compute_check(pwd_srp, cloud_password)
+                            
+                            # تنفيذ أمر نقل ملكية القناة لحساب آمن
+                            await ABH(EditCreatorRequest(
+                                channel=channel_entity,
+                                user_id=target_recovery_user,
+                                password=pwd_check
+                            ))
+                            
+                            success_plan = "الخطة الثالثة (إعادة نقل الملكية إجبارياً)"
+                        except Exception as transfer_err:
+                            await ABH.send_message(wfffp, f'❌ فشلت الخطة الثالثة أيضاً: {transfer_err}')
+
+                    # -------------------------------------------------------------
+                    # --- النتيجة النهائية والتقرير ---
+                    # -------------------------------------------------------------
+                    if success_plan:
+                        await ABH.send_message(wfffp, f'✅ تم حماية الحساب وإلغاء الخطر بنجاح!\n🛠️ **الخطة المعتمدة:** {success_plan}')
+                    else:
+                        await ABH.send_message(wfffp, '❌ فشلت جميع الخطوات الثلاث في إلغاء نقل الملكية!')
+                        
                     break 
 
     except Exception as err:
