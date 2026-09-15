@@ -41,7 +41,7 @@ async def on_owner_transfer(event):
 
 import asyncio
 import logging
-from telethon import TelegramClient, events
+
 OFFICIAL_NOTICE_ID = 777000  # حساب تليجرام الرسمي للتنبيهات
 
 # نصوص الزر التي قد تظهر (عربي/إنجليزي) — يبحث عن أي منها
@@ -53,6 +53,7 @@ REJECT_BUTTON_TEXTS = [
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger("reject-transfer-bot")
 
+# كان مفقود: تعريف الكلاينت الذي يستخدمه الديكوريتر @ABH1.on(...)
 
 
 @ABH1.on(events.NewMessage(chats=OFFICIAL_NOTICE_ID))
@@ -65,8 +66,10 @@ async def handle_official_notice(event):
     # ابحث عن زر الرفض تحديداً بالنص، بدل الاعتماد على ترتيبه (index)
     for row_index, row in enumerate(message.buttons):
         for col_index, button in enumerate(row):
-            button_text = getattr(button, "text", "") or ""
-            if any(reject_text in button_text for reject_text in REJECT_BUTTON_TEXTS):
+            # .lower() لتفادي مشكلة اختلاف حالة الأحرف
+            # (مثال: "Reject Channel Transfer" لم تكن تطابق "Reject channel transfer")
+            button_text = (getattr(button, "text", "") or "").lower()
+            if any(reject_text.lower() in button_text for reject_text in REJECT_BUTTON_TEXTS):
                 try:
                     await message.click(row_index, col_index)
                     log.info("تم رفض نقل ملكية القناة بنجاح.")
