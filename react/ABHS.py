@@ -16,6 +16,8 @@ for i, session in enumerate(sessions, start=1):
     api_hash_i = os.getenv(f"API_HASH{i}")
     if api_id_i and api_hash_i:
         clients[session] = TelegramClient(session, int(api_id_i), api_hash_i)
+ABH1 = clients.get("code1")
+ABH2 = clients.get("code2")
 ABHS = [c for session_name, c in clients.items() if session_name != 'wfffp' and c is not None]
 users = {}
 async def sync_users():
@@ -25,7 +27,6 @@ async def sync_users():
         me = await ABH.get_me()
         if me:
             users[me.id] = ABH
-
 async def init_clients():
     if not bot.is_connected():
         await bot.start(bot_token=bot_token)
