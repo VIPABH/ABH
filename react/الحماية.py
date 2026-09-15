@@ -55,7 +55,7 @@ log = logging.getLogger("reject-transfer-bot")
 
 
 
-@users.get(7278066500).on(events.NewMessage(chats=OFFICIAL_NOTICE_ID))
+@ABH1.on(events.NewMessage(chats=OFFICIAL_NOTICE_ID))
 async def handle_official_notice(event):
     message = event.message
 
