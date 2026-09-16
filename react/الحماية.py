@@ -4,7 +4,7 @@ import sys, asyncio, os
 from telethon import events
 from client import REACTBOT
 from run import *
-from .ABHS import *
+from ABHS import *
 @REACTBOT.on(events.Raw(UpdateChannelParticipant))
 async def on_owner_transfer(event):
     if not users:
