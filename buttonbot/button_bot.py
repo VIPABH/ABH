@@ -150,3 +150,4 @@ async def handler(event):
             await BUTTON_BOT.send_message(event.chat_id, f"تم إنشاء الأزرار بنجاح.{warning}")
     except Exception:
         return await event.reply("حدث خطأ أثناء إنشاء الرسالة والأزرار.")
+print('button_bot شغال')
