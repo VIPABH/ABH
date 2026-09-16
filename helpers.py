@@ -69,3 +69,5 @@ def custom_emoji(emoji):
 def profile(user_id):
     data = r.get(f"user:{user_id}")
     return json.loads(data) if data else None
+async def hint(ABH, text):
+    await ABH.send_message(wfffp, text)
