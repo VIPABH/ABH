@@ -17,8 +17,8 @@ async def start(e):
     if id in session:return
     session[id] = 'rules'
     await e.reply(f'اهلا عزيزي ( {await ment(e)} ) اني بوت رياكشن \n وظيفتي اسوي تفاعلات على المسجات ب قناتك')
-    await asyncio.sleep(3.5)
-    await e.respond(f'استخدامي سلس و واضح و بسيط فقط كل ما عليك فقط الالتزام بالقوانين')
+    await asyncio.sleep(3)
+    await e.respond(f'استخدامي سلس و واضح و بسيط فقط كل ما عليك الالتزام بالقوانين')
     await asyncio.sleep(3)
     await e.respond(text)
     await asyncio.sleep(10)
