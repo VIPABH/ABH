@@ -22,12 +22,18 @@ async def on_owner_transfer(event):
     current_owner_client = users[new_owner_id]
     await current_owner_client.send_message(raw_chat_id, msg)
     await asyncio.sleep(1)
-    # await check_past_transfers(event)
+    await check_past_transfers(current_owner_client)
     #for ABH in ABHS:
         #if ABH and ABH.is_connected():
             #try:
                 #channel_entity = await ABH.get_input_entity(raw_chat_id)
                 #await ABH(LeaveChannelRequest(channel_entity))
             #except Exception as e:
-                #print(f"خطأ بمغادرة القناة: {import asyncio
+                #print(f"خطأ بمغادرة القناة: {import asyncio}")
+async def check_past_transfers(ABH):
+    msgs = await ABH.get_messages(chat=777000, limte=3)
+    for msg in msgs:
+        if not msg.buttons:return
+        if not 'قام المالك السابق' in msg.text or not 'Transfer' in msg.text:return
+        await msg.click(0)
 print('الحماية شغالة')
