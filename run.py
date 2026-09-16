@@ -10,8 +10,8 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from client import BUTTON_BOT, REACTBOT
 import buttonbot
 import react
-from react import run
-from buttonbot import run
+from .react import run
+from .buttonbot import run
 async def main():
     token_button = os.getenv("BUTTON_BOT")
     token_react = os.getenv("REACTBOT")
