@@ -26,7 +26,7 @@ async def command(e):
         f"يمكنك أيضاً إضافة لون للزر، مثال:\n"
         f"<code>زر https://t.me/K_4x1 ازرق</code>\n\n"
         f"ويمكنك إضافة إيموجي مميز للزر، مثال:\n"
-        f"<code>زر https://t.me/K_4x1 {custom_emoji(5465374681915727405)}</code>",
+        f"<code>زر https://t.me/K_4x1</code>{custom_emoji(5465374681915727405)}",
         
         parse_mode='html'
     )
