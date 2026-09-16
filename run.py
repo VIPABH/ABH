@@ -22,8 +22,10 @@ async def main():
     await REACTBOT.start(bot_token=token_react)
     print("✅ REACTBOT is running!")
     await asyncio.gather(
-        BUTTON_BOT.run_until_disconnected(),
-        REACTBOT.run_until_disconnected()
+        run_react()
+        run_button()
+        # BUTTON_BOT.run_until_disconnected(),
+        # REACTBOT.run_until_disconnected()
     )
 if __name__ == "__main__":
     try:
