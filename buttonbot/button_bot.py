@@ -27,6 +27,7 @@ async def command(e):
         f"<code>زر https://t.me/K_4x1 ازرق</code>\n\n"
         f"ويمكنك إضافة إيموجي مميز للزر، مثال:\n"
         f"<code>زر https://t.me/K_4x1 {custom_emoji(5465374681915727405)}</code>",
+        
         parse_mode='html'
     )
 COLORS = {"ازرق": "primary", "blue": "primary",
