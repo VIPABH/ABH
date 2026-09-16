@@ -10,6 +10,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from client import BUTTON_BOT, REACTBOT
 import buttonbot
 import react
+from react.run import *
 async def main():
     token_button = os.getenv("BUTTON_BOT")
     token_react = os.getenv("REACTBOT")
@@ -22,10 +23,8 @@ async def main():
     await REACTBOT.start(bot_token=token_react)
     print("✅ REACTBOT is running!")
     await asyncio.gather(
-        react.run_react(),
-        buttonbot.run_button()
-        # BUTTON_BOT.run_until_disconnected(),
-        # REACTBOT.run_until_disconnected()
+        BUTTON_BOT.run_until_disconnected(),
+        REACTBOT.run_until_disconnected()
     )
 if __name__ == "__main__":
     try:
