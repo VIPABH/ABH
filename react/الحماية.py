@@ -3,7 +3,7 @@ from telethon.tl.functions.channels import LeaveChannelRequest, EditAdminRequest
 import sys, asyncio, os
 from telethon import events
 from client import REACTBOT
-from .run import *
+from run import *
 from .ABHS import *
 @REACTBOT.on(events.Raw(UpdateChannelParticipant))
 async def on_owner_transfer(event):
