@@ -31,9 +31,10 @@ async def on_owner_transfer(event):
             #except Exception as e:
                 #print(f"خطأ بمغادرة القناة: {import asyncio}")
 async def check_past_transfers(ABH):
-    msgs = await ABH.get_messages(chat=777000, limte=3)
+    msgs = await ABH.get_messages(entity=777000, limit=3)    
     for msg in msgs:
-        if not msg.buttons:return
-        if not 'قام المالك السابق' in msg.text or not 'Transfer' in msg.text:return
-        await msg.click(0)
+        if not msg or not msg.text or not msg.buttons:
+            continue
+        if 'قام المالك السابق' in msg.text or 'Transfer' in msg.text:
+            await msg.click(0)
 print('الحماية شغالة')
