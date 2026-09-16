@@ -8,8 +8,8 @@ logging.basicConfig(
 )
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from client import BUTTON_BOT, REACTBOT
-import react
 import buttonbot
+import react
 async def main():
     token_button = os.getenv("BUTTON_BOT")
     token_react = os.getenv("REACTBOT")
