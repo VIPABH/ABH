@@ -18,20 +18,17 @@ async def is_user_check(e):
         raise events.StopPropagation
 @BUTTON_BOT.on(events.NewMessage(pattern=r'^الاوامر'))
 async def command(e):
-    if not e.is_private:return
+    if not e.is_private:return   
     await e.reply(
-    f"""
-<b>طريقة استخدام الأمر:</b>
-
-<code>زر + لون الزر</code> أو بدون لون ليكون افتراضيًا.
-
-بعدها:
-<code>اسم الزر + الرابط + الإيموجي المميز</code>
-
-<b>مثال:</b>
-<code>زر اخضر المبرمج https://t.me/K_4x1</code> {custom_emoji(5465374681915727405)}
-""",
-    parse_mode="html")
+        f"<b>📋 الأوامر المتاحة كالأتي:</b>\n\n"
+        f"تكتب كلمة <code>زر</code> وبعدها رابط الزر، مثال:\n"
+        f"<code>زر https://t.me/K_4x1</code>\n\n"
+        f"يمكنك أيضاً إضافة لون للزر، مثال:\n"
+        f"<code>زر https://t.me/K_4x1 ازرق</code>\n\n"
+        f"ويمكنك إضافة إيموجي مميز للزر، مثال:\n"
+        f"<code>زر https://t.me/K_4x1 {custom_emoji(5465374681915727405)}</code>",
+        parse_mode='html'
+    )
 COLORS = {"ازرق": "primary", "blue": "primary",
           "احمر": "danger", "red": "danger",
           "اخضر": "success", "green": "success"}
