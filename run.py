@@ -22,7 +22,7 @@ async def main():
     await REACTBOT.start(bot_token=token_react)
     print("✅ REACTBOT is running!")
     await asyncio.gather(
-        run_react()
+        run_react(),
         run_button()
         # BUTTON_BOT.run_until_disconnected(),
         # REACTBOT.run_until_disconnected()
