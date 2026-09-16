@@ -3,7 +3,6 @@ import sys
 import asyncio
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from ABHS import *
-import الحماية
 async def run_react():
     print("⏳ جاري تشغيل بوت التفاعلات والـ 15 عميل...")
     await init_clients()
