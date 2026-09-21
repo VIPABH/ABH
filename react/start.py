@@ -22,7 +22,7 @@ async def is_user_check(e):
         return await e.reply('صديقي اتفقنه تضيف قناة مو شيء اخر!')
     photo_file = None
     if chat.photo:
-        photo_bytes = await ABH.download_profile_photo(chat, file=bytes)
+        photo_bytes = await REACTBOT.download_profile_photo(chat, file=bytes)
         if photo_bytes:
             photo_file = BytesIO(photo_bytes)
             photo_file.name = "photo.jpg"
