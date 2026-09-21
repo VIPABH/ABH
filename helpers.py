@@ -3,6 +3,7 @@ from telethon import TelegramClient, events, Button
 from telethon.errors import UserNotParticipantError
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
+from telethon import types
 from client import *
 import asyncio, json
 wfffp = 1910015590
@@ -93,3 +94,34 @@ def get_years_months_days(past_date_str, date_format="%Y-%m-%d"):
     months = difference.months
     days = difference.days        
     return years, months, days
+async def get_profile_photo(id, user=None):
+    photos = []
+    try:
+        user = user if user else await ABH.get_entity(id)
+        photos = await ABH.get_profile_photos(user, limit=1)
+        if photos:
+            return photos[0]
+        else:
+            return None
+    except:
+            return None
+async def get_input_media(media_data):
+    if not media_data or not isinstance(media_data, dict):return None
+    m_id = int(media_data['id'])
+    m_hash = int(media_data['hash'])
+    m_ref = bytes.fromhex(media_data['ref'])
+    if media_data['type'] == "doc":
+        return types.InputDocument(id=m_id, access_hash=m_hash, file_reference=m_ref)
+    return types.InputPhoto(id=m_id, access_hash=m_hash, file_reference=m_ref)
+async def PROFILE_SEND(e, text, buttons=None, id=None):
+    id = id or e.sender_id
+    input_media = None
+    p = profile(id)
+    if p:
+        input_media = await get_input_media(p.get('media', None))
+    if l and input_media:
+        msg_id = getattr(e, 'message_id', None) or (e.message.id if hasattr(e, 'message') else e.id)    
+        msg = await ABH.send_file(e.chat_id, file=input_media, caption=text, buttons=buttons, reply_to=msg_id)
+    else:
+        msg = await e.reply(text, buttons=buttons)
+    return msg
