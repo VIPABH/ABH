@@ -44,7 +44,7 @@ async def is_user_check(e):
             photo_file = BytesIO(photo_bytes)
             photo_file.name = "photo.jpg"
     buttons = [
-        Button.inline('نعم', data=f'save-{target}-{owner.id}', style=green),
+        Button.inline('نعم', data=f'yes-{target}-{owner.id}', style=green),
         Button.inline('لا', data=f'no-{target}-{owner.id}', style=red),
     ]
     del session[e.sender_id]
@@ -113,7 +113,7 @@ async def react_callback(e):
         return await e.edit(text, buttons=back)
     elif '-' in data:
         arg, chat, owner_id = data.split('-')
-        if arg == 'save':
+        if arg == 'yes':
             await e.answer("يجري الحفظ")
             data[str(chat)] = {
                 'owner': owner_id,
