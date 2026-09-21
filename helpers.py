@@ -1,6 +1,8 @@
 from telethon.tl.functions.channels import GetParticipantRequest
 from telethon import TelegramClient, events, Button
 from telethon.errors import UserNotParticipantError
+from dateutil.relativedelta import relativedelta
+from datetime import datetime
 from client import *
 import asyncio, json
 wfffp = 1910015590
@@ -83,3 +85,11 @@ def create(filename):
             return json.load(f)
         except json.JSONDecodeError:
             return {}
+def get_years_months_days(past_date_str, date_format="%Y-%m-%d"):
+    past_date = datetime.strptime(past_date_str, date_format).date()
+    current_date = datetime.now().date()
+    difference = relativedelta(current_date, past_date)
+    years = difference.years
+    months = difference.months
+    days = difference.days        
+    return years, months, days
