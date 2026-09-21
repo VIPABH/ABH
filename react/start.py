@@ -1,3 +1,4 @@
+from telethon.tl.types import Channel
 from helpers import *
 from .ABHS import *
 import asyncio
@@ -7,6 +8,29 @@ async def is_user_check(e):
     user = await is_user(e, REACTBOT)
     if not user:
         raise events.StopPropagation
+    if not (e.sender_id in session):return
+    target = None
+    if e.text.startswith('@') or e.text.isdigit() or e.text.startswith('https://'):
+        target = e.text
+    else:
+        return await e.reply('عذرا الايدي او اليوزر غير صحيح')
+    chat = await ABH.get_entity(target)
+    if not chat:return await e.reply('عذرا بس ماكو هيج قناة')
+    if not isinstance(chat, Channel) or not chat.broadcast:
+        return await e.reply('صديقي اتفقنه رابط قناة مو شيء اخر!')
+    photo_file = None
+    if chat.photo:
+        photo_bytes = await ABH.download_profile_photo(chat, file=bytes)
+        if photo_bytes:
+            photo_file = BytesIO(photo_bytes)
+            photo_file.name = "photo.jpg"
+    buttons = [
+        Button.inline('نعم', data=f'save:{target}', style=green),
+        Button.inline('لا', data=f'no:{target}', style=red),
+    ]
+    if photo_file:
+        return await e.reply("⚙️ **هل تريد حفظ القناة؟:**", file=photo_file, buttons=buttons)
+    return await e.reply("⚙️ **هل تريد حفظ القناة؟:**", buttons=buttons)
 b = [
     [Button.inline('اضف قناة', data='add_chat', style='success', icon=336920350212227131),
     Button.inline('القنوات', data='chats', style=blue, icon=336920350212227131),],
@@ -14,7 +38,12 @@ b = [
     Button.inline('معلومات اخرى', data='info', style=green, icon=5397916757333654639),]]
 @REACTBOT.on(events.NewMessage(pattern=r'^/start'))
 async def start(e):
-    await e.reply(f'اهلا عزيزي ( {await ment(e)} ) اني بوت رياكشن \n وظيفتي اسوي تفاعلات على المسجات ب قناتك , شنو تحب تسوي؟', buttons=b)
+    p = profile(e.sender_id)
+    input_media = await get_input_media(p.get('media', None))
+    text = f'اهلا عزيزي ( {await ment(e)} ) اني بوت رياكشن \n وظيفتي اسوي تفاعلات على المسجات ب قناتك , شنو تحب تسوي؟'
+    if input_media:
+        return await REACTBOT.send_file(e.chat_id, file=input_media, caption=text, buttons=b)
+    else:await PROFILE_SEND(e, text, buttons=b)
 session = {}
 back = [Button.inline('الرجوع', data='back', style=red, icon=5352759161945867747)]
 years, months, days  = get_years_months_days('2026-8-14')
