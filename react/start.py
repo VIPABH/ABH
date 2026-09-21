@@ -112,9 +112,8 @@ async def react_callback(e):
         '''
         return await e.edit(text, buttons=back)
     elif '-' in data:
-        print(data.split('-'))
-        arg, chat, owner_id = data.split(':')
-        if arg == 'yes':
+        arg, chat, owner_id = data.split('-')
+        if arg == 'save':
             await e.answer("يجري الحفظ")
             data[str(chat)] = {
                 'owner': owner_id,
