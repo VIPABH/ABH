@@ -112,11 +112,9 @@ async def react_callback(e):
         '''
         return await e.edit(text, buttons=back)
     elif ':' in data:
-        arg, chat = data.split(':')
+        arg, chat, owner_id = data.split(':')
         if arg == 'yes':
             await e.answer("يجري الحفظ")
-            owner = await get_channel_owner(chat)
-            owner_id = owner.id if owner else None
             data[str(chat)] = {
                 'owner': owner_id,
                 'added_by': e.sender_id,
