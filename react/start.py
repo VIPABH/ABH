@@ -1,7 +1,7 @@
 from telethon.tl.types import Channel
 from helpers import *
 from .ABHS import *
-import asyncio
+import asyncio, re
 data = create('data.json')
 @REACTBOT.on(events.NewMessage)
 async def is_user_check(e):
@@ -44,23 +44,27 @@ async def start(e):
     await PROFILE_SEND(REACTBOT, e, text, buttons=b)
 session = {}
 back = [Button.inline('الرجوع', data='back', style=red, icon=5352759161945867747)]
-years, months, days  = get_years_months_days('2026-8-14')
-@REACTBOT.on(events.CallbackQuery(data='(add_chat|chats|use|info)'))
+years, months, days = get_years_months_days('2026-08-14')
+@REACTBOT.on(events.CallbackQuery(data=re.compile(r'^(add_chat|chats|use|info|back)$')))
 async def react_callback(e):
+    await e.answer()
     data = e.data.decode('utf-8')
-    id = e.sender_id
+    sender_id = e.sender_id
     if data == 'back':
         return await e.edit('شنو تحب تسوي؟', buttons=b)
     elif data == 'add_chat':
-        session[id] = data
+        session[sender_id] = data
         return await e.reply('ارسل الان يوزر او ايدي او رابط القناة')
     elif data == 'chats':
-        if not (id in data):return await e.edit('عذرا بس ماعندك قنوات مضافة')
-        text = 'القنوات المضافة👇🏾:'
-        chats = data[id].keys()
-        chats_info = await REACTBOT.get_entity([int(chat_id)for chat in chats])
-        for i, chat_id in enumerate(chats_info, start=1):
-            text += f'\n {i}- {channel.title} ( `{chat_id}` )'
+        if sender_id not in data or not data[sender_id]:
+            return await e.edit('عذراً بس ما عندك قنوات مضافة', buttons=back)
+        text = 'القنوات المضافة👇🏾:\n'
+        chat_ids = list(data[sender_id].keys())
+        chats_info = await REACTBOT.get_entity([int(c_id) for c_id in chat_ids])
+        if not isinstance(chats_info, list):
+            chats_info = [chats_info]
+        for i, channel in enumerate(chats_info, start=1):
+            text += f'\n{i}- {channel.title} ( `{channel.id}` )'
         return await e.edit(text, buttons=back)
     elif data == 'use':
         text = '''
@@ -71,19 +75,18 @@ async def react_callback(e):
 3- ممنوع طرد البوت من القناة او تنزيله من الاشراف
 4- احذف البوت عبر الازرار من قسم القنوات
 5- ممنوع تخريب اي شيء يخص البوت
+
 البوت مجهز كليا وكل الثغرات تم تجهيز لها الحماية المناسبة
 في حال تمت مخالفة القوانين سيتم حظرك من البوت رسميا ابلاغ المطور ب مخالفتك
         '''
         return await e.edit(text, buttons=back)
     elif data == 'info':
-        photo = await get_profile_photo(wfffp)
         text = f'''
 اهلا عزيزي ( {await ment(e)} )
-اني بوت رياكشن عمري ( {months} أشهر ) و ( {days} يوم  )
-مبرمجي هو ابن هاشم , ( @wfffp - @k_4x1  )
+اني بوت رياكشن عمري ( {months} أشهر ) و ( {days} يوم )
+مبرمجي هو ابن هاشم , ( @wfffp - @k_4x1 )
 اني متاح للاستخدام المجاني والمقابل فقط هو الاستفادة❤
 تكدر تخصص كل قناة عبر الضغط على اسمها في قسم القنوات
 لرؤية باقي البوتات ( @ABHBOTS )
         '''
-        if photo:return await e.edit(text, buttons=b, media=photo)
         return await e.edit(text, buttons=back)
