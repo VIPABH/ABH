@@ -40,11 +40,8 @@ b = [
 async def start(e):
     p = profile(e.sender_id)
     input_media = await get_input_media(p.get('media', None))
-    print(input_media)
     text = f'اهلا عزيزي ( {await ment(e)} ) اني بوت رياكشن \n وظيفتي اسوي تفاعلات على المسجات ب قناتك , شنو تحب تسوي؟'
-    if input_media:
-        return await REACTBOT.send_file(e.chat_id, file=input_media, caption=text, buttons=b)
-    else:await PROFILE_SEND(e, text, buttons=b)
+    await PROFILE_SEND(REACTBOT, e, text, buttons=b)
 session = {}
 back = [Button.inline('الرجوع', data='back', style=red, icon=5352759161945867747)]
 years, months, days  = get_years_months_days('2026-8-14')
