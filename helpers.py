@@ -1,3 +1,4 @@
+from telethon.tl.types import ChannelParticipantsAdmins, ChannelParticipantCreator
 from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.types import ChannelParticipantsMentions
 from telethon import TelegramClient, events, Button
@@ -150,7 +151,7 @@ async def PROFILE_SEND(ABH, e, text, buttons=None, id=None):
     msg = await e.reply(text, buttons=buttons)
     return msg
 async def get_channel_owner(chat):
-    async for user in REACTBOT.iter_participants(chat, filter=ChannelParticipantsAdmins):
+    async for user in REACTBOT.iter_participants(chat_entity, filter=ChannelParticipantsAdmins()):
         if isinstance(user.participant, ChannelParticipantCreator):
             return user
     return None
