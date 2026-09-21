@@ -65,7 +65,7 @@ async def start(e):
 session = {}
 back = [Button.inline('الرجوع', data='back', style=red, icon=5352759161945867747)]
 years, months, days = get_years_months_days('2026-08-14')
-@REACTBOT.on(events.CallbackQuery(data=re.compile(r'^(add_chat|chats|use|info|back|yes:|no:)')))
+@REACTBOT.on(events.CallbackQuery(data=re.compile(r'^(add_chat|chats|use|info|back|yes-|no-)')))
 async def react_callback(e):
     await e.answer()
     data = e.data.decode('utf-8')
