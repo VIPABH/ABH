@@ -40,6 +40,7 @@ b = [
 async def start(e):
     p = profile(e.sender_id)
     input_media = await get_input_media(p.get('media', None))
+    print(input_media)
     text = f'اهلا عزيزي ( {await ment(e)} ) اني بوت رياكشن \n وظيفتي اسوي تفاعلات على المسجات ب قناتك , شنو تحب تسوي؟'
     if input_media:
         return await REACTBOT.send_file(e.chat_id, file=input_media, caption=text, buttons=b)
