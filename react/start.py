@@ -1,4 +1,5 @@
 from telethon.tl.types import Channel
+from io import BytesIO
 from helpers import *
 from .ABHS import *
 import asyncio, re
