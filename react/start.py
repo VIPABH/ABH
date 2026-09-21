@@ -14,10 +14,12 @@ async def is_user_check(e):
         target = e.text
     else:
         return await e.reply('عذرا الايدي او اليوزر غير صحيح')
-    chat = await REACTBOT.get_entity(target)
+    try:
+        chat = await REACTBOT.get_entity(target)
+    except:return await e.edit('عذرا بس ماكدرت اوفر معلومات القناة هاي')
     if not chat:return await e.reply('عذرا بس ماكو هيج قناة')
     if not isinstance(chat, Channel) or not chat.broadcast:
-        return await e.reply('صديقي اتفقنه رابط قناة مو شيء اخر!')
+        return await e.reply('صديقي اتفقنه تضيف قناة مو شيء اخر!')
     photo_file = None
     if chat.photo:
         photo_bytes = await ABH.download_profile_photo(chat, file=bytes)
