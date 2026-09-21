@@ -112,6 +112,7 @@ async def react_callback(e):
         '''
         return await e.edit(text, buttons=back)
     elif ':' in data:
+        print(data.split(':'))
         arg, chat, owner_id = data.split(':')
         if arg == 'yes':
             await e.answer("يجري الحفظ")
