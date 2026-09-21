@@ -1,5 +1,5 @@
 from telethon.tl.functions.channels import GetParticipantRequest
-from telethon import TelegramClient, events, connection, Button
+from telethon import TelegramClient, events, Button
 from telethon.errors import UserNotParticipantError
 from client import *
 import asyncio, json
@@ -71,3 +71,15 @@ def profile(user_id):
     return json.loads(data) if data else None
 async def hint(ABH, text):
     await ABH.send_message(wfffp, text)
+red = "danger"
+green = "success"
+blue = "primary"
+def create(filename):
+    if not os.path.exists(filename):
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump({}, f, ensure_ascii=False, indent=4)
+    with open(filename, 'r', encoding='utf-8') as f:
+        try:
+            return json.load(f)
+        except json.JSONDecodeError:
+            return {}
