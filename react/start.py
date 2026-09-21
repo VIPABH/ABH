@@ -18,13 +18,13 @@ async def is_user_check(e):
     if e.text.startswith('@') or e.text.isdigit() or e.text.startswith('https://'):
         target = e.text
     else:
-        return await e.reply('عذرا الايدي او اليوزر غير صحيح')
+        return await e.reply('عذرا الايدي او اليوزر غير صحيح', buttons=back)
     try:
         chat = await REACTBOT.get_entity(target)
-    except:return await e.edit('عذرا بس ماكدرت اوفر معلومات القناة هاي')
+    except:return await e.edit('عذرا بس ماكدرت اوفر معلومات القناة هاي', buttons=back)
     if not chat:return await e.reply('عذرا بس ماكو هيج قناة')
     if not isinstance(chat, Channel) or not chat.broadcast:
-        return await e.reply('صديقي اتفقنه تضيف قناة مو شيء اخر!')
+        return await e.reply('صديقي اتفقنه تضيف قناة مو شيء اخر!', buttons=back)
     try:
         bot_user = await REACTBOT.get_me()
         participant = await REACTBOT(GetParticipantRequest(
@@ -33,10 +33,10 @@ async def is_user_check(e):
         ))    
         is_admin = isinstance(participant.participant, (ChannelParticipantAdmin))
         if not is_admin:
-            return await e.reply("البوت مو مشرف! ارفعه مشرف بالاول وعيد المحاولة")
+            return await e.reply("البوت مو مشرف! ارفعه مشرف بالاول وعيد المحاولة", buttons=back)
     except UserNotParticipantError:
-        return await e.reply("❌ البوت غير موجود في القناة! يرجى إضافته ورفعه مشرفاً أولاً.")
-    owner = get_channel_owner(chat)
+        return await e.reply("❌ البوت غير موجود في القناة! يرجى إضافته ورفعه مشرفاً أولاً.", buttons=back)
+    owner = await get_channel_owner(chat)
     photo_file = None
     if chat.photo:
         photo_bytes = await REACTBOT.download_profile_photo(chat, file=bytes)
