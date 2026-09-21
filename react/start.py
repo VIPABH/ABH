@@ -1,26 +1,19 @@
 from helpers import *
 from .ABHS import *
 import asyncio
-rules = [
-    'ممنوع تنقل ملكية لأي حساب من الحسابات', 
-    'ممنوع تضيف اي حساب مو مضاف مسبقا',
-    'ممنوع تطرد اي حساب ',
-]
-text = f'**قوانين البوت!**\n'
-for num, rule in enumerate(rules, start=1):
-    text += f'{num}- `{rule}`\n'
-text += 'البوت ممجاني بالكامل كل ما عليك الالتزام بالقوانين وفقط\n واذا حبيت تحذف التفاعلات او تطرد حساب معين انتقل الى قسم الاعدادات وهناك خصص قناتك مثل ما تحب'
-session = {}
+@REACTBOT.on(events.NewMessage)
+async def is_user_check(e):
+    user = await is_user(e, REACTBOT)
+    if not user:
+        raise events.StopPropagation
 @REACTBOT.on(events.NewMessage(pattern=r'^/start'))
 async def start(e):
+    if not e.is_private:return
     id = e.sender_id
     if id in session:return
-    session[id] = 'rules'
-    await e.reply(f'اهلا عزيزي ( {await ment(e)} ) اني بوت رياكشن \n وظيفتي اسوي تفاعلات على المسجات ب قناتك')
-    await asyncio.sleep(3)
-    await e.respond(f'استخدامي سلس و واضح و بسيط فقط كل ما عليك الالتزام بالقوانين')
-    await asyncio.sleep(3)
-    await e.respond(text)
-    await asyncio.sleep(10)
-    await e.respond('التزم بالقوانين واستمتع ب استخدامك للبوت, صنع ب حب بواسطة المبدع @k_4x1 ❤')
-    del session[id]
+    b = [
+        [Button.inline('اضف قناة', data='add_chat', style='success', icon=336920350212227131),
+        Button.inline('القنوات', data='chats', style=blue, icon=336920350212227131),],
+        [Button.inline('طريقة الاستخدام', data='chats', style=blue, icon=1269403972611866648),
+        Button.inline('معلومات اخرى', data='chats', style=green, icon=5397916757333654639),]]
+    await e.reply(f'اهلا عزيزي ( {await ment(e)} ) اني بوت رياكشن \n وظيفتي اسوي تفاعلات على المسجات ب قناتك , شنو تحب تسوي؟', buttons=b)
