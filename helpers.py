@@ -1,4 +1,5 @@
 from telethon.tl.functions.channels import GetParticipantRequest
+from telethon.tl.types import ChannelParticipantsMentions
 from telethon import TelegramClient, events, Button
 from telethon.errors import UserNotParticipantError
 from dateutil.relativedelta import relativedelta
@@ -148,3 +149,8 @@ async def PROFILE_SEND(ABH, e, text, buttons=None, id=None):
         await hint(ABH, f"فشلت محاولة إرسال ميديا الـ profile: {err}")
     msg = await e.reply(text, buttons=buttons)
     return msg
+async def get_channel_owner(chat):
+    async for user in REACTBOT.iter_participants(chat, filter=ChannelParticipantsAdmins):
+        if isinstance(user.participant, ChannelParticipantCreator):
+            return user
+    return None
