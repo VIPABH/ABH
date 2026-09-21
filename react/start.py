@@ -14,7 +14,7 @@ async def is_user_check(e):
         target = e.text
     else:
         return await e.reply('عذرا الايدي او اليوزر غير صحيح')
-    chat = await ABH.get_entity(target)
+    chat = await REACTBOT.get_entity(target)
     if not chat:return await e.reply('عذرا بس ماكو هيج قناة')
     if not isinstance(chat, Channel) or not chat.broadcast:
         return await e.reply('صديقي اتفقنه رابط قناة مو شيء اخر!')
