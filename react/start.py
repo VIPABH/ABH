@@ -115,7 +115,7 @@ async def react_callback(e):
         arg, chat, owner_id = data.split('-')
         if arg == 'yes':
             await e.answer("يجري الحفظ")
-            data[str(chat)] = {
+            data[chat] = {
                 'owner': owner_id,
                 'added_by': e.sender_id,
                 'react': 5,
