@@ -113,15 +113,38 @@ async def get_input_media(media_data):
     if media_data['type'] == "doc":
         return types.InputDocument(id=m_id, access_hash=m_hash, file_reference=m_ref)
     return types.InputPhoto(id=m_id, access_hash=m_hash, file_reference=m_ref)
-async def PROFILE_SEND(e, text, buttons=None, id=None):
-    id = id or e.sender_id
-    input_media = None
-    p = profile(id)
-    if p:
-        input_media = await get_input_media(p.get('media', None))
-    if l and input_media:
-        msg_id = getattr(e, 'message_id', None) or (e.message.id if hasattr(e, 'message') else e.id)    
-        msg = await ABH.send_file(e.chat_id, file=input_media, caption=text, buttons=buttons, reply_to=msg_id)
-    else:
-        msg = await e.reply(text, buttons=buttons)
+async def PROFILE_SEND(ABH, e, text, buttons=None, id=None):
+    user_id = id or e.sender_id
+    msg_id = getattr(e, 'message_id', None) or (e.message.id if hasattr(e, 'message') else e.id)
+    msg = None
+    try:
+        user_entity = await ABH.get_entity(user_id)
+        photos = await ABH.get_profile_photos(user_entity, limit=1)
+        if photos:
+            msg = await ABH.send_file(
+                e.chat_id, 
+                file=photos[0], 
+                caption=text, 
+                buttons=buttons, 
+                reply_to=msg_id
+            )
+            return msg
+    except Exception as err:
+        await hint(ABH, f"فشلت محاولة إرسال افتار الـ ID: {err}")
+    try:
+        p = profile(user_id)
+        if p and p.get('media'):
+            input_media = await get_input_media(p.get('media'))
+            if input_media:
+                msg = await ABH.send_file(
+                    e.chat_id, 
+                    file=input_media, 
+                    caption=text, 
+                    buttons=buttons, 
+                    reply_to=msg_id
+                )
+                return msg
+    except Exception as err:
+        await hint(ABH, f"فشلت محاولة إرسال ميديا الـ profile: {err}")
+    msg = await e.reply(text, buttons=buttons)
     return msg
