@@ -44,8 +44,8 @@ async def is_user_check(e):
             photo_file = BytesIO(photo_bytes)
             photo_file.name = "photo.jpg"
     buttons = [
-        Button.inline('نعم', data=f'save:{target}:{owner.id}', style=green),
-        Button.inline('لا', data=f'no:{target}:{owner.id}', style=red),
+        Button.inline('نعم', data=f'save-{target}-{owner.id}', style=green),
+        Button.inline('لا', data=f'no-{target}-{owner.id}', style=red),
     ]
     del session[e.sender_id]
     if photo_file:
@@ -111,8 +111,8 @@ async def react_callback(e):
 لرؤية باقي البوتات ( @ABHBOTS )
         '''
         return await e.edit(text, buttons=back)
-    elif ':' in data:
-        print(data.split(':'))
+    elif '-' in data:
+        print(data.split('-'))
         arg, chat, owner_id = data.split(':')
         if arg == 'yes':
             await e.answer("يجري الحفظ")
