@@ -1,4 +1,8 @@
+from telethon.tl.functions.channels import GetParticipantRequest
+from telethon.tl.types import ChannelParticipantAdmin
+from telethon.errors import UserNotParticipantError
 from telethon.tl.types import Channel
+from datetime import datetime
 from io import BytesIO
 from helpers import *
 from .ABHS import *
@@ -21,6 +25,18 @@ async def is_user_check(e):
     if not chat:return await e.reply('عذرا بس ماكو هيج قناة')
     if not isinstance(chat, Channel) or not chat.broadcast:
         return await e.reply('صديقي اتفقنه تضيف قناة مو شيء اخر!')
+    try:
+        bot_user = await REACTBOT.get_me()
+        participant = await REACTBOT(GetParticipantRequest(
+            channel=chat,
+            participant=bot_user.id
+        ))    
+        is_admin = isinstance(participant.participant, (ChannelParticipantAdmin))
+        if not is_admin:
+            return await e.reply("البوت مو مشرف! ارفعه مشرف بالاول وعيد المحاولة")
+    except UserNotParticipantError:
+        return await e.reply("❌ البوت غير موجود في القناة! يرجى إضافته ورفعه مشرفاً أولاً.")
+    owner = get_channel_owner(chat)
     photo_file = None
     if chat.photo:
         photo_bytes = await REACTBOT.download_profile_photo(chat, file=bytes)
@@ -28,9 +44,10 @@ async def is_user_check(e):
             photo_file = BytesIO(photo_bytes)
             photo_file.name = "photo.jpg"
     buttons = [
-        Button.inline('نعم', data=f'save:{target}', style=green),
-        Button.inline('لا', data=f'no:{target}', style=red),
+        Button.inline('نعم', data=f'save:{target}:{owner.id}', style=green),
+        Button.inline('لا', data=f'no:{target}:{owner.id}', style=red),
     ]
+    del session[e.sender_id]
     if photo_file:
         return await e.reply("⚙️ **هل تريد حفظ القناة؟:**", file=photo_file, buttons=buttons)
     return await e.reply("⚙️ **هل تريد حفظ القناة؟:**", buttons=buttons)
@@ -48,7 +65,7 @@ async def start(e):
 session = {}
 back = [Button.inline('الرجوع', data='back', style=red, icon=5352759161945867747)]
 years, months, days = get_years_months_days('2026-08-14')
-@REACTBOT.on(events.CallbackQuery(data=re.compile(r'^(add_chat|chats|use|info|back)$')))
+@REACTBOT.on(events.CallbackQuery(data=re.compile(r'^(add_chat|chats|use|info|back|yes:|no:)')))
 async def react_callback(e):
     await e.answer()
     data = e.data.decode('utf-8')
@@ -94,3 +111,26 @@ async def react_callback(e):
 لرؤية باقي البوتات ( @ABHBOTS )
         '''
         return await e.edit(text, buttons=back)
+    elif ':' in data:
+        arg, chat = data.split(':')
+        if arg == 'yes':
+            await e.answer("يجري الحفظ")
+            owner = await get_channel_owner(chat)
+            owner_id = owner.id if owner else None
+            data[str(chat)] = {
+                'owner': owner_id,
+                'added_by': e.sender_id,
+                'react': 5,
+                'views': 5,
+                'at_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            }
+            with open('info.json', 'w', encoding='utf-8') as f:
+                json.dump(data, f, ensure_ascii=False, indent=4)
+            return await e.edit(
+                f"✅ **تمت إضافة القناة بنجاح!**\n\n"
+                f"🆔 القناة: `{chat}`\n"
+                f"👑 أيدي المالك: `{owner_id or 'غير معروف'}`\n"
+                f"⏰ الوقت: `{data[str(chat)]['at_time']}`",
+                buttons=back
+            )
+        else: await e.edit('تم تجاهل الحفظ👍🏾', buttons=back)
