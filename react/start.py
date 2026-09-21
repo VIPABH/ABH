@@ -12,12 +12,9 @@ b = [
     Button.inline('القنوات', data='chats', style=blue, icon=336920350212227131),],
     [Button.inline('طريقة الاستخدام', data='use', style=blue, icon=1269403972611866648),
     Button.inline('معلومات اخرى', data='info', style=green, icon=5397916757333654639),]]
-await e.reply(f'اهلا عزيزي ( {await ment(e)} ) اني بوت رياكشن \n وظيفتي اسوي تفاعلات على المسجات ب قناتك , شنو تحب تسوي؟', buttons=b)
 @REACTBOT.on(events.NewMessage(pattern=r'^/start'))
 async def start(e):
-    if not e.is_private:return
-    id = e.sender_id
-    if id in session:return
+    await e.reply(f'اهلا عزيزي ( {await ment(e)} ) اني بوت رياكشن \n وظيفتي اسوي تفاعلات على المسجات ب قناتك , شنو تحب تسوي؟', buttons=b)
 session = {}
 back = [Button.inline('الرجوع', data='back', style=red, icon=5352759161945867747)]
 years, months, days  = get_years_months_days('2026-8-14')
