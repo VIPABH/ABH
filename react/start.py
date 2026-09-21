@@ -51,10 +51,11 @@ async def react_callback(e):
     data = e.data.decode('utf-8')
     sender_id = e.sender_id
     if data == 'back':
+        if sender_id in session:del session[sender_id]
         return await e.edit('شنو تحب تسوي؟', buttons=b)
     elif data == 'add_chat':
         session[sender_id] = data
-        return await e.reply('ارسل الان يوزر او ايدي او رابط القناة')
+        return await e.edit('ارسل الان يوزر او ايدي او رابط القناة')
     elif data == 'chats':
         if sender_id not in data or not data[sender_id]:
             return await e.edit('عذراً بس ما عندك قنوات مضافة', buttons=back)
