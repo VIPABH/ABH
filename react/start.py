@@ -8,6 +8,7 @@ from helpers import *
 from .ABHS import *
 import asyncio, re
 data = create('data.json')
+session = {}
 @REACTBOT.on(events.NewMessage)
 async def is_user_check(e):
     user = await is_user(e, REACTBOT)
@@ -43,11 +44,17 @@ async def is_user_check(e):
         if photo_bytes:
             photo_file = BytesIO(photo_bytes)
             photo_file.name = "photo.jpg"
+    session[e.sender_id] = {
+        'channel_name': chat.title,
+        'channel_id': chat.id,
+        'owner': owner.id,
+        'added_by': e.sender_id,
+        'row_text': e.text,
+        }
     buttons = [
-        Button.inline('نعم', data=f'yes-{chat}-{owner.id}-{target}', style=green),
-        Button.inline('لا', data=f'no-{target}-{owner.id}'-{target}, style=red),
+        Button.inline('نعم', data=f'yes', style=green),
+        Button.inline('لا', data=f'no', style=red),
     ]
-    del session[e.sender_id]
     if photo_file:
         return await e.reply("⚙️ **هل تريد حفظ القناة؟:**", file=photo_file, buttons=buttons)
     return await e.reply("⚙️ **هل تريد حفظ القناة؟:**", buttons=buttons)
@@ -62,10 +69,9 @@ async def start(e):
     input_media = await get_input_media(p.get('media', None))
     text = f'اهلا عزيزي ( {await ment(e)} ) اني بوت رياكشن \n وظيفتي اسوي تفاعلات على المسجات ب قناتك , شنو تحب تسوي؟'
     await PROFILE_SEND(REACTBOT, e, text, buttons=b)
-session = {}
 back = [Button.inline('الرجوع', data='back', style=red, icon=5352759161945867747)]
 years, months, days = get_years_months_days('2026-08-14')
-@REACTBOT.on(events.CallbackQuery(data=re.compile(r'^(add_chat|chats|use|info|back|yes-|no-)')))
+@REACTBOT.on(events.CallbackQuery(data=re.compile(r'^(add_chat|chats|use|info|back|yes|no)')))
 async def react_callback(e):
     await e.answer()
     data = e.data.decode('utf-8')
@@ -111,25 +117,27 @@ async def react_callback(e):
 لرؤية باقي البوتات ( @ABHBOTS )
         '''
         return await e.edit(text, buttons=back)
-    elif '-' in data:
-        arg, chat, owner_id, target = data.split('-')
-        if arg == 'yes':
-            await e.answer("يجري الحفظ")
-            data[chat] = {
-                'owner': owner_id,
-                'added_by': e.sender_id,
-                'react': 5,
-                'views': 5,
-                'at_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            }
-            with open('info.json', 'w', encoding='utf-8') as f:
-                json.dump(data, f, ensure_ascii=False, indent=4)
-            return await e.edit(
-                f"✅ **تمت إضافة القناة بنجاح!**\n\n"
-                f"🆔 القناة: `{chat}`\n"
-                f"👑 أيدي المالك: `{owner_id or 'غير معروف'}`\n"
-                f"⬜ النص المرفق ( {target} )\n"
-                f"⏰ الوقت: `{data[str(chat)]['at_time']}`",
-                buttons=back
-            )
-        else: await e.edit('تم تجاهل الحفظ👍🏾', buttons=back)
+    elif data == 'no':return await e.edit('تم تجاهل الحفظ👍🏾', buttons=back)
+    elif data == 'yes':
+        db = session.get(e.sender_id, None)
+        if not db:return await e.edit('اكو نقص بالمعلومات , عيد المحاولة', buttons=back)
+        await e.answer("يجري الحفظ")
+        data[chat] = {
+            'owner': db.get(owner),
+            'added_by': db.get('added_by'),
+            'row_text': db.get('row_text'),
+            'react': 5,
+            'views': 5,
+            'at_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        }
+        with open('info.json', 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=4)
+        return await e.edit(
+            f"✅ **تمت إضافة القناة بنجاح!**\n\n"
+            f"🆔 القناة: ( `{chat}` )\n"
+            f"👑 أيدي المالك: ( `{owner_id or 'غير معروف'}` )\n"
+            f'✉ النص المرفق ( {db.get('row_text')} )'
+            f"⏰ وقت الحفظ: ( `{data[str(chat)]['at_time']}` )",
+            buttons=back
+        )
+    
