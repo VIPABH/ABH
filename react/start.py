@@ -83,7 +83,7 @@ async def react_callback(e):
         session[sender_id] = data
         return await e.edit('ارسل الان يوزر او ايدي او رابط القناة')
     elif data == 'chats':
-        if sender_id not in data or not data[sender_id]:
+        if not str(sender_id) in data or not data[sender_id]:
             return await e.edit('عذراً بس ما عندك قنوات مضافة', buttons=back)
         text = 'القنوات المضافة👇🏾:\n'
         chat_ids = list(data[sender_id].keys())
@@ -122,8 +122,9 @@ async def react_callback(e):
         db = session.get(e.sender_id, None)
         if not db:return await e.edit('اكو نقص بالمعلومات , عيد المحاولة', buttons=back)
         await e.answer("يجري الحفظ")
+        owner = db.get('owner')
         data[chat] = {
-            'owner': db.get(owner),
+            'owner': owner,
             'added_by': db.get('added_by'),
             'row_text': db.get('row_text'),
             'react': 5,
@@ -135,9 +136,8 @@ async def react_callback(e):
         return await e.edit(
             f"✅ **تمت إضافة القناة بنجاح!**\n\n"
             f"🆔 القناة: ( `{chat}` )\n"
-            f"👑 أيدي المالك: ( `{owner_id or 'غير معروف'}` )\n"
+            f"👑 أيدي المالك: ( `{owner or 'غير معروف'}` )\n"
             f'✉ النص المرفق ( {db.get('row_text')} )\n'
             f"⏰ وقت الحفظ: ( `{data[str(chat)]['at_time']}` )",
             buttons=back
         )
-    
