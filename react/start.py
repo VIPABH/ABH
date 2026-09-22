@@ -124,13 +124,14 @@ async def react_callback(e):
         await e.answer("يجري الحفظ")
         owner = db.get('owner')
         chat = db.get('channel_id')
+        time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         data[chat] = {
             'owner': owner,
             'added_by': db.get('added_by'),
             'row_text': db.get('row_text'),
             'react': 5,
             'views': 5,
-            'at_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            'at_time': time
         }
         with open('info.json', 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
@@ -139,6 +140,6 @@ async def react_callback(e):
             f"🆔 القناة: ( `{chat}` )\n"
             f"👑 أيدي المالك: ( `{owner or 'غير معروف'}` )\n"
             f'✉ النص المرفق ( {db.get('row_text')} )\n'
-            f"⏰ وقت الحفظ: ( `{data[str(chat)]['at_time']}` )",
+            f"⏰ وقت الحفظ: ( `{time}` )",
             buttons=back
         )
