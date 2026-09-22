@@ -42,7 +42,6 @@ async def react(event, chat=None, id=None):
             continue
 @REACTBOT.on(events.NewMessage)
 async def is_user_check(e):
-    print(e.chat_id)
     if e.chat_id in data:
         return await react(e)
     user = await is_user(e, REACTBOT)
