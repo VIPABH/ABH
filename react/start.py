@@ -7,7 +7,7 @@ from io import BytesIO
 from helpers import *
 from .ABHS import *
 import asyncio, re
-data = create('data.json')
+data = create('info.json')
 session = {}
 @REACTBOT.on(events.NewMessage)
 async def is_user_check(e):
