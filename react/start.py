@@ -136,7 +136,7 @@ async def react_callback(e):
             f"✅ **تمت إضافة القناة بنجاح!**\n\n"
             f"🆔 القناة: ( `{chat}` )\n"
             f"👑 أيدي المالك: ( `{owner_id or 'غير معروف'}` )\n"
-            f'✉ النص المرفق ( {db.get('row_text')} )'
+            f'✉ النص المرفق ( {db.get('row_text')} )\n'
             f"⏰ وقت الحفظ: ( `{data[str(chat)]['at_time']}` )",
             buttons=back
         )
