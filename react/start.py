@@ -10,8 +10,6 @@ import asyncio, re
 data = create('info.json')
 session = {}
 async def react(event, chat=None, id=None):
-    if not event.is_channel or not event.message or not event.message.post:
-        return
     chat_id = chat if chat else event.chat_id
     msg_id = id if id else event.message.id
     for ABH in ABHS:
@@ -42,6 +40,7 @@ async def react(event, chat=None, id=None):
             continue
 @REACTBOT.on(events.NewMessage)
 async def is_user_check(e):
+    print(e.chat_id in data)
     if e.chat_id in data:
         return await react(e)
     user = await is_user(e, REACTBOT)
