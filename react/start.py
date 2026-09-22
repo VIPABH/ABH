@@ -9,8 +9,41 @@ from .ABHS import *
 import asyncio, re
 data = create('info.json')
 session = {}
+async def react(event, chat=None, id=None):
+    if not event.is_channel or not event.message or not event.message.post:
+        return
+    chat_id = chat if chat else event.chat_id
+    msg_id = id if id else event.message.id
+    for ABH in ABHS:
+        try:
+            try:
+                peer = await ABH.get_input_entity(chat_id)
+            except Exception:
+                peer = await ABH.get_entity(chat_id)
+            try:
+                await ABH(GetMessagesViewsRequest(
+                    peer=peer,
+                    id=[msg_id],
+                    increment=True
+                ))
+            except Exception as view_error:
+                print(f"فشل في زيادة المشاهدة: {view_error}")
+            stored = get_reactions(event.chat_id)
+            emoji = random.choice(stored) if stored else random.choice(['❤️', '🕊', '🌚'])
+            await ABH(SendReactionRequest(
+                peer=peer,
+                msg_id=msg_id,
+                reaction=[ReactionEmoji(emoticon=emoji)],
+                big=False
+            ))                        
+            await asyncio.sleep(2)
+        except Exception as e:
+            print(f"Error for account {ABH.session.filename if hasattr(ABH, 'session') else 'Bot'}: {e}")
+            continue
 @REACTBOT.on(events.NewMessage)
 async def is_user_check(e):
+    if e.chat_id in data:
+        return await react(e)
     user = await is_user(e, REACTBOT)
     if not user:
         raise events.StopPropagation
