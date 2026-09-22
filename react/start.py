@@ -123,6 +123,7 @@ async def react_callback(e):
         if not db:return await e.edit('اكو نقص بالمعلومات , عيد المحاولة', buttons=back)
         await e.answer("يجري الحفظ")
         owner = db.get('owner')
+        chat = db.get('channel_id')
         data[chat] = {
             'owner': owner,
             'added_by': db.get('added_by'),
