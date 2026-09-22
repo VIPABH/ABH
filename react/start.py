@@ -74,26 +74,26 @@ years, months, days = get_years_months_days('2026-08-14')
 @REACTBOT.on(events.CallbackQuery(data=re.compile(r'^(add_chat|chats|use|info|back|yes|no)')))
 async def react_callback(e):
     await e.answer()
-    data = e.data.decode('utf-8')
+    row_data = e.data.decode('utf-8')
     sender_id = e.sender_id
-    if data == 'back':
+    if row_data == 'back':
         if sender_id in session:del session[sender_id]
         return await e.edit('شنو تحب تسوي؟', buttons=b)
-    elif data == 'add_chat':
-        session[sender_id] = data
+    elif row_data == 'add_chat':
+        session[sender_id] = row_data
         return await e.edit('ارسل الان يوزر او ايدي او رابط القناة')
-    elif data == 'chats':
-        if not str(sender_id) in data or not data[sender_id]:
+    elif row_data == 'chats':
+        if not str(sender_id) in row_data or not row_data[sender_id]:
             return await e.edit('عذراً بس ما عندك قنوات مضافة', buttons=back)
         text = 'القنوات المضافة👇🏾:\n'
-        chat_ids = list(data[sender_id].keys())
+        chat_ids = list(row_data[sender_id].keys())
         chats_info = await REACTBOT.get_entity([int(c_id) for c_id in chat_ids])
         if not isinstance(chats_info, list):
             chats_info = [chats_info]
         for i, channel in enumerate(chats_info, start=1):
             text += f'\n{i}- {channel.title} ( `{channel.id}` )'
         return await e.edit(text, buttons=back)
-    elif data == 'use':
+    elif row_data == 'use':
         text = '''
 اهلا عزيزي حياك الله 
 الاستخدام سهل و بسيط كل ما عليك هو تطبيق الشروط الاتية
@@ -107,7 +107,7 @@ async def react_callback(e):
 في حال تمت مخالفة القوانين سيتم حظرك من البوت رسميا ابلاغ المطور ب مخالفتك
         '''
         return await e.edit(text, buttons=back)
-    elif data == 'info':
+    elif row_data == 'info':
         text = f'''
 اهلا عزيزي ( {await ment(e)} )
 اني بوت رياكشن عمري ( {months} أشهر ) و ( {days} يوم )
@@ -117,8 +117,8 @@ async def react_callback(e):
 لرؤية باقي البوتات ( @ABHBOTS )
         '''
         return await e.edit(text, buttons=back)
-    elif data == 'no':return await e.edit('تم تجاهل الحفظ👍🏾', buttons=back)
-    elif data == 'yes':
+    elif row_data == 'no':return await e.edit('تم تجاهل الحفظ👍🏾', buttons=back)
+    elif row_data == 'yes':
         db = session.get(e.sender_id, None)
         if not db:return await e.edit('اكو نقص بالمعلومات , عيد المحاولة', buttons=back)
         await e.answer("يجري الحفظ")
