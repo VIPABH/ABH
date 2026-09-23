@@ -11,6 +11,12 @@ from .ABHS import *
 import asyncio, re
 data = create('info.json')
 session = {}
+def get_reactions(chat_id):
+    key = f"chat_reactions:{chat_id}"
+    return list(r.smembers(key))
+def get_random_reaction(chat_id):
+    reactions = get_reactions(chat_id)
+    return random.choice(reactions) if reactions else None
 async def process_single_react(ABH, chat_id, msg_id, stored_emojis):
     session_name = ABH.session.filename if hasattr(ABH, 'session') else 'Bot'
     try:
