@@ -4,12 +4,14 @@ import sys
 import logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.ERROR)
+    level=logging.ERROR
+)
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from client import BUTTON_BOT, REACTBOT
 import buttonbot
 import react
-from react.run import run_react, ABHS, mainABH, bot
+from react.run import run_react
+from react.ABHS import *
 async def main():
     token_button = os.getenv("BUTTON_BOT")
     token_react = os.getenv("REACTBOT")
@@ -20,7 +22,7 @@ async def main():
     await BUTTON_BOT.start(bot_token=token_button)
     print("✅ BUTTON_BOT is running!")
     await run_react()
-    print("⚡ جميع البوتات والحسابات تعمل الآن ضمن Loop واحدة.")
+    print("⚡ جميع البوتات والحسابات تعمل الآن بنجاح ضمن Event Loop واحدة.")
     try:
         await asyncio.Event().wait()
     except (KeyboardInterrupt, SystemExit):
@@ -41,4 +43,4 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except (KeyboardInterrupt, SystemExit):
-        print("\n🛑 تم إيقاف تشغيل البوتين.")
+        print("\n🛑 تم إيقاف تشغيل المشاري.")
