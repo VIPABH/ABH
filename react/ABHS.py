@@ -34,25 +34,28 @@ async def sync_users():
             print(f"❌ خطأ أثناء جلب بيانات الحساب {ABH.session.filename}: {e}")
 async def init_clients():
     if not bot.is_connected():
-        await bot.start(bot_token=bot_token)        
+        await bot.start(bot_token=bot_token)    
     react_token = os.getenv("REACTBOT")
     if react_token and not REACTBOT.is_connected():
         await REACTBOT.start(bot_token=react_token)
     if not mainABH.is_connected():
-        await mainABH.connect()
-        if not await mainABH.is_user_authorized():
-            print("⚠️ الحساب الرئيسي mainABH غير محقق (لم يسجل الدخول).")
+        await mainABH.start()
+    valid_clients = []
     for session_name, client in clients.items():
         if session_name == 'wfffp':
             continue
         try:
             if not client.is_connected():
-                print(f"⏳ جاري الاتصال بالـ Session: {session_name}...")
-                await client.connect()
-            if not await client.is_user_authorized():
-                print(f"❌ الجلسة {session_name}.session غير مسجلة دخول أو منتهية الصلاحية!")
+                print(f"⏳ جاري تشغيل الجلسة {session_name}...")
+                await client.start()
+                
+            if await client.is_user_authorized():
+                print(f"✅ تم تفعيل الجلسة {session_name} بنجاح.")
+                valid_clients.append(client)
             else:
-                print(f"✅ تم اتصال الجلسة {session_name} بنجاح.")
+                print(f"❌ الجلسة {session_name}.session غير مسجلة دخول!")
         except Exception as e:
             print(f"❌ تعذر الاتصال بالجلسة {session_name}: {e}")
+    global ABHS
+    ABHS = valid_clients
     await sync_users()
