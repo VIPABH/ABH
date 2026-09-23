@@ -9,7 +9,7 @@ wfffp = 1910015590
 bot = TelegramClient("botcode", api_id, api_hash)
 mainABH = TelegramClient("wfffp", api_id, api_hash)
 clients = {'wfffp': mainABH}
-MAX = 1
+MAX = 2
 sessions = [f'code{num}' for num in range(1, MAX + 1)]
 for i, session in enumerate(sessions, start=1):
     api_id_i = os.getenv(f"API_ID{i}")
@@ -17,7 +17,7 @@ for i, session in enumerate(sessions, start=1):
     if api_id_i and api_hash_i:
         clients[session] = TelegramClient(session, int(api_id_i), api_hash_i)
 ABH1 = clients.get("code1")
-# ABH2 = clients.get("code2")
+ABH2 = clients.get("code2")
 ABHS = [c for session_name, c in clients.items() if session_name != 'wfffp' and c is not None]
 users = {}
 async def sync_users():
