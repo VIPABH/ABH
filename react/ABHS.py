@@ -17,28 +17,42 @@ for i, session in enumerate(sessions, start=1):
     if api_id_i and api_hash_i:
         clients[session] = TelegramClient(session, int(api_id_i), api_hash_i)
 ABH1 = clients.get("code1")
-ABH2 = clients.get("code2")
+# ABH2 = clients.get("code2")
 ABHS = [c for session_name, c in clients.items() if session_name != 'wfffp' and c is not None]
 users = {}
 async def sync_users():
     users.clear()
     for ABH in ABHS:
-            
-        me = await ABH.get_me()
-        if me:
-            users[me.id] = ABH
+        try:
+            if ABH.is_connected() and await ABH.is_user_authorized():
+                me = await ABH.get_me()
+                if me:
+                    users[me.id] = ABH
+            else:
+                print(f"⚠️ الحساب {ABH.session.filename} غير متصل أو غير مصرح.")
+        except Exception as e:
+            print(f"❌ خطأ أثناء جلب بيانات الحساب {ABH.session.filename}: {e}")
 async def init_clients():
     if not bot.is_connected():
-        await bot.start(bot_token=bot_token)
+        await bot.start(bot_token=bot_token)        
     react_token = os.getenv("REACTBOT")
     if react_token and not REACTBOT.is_connected():
         await REACTBOT.start(bot_token=react_token)
     if not mainABH.is_connected():
-        await mainABH.start()
+        await mainABH.connect()
+        if not await mainABH.is_user_authorized():
+            print("⚠️ الحساب الرئيسي mainABH غير محقق (لم يسجل الدخول).")
     for session_name, client in clients.items():
         if session_name == 'wfffp':
             continue
-        if not client.is_connected():
-            print(f"Starting {session_name}...")
-            await client.start()
+        try:
+            if not client.is_connected():
+                print(f"⏳ جاري الاتصال بالـ Session: {session_name}...")
+                await client.connect()
+            if not await client.is_user_authorized():
+                print(f"❌ الجلسة {session_name}.session غير مسجلة دخول أو منتهية الصلاحية!")
+            else:
+                print(f"✅ تم اتصال الجلسة {session_name} بنجاح.")
+        except Exception as e:
+            print(f"❌ تعذر الاتصال بالجلسة {session_name}: {e}")
     await sync_users()
