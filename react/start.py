@@ -1,5 +1,7 @@
+from telethon.tl.functions.messages import GetMessagesViewsRequest, SendReactionRequest
 from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.types import ChannelParticipantAdmin
+from telethon.tl.types import ReactionEmoji
 from telethon.errors import UserNotParticipantError
 from telethon.tl.types import Channel
 from datetime import datetime
@@ -9,39 +11,47 @@ from .ABHS import *
 import asyncio, re
 data = create('info.json')
 session = {}
+async def process_single_react(ABH, chat_id, msg_id, stored_emojis):
+    session_name = ABH.session.filename if hasattr(ABH, 'session') else 'Bot'
+    try:
+        if not ABH.is_connected():
+            print(f"🔄 إعادة توصيل الجلسة {session_name}...")
+            await ABH.connect()
+        try:
+            peer = await ABH.get_input_entity(chat_id)
+        except Exception:
+            peer = await ABH.get_entity(chat_id)
+        try:
+            await ABH(GetMessagesViewsRequest(
+                peer=peer,
+                id=[msg_id],
+                increment=True
+            ))
+        except Exception as view_error:
+            pass 
+        emoji = random.choice(stored_emojis) if stored_emojis else random.choice(['❤️', '🕊', '🌚'])        
+        await asyncio.sleep(random.uniform(0.5, 2.5))
+        await ABH(SendReactionRequest(
+            peer=peer,
+            msg_id=msg_id,
+            reaction=[ReactionEmoji(emoticon=emoji)],
+            big=False
+        ))
+    except Exception as e:
+        print(f"Error for account {session_name}: {e}")
 async def react(event, chat=None, id=None):
     chat_id = chat if chat else event.chat_id
     msg_id = id if id else event.message.id
-    for ABH in ABHS:
-        try:
-            try:
-                peer = await ABH.get_input_entity(chat_id)
-            except Exception:
-                peer = await ABH.get_entity(chat_id)
-            try:
-                await ABH(GetMessagesViewsRequest(
-                    peer=peer,
-                    id=[msg_id],
-                    increment=True
-                ))
-            except Exception as view_error:
-                print(f"فشل في زيادة المشاهدة: {view_error}")
-            stored = get_reactions(event.chat_id)
-            emoji = random.choice(stored) if stored else random.choice(['❤️', '🕊', '🌚'])
-            await ABH(SendReactionRequest(
-                peer=peer,
-                msg_id=msg_id,
-                reaction=[ReactionEmoji(emoticon=emoji)],
-                big=False
-            ))                        
-            await asyncio.sleep(2)
-        except Exception as e:
-            print(f"Error for account {ABH.session.filename if hasattr(ABH, 'session') else 'Bot'}: {e}")
-            continue
+    stored = get_reactions(event.chat_id)
+    tasks = [
+        process_single_react(ABH, chat_id, msg_id, stored)
+        for ABH in ABHS
+    ]
+    await asyncio.gather(*tasks, return_exceptions=True)
 @REACTBOT.on(events.NewMessage)
 async def is_user_check(e):
     if str(e.chat_id) in data:
-        return await react(e)
+        await react(e)
     user = await is_user(e, REACTBOT)
     if not user:
         raise events.StopPropagation
